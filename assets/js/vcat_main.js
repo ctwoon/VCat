@@ -1,8 +1,8 @@
 /** VCat Main **/
 var token = getItem("authToken");
-var debug = false;
+var debug = true;
 function getNews() {
-    var url = "https://api.vk.com/method/newsfeed.get?access_token="+token+"&filters=post&v=5.73";
+    var url = "https://api.vk.com/method/execute.getNewsfeedSmart?access_token="+token+"&filters=post&v=5.68&app_package_id=com.vkontakte.android";
     if (!debug) {
         url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
     } else {
@@ -17,7 +17,7 @@ function getNews() {
                     var cardAttachments = '<p class="card-text">';
                     $.each(value['attachments'], function( index, value ){
                         var type = value['type'];
-                        cardAttachments += '<p>Attachment Type: '+type+'</p>';
+                        //cardAttachments += '<p>Attachment Type: '+type+'</p>';
                         switch (type) {
                             case 'link':
                                 cardAttachments += '<p><a href="'+value['link']['url']+'">'+value['link']['url']+'</a></p>';
@@ -29,15 +29,13 @@ function getNews() {
                         //cardAttachments += '<p>===</p>';
                     });
                     cardAttachments += '</p>';
-                    var b = 0;
-                    if (value.hasOwnProperty('source_id')) {
-                        //b = getGroupID(Math.abs(value['source_id']));
-                    }
+                    var b = getGroupID(Math.abs(value['source_id']),result['response']['groups']);
+                    //var b = '0';
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
                         '    <div class="card-body">\n' +
                         '        <h5 class="card-title">' + b + '</h5>\n' +
                         '        <p class="card-text">' + value['text'] + '</p>\n' +
-                        '        <p class="card-text"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + '</p>\n' +
+                        '        <p class="card-text"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + value['views']['count'] + '</p>\n' +
                         cardAttachments +
                         '    </div>\n' +
                         '</div>');
@@ -49,20 +47,10 @@ function getNews() {
     });
 }
 
-function getGroupID(source_id) {
-    var url = "https://api.vk.com/method/groups.getById?access_token="+token+"&group_id="+source_id+"&v=5.73";
-    var result;
-    if (!debug) {
-        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    } else {
-        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+function getGroupID(source_id,json) {
+    for (var i = 0; i < json.length; i++) {
+        var g = json[i];
+        if (g['id'] = source_id) return g['name'];
     }
-    $.ajax({
-        url: url,
-        async: false,
-        success: function( response ) {
-            result = JSON.parse(response);
-        }
-    });
-    return result['response'][0]['name'];
+    return undefined;
 }
