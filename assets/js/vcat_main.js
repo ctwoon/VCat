@@ -29,11 +29,11 @@ function getNews() {
                         //cardAttachments += '<p>===</p>';
                     });
                     cardAttachments += '</p>';
-                    try {
-                        //var b = getGroupID(Math.abs(value['source_id']));
-                        var b = '0';
-                    } catch (e) {
-                        console.error(e.message)
+                    var b;
+                    if (value.hasOwnProperty('source_id')) {
+                        b = getGroupID(Math.abs(value['source_id']));
+                    } else {
+                        b = '0';
                     }
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
                         '    <div class="card-body">\n' +
