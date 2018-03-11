@@ -11,7 +11,6 @@ function getNews() {
     $.ajax({
         url: url,
         success: function( response ) {
-            console.log(response);
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
                 if (value['text'].length !== 0) {
@@ -30,7 +29,7 @@ function getNews() {
                         //cardAttachments += '<p>===</p>';
                     });
                     cardAttachments += '</p>';
-                    var b = getGroupID(Math.abs(value['source_id']),result['response']['groups']);
+                    var b = getGroupID(Math.abs(value['source_id']),result['response']);
                     //var b = '0';
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
                         '    <div class="card-body">\n' +
@@ -50,11 +49,19 @@ function getNews() {
 
 function getGroupID(source_id,json) {
     var result;
-    $.each(json,function(index, value){
+    $.each(json['groups'],function(index, value){
         if (value['id'] === source_id) {
             result = value['name'];
             return false;
         }
     });
+    if (typeof result === "undefined") {
+        $.each(json['profiles'],function(index, value){
+            if (value['id'] === source_id) {
+                result = value['first_name']+' '+value['last_name'];
+                return false;
+            }
+        });
+    }
     return result;
 }
