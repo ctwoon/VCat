@@ -1,0 +1,25 @@
+.padding {
+    margin-bottom: 1rem!important;
+}
+
+.semi-transparent {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+}
+
+.semi-transparent:focus {
+    background-color: rgba(0,0,0,0.7);
+}
+
+.semi-transparent-white {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.semi-transparent-white:focus {
+    background-color: rgba(255,255,255,0.5);
+}
+
+.text-fix {
+    text-align: left;
+}

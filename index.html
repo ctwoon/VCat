@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/favicon.ico">
+    <title>VCat | Вход</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/sign.css" rel="stylesheet">
+    <link href="assets/css/misc.css" rel="stylesheet">
+<body class="text-center" background="assets/img/bg1.jpg">
+<form class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal text-white">VCat</h1>
+    <p class="text-white">Легкий веб-клиент ВК на JavaScript.</p>
+    <input type="text" id="inputEmail" class="form-control semi-transparent loginName" style="color: white;" placeholder="Имя пользователя" required="" autofocus="">
+    <input type="password" id="inputPassword" class="form-control semi-transparent loginPass" style="color: white;" placeholder="Пароль" required="">
+    <button class="btn btn-lg btn-primary btn-block semi-transparent sign-connect loginButton" type="button">Войти!</button>
+    <p class="mt-5 mb-3 text-white">Вход через access_token...</p>
+</form>
+<div class="modal fade semi-transparent" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content semi-transparent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Вход</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-fix">
+                <i>Так как OAuth API ВКонтакте не работают через AJAX, вам придется ввести токен вручную. (Это будет, пока я не найду способ лучше.)</i><br>
+                <b>Откуда его взять?</b><br>
+                Вы уже ввели логин и пароль - ссылка сгенерирована. Вам нужно по ней перейти и скопировать access_token сюда.<br>
+                Эти данные хранятся ТОЛЬКО в вашем браузере.<br>
+                <b>Приблизительно у Вас должно быть так: </b><br>
+                <i>{"access_token":"*ACCESS_TOKEN*","expires_in":0,"user_id":*USER_ID*}</i><br>
+                , то скопируйте *ACCESS_TOKEN* и нажмите "Сохранить токен".<br>
+                <b>Если у вас такое: </b><br>
+                <i>{"error":"need_captcha","captcha_sid":"*ID*","captcha_img":"*URL*"}</i><br>
+                , то вам нужно ввести CAPTCHA. Не закрывайте то окно и нажмите "О Captcha".<br><br>
+                <b>Ваша ссылка:</b> <a href="" class="loginLink" target="_blank"></a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary captchaOpen">О Captcha</button>
+                <button type="button" class="btn btn-primary saveToken">Сохранить токен</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade semi-transparent" id="captchaModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content semi-transparent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="captchaModalTitle">О Captcha</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-fix">
+                <i>Введите данные (*ID* и *URL*)</i><br>
+                <input type="text" id="captchaID" class="form-control semi-transparent-white captchaID" style="color: white;" placeholder="captcha_sid" required="" autofocus="">
+                <input type="text" id="captchaURL" class="form-control semi-transparent-white captchaURL" style="color: white;" placeholder="captcha_img" required="">
+                <img src="" class="captchaImage">
+                <input type="text" id="captchaKey" class="form-control semi-transparent-white captchaKey" placeholder="Ключ" required="" style="color: white;">
+                <b class="captchaLink">Ваша ссылка: <a href="" class="captchaLinkReal" target="_blank"></a></b>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary captchaGet">Получить изображение</button>
+                <button type="button" class="btn btn-secondary captchaGetURL">Получить ссылку</button>
+                <button type="button" class="btn btn-primary saveToken">Сохранить токен</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade semi-transparent" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content semi-transparent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveModalTitle">Сохранить токен</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-fix">
+                <input type="text" id="token" class="form-control semi-transparent-white token" style="color: white;" placeholder="access_token" required="" autofocus="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary saveToken2">Сохранить!</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Load -->
+<script src="assets/js/jquery-3.3.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/vcat_storage.js"></script>
+<script src="assets/js/vcat_login.js"></script>
+</body></html>
