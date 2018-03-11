@@ -33,6 +33,12 @@ function getNews() {
                                     var size = value['doc']['size'] / 1000 / 1000;
                                     cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: '+size+'MB)</a></p>';
                                     break;
+                                case 'poll':
+                                    cardAttachments += '<p>Голосование: '+value['poll']['question']+' ('+value['poll']['votes']+' голосов)</p>';
+                                    $.each(value['poll']['answers'],function(index, value) {
+                                        cardAttachments += '<p>- '+value['text']+' ('+value['votes']+' голосов) ['+value['rate']+'%]</p>';
+                                    });
+                                    break;
                                 default:
                                     cardAttachments += '<p>Неподдерживаемый тип вложения: '+type+'</p>';
                                     break;
