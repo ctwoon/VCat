@@ -1,9 +1,14 @@
 var url;
+var debug = false;
 $(".loginButton").click(function() {
     var username = $(".loginName").val();
     var userpass = $(".loginPass").val();
     url = "https://oauth.vk.com/token?grant_type=password&client_id=2274003&client_secret=hHbZxrka2uZ6jB1inYsH&username=" + username + "&password=" + userpass + "&v=5.73&2fa_supported=1";
-	url = "http://vcatclient.000webhostapp.com/proxy.php?url="+encodeURIComponent(url).replace(/'/g,"%27").replace(/"/g,"%22");
+	if (!debug) {
+        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    } else {
+        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    }
     $.ajax({
         url: url
     }).done(function(data) {

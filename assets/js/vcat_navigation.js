@@ -14,6 +14,12 @@ $(".navConfig").click(function() {
     insertHTML('itemConfig.html');
 });
 
+$(".navAbout").click(function() {
+    removeFocus();
+    addFocus('.navAbout');
+    insertHTML('itemAbout.html');
+});
+
 function removeFocus() {
     $(".nav-item .nav-link").removeClass("active");
 }
