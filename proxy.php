@@ -1,28 +1,42 @@
 <?php
+// Made by iTaysonLab, extended by YTKAB0BP
 header('Access-Control-Allow-Origin: *');
-/**
- * Base proxy
- * For testing + for Ukrainian users
- */
-$about = array(
-    'proxyName' => 'Offical VK Kitten Proxy',
-    'proxyContact' => 'https://github.com/HardSer/VCat',
-    'proxyAuthor' => 'iTaysonLab'
-);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$urlStart = 'https://api.vk.com/method/';
-switch ($_GET['method']) {
-    case 'getNewsfeed':
-        $urlEnd = 'newsfeed.get?access_token='.$_GET['token'].'&filters=post';
-        break;
-    case 'proxyInfo':
-        echo json_encode($about);
-        die();
-        break;
-    default:
-        die();
-        break;
+
+$about = array(
+    'proxyName' => 'Offical VK Kitten proxy',
+    'proxyContact' => '@wtfwatcher (Telegram)',
+    'proxyAuthor' => 'iTaysonLab'
+);
+
+if (isset($_GET['method']) && $_GET['method'] === "proxyInfo") {
+	die(json_encode($about));
 }
-echo file_get_contents($urlStart.$urlEnd);
+
+$url = $_GET['url'];
+
+function implodeItem(&$item, $key) {
+  $item = $key . "=" . $item;
+}
+
+$allowed_urls = array(
+	"vk.com", "api.vk.com", "oauth.vk.com"
+);
+
+$args = $_POST;
+foreach ($allowed_urls as $u) {
+	if (substr($url,0,8+strlen($u))==="https://".$u) {
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		array_walk($args, "implodeItem");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, join('&',$args));
+		$out = curl_exec ($ch);
+		echo $out;
+		curl_close($ch);
+		return;
+	}
+}
