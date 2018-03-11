@@ -29,8 +29,12 @@ function getNews() {
                         //cardAttachments += '<p>===</p>';
                     });
                     cardAttachments += '</p>';
-                    var b = getGroupID(Math.abs(value['source_id']));
-                    //var b = '0';
+                    try {
+                        //var b = getGroupID(Math.abs(value['source_id']));
+                        var b = '0';
+                    } catch (e) {
+                        console.error(e.message)
+                    }
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
                         '    <div class="card-body">\n' +
                         '        <h5 class="card-title">' + b + '</h5>\n' +
