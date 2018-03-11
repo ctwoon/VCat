@@ -1,5 +1,9 @@
 var url;
 var debug = false;
+var token = getItem("authToken");
+if (token) {
+    window.location.href="main.html";
+}
 $(".loginButton").click(function() {
     var username = $(".loginName").val();
     var userpass = $(".loginPass").val();
