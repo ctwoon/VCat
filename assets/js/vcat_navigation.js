@@ -20,6 +20,11 @@ $(".navAbout").click(function() {
     insertHTML('itemAbout.html');
 });
 
+$(".logoutButton").click(function() {
+    setItem('authToken', '');
+    window.location.href = "index.html";
+});
+
 function removeFocus() {
     $(".nav-item .nav-link").removeClass("active");
 }
