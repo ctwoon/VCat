@@ -49,9 +49,12 @@ function getNews() {
 }
 
 function getGroupID(source_id,json) {
-    for (var i = 0; i < json.length; i++) {
-        var g = json[i];
-        if (g['id'] = source_id) return g['name'];
-    }
-    return undefined;
+    var result;
+    $.each(json,function(index, value){
+        if (value['id'] === source_id) {
+            result = value['name'];
+            return false;
+        }
+    });
+    return result;
 }
