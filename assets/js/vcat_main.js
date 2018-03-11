@@ -30,11 +30,12 @@ function getNews() {
                     });
                     cardAttachments += '</p>';
                     var b = getGroupID(Math.abs(value['source_id']),result['response']);
+                    var text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
                     //var b = '0';
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
                         '    <div class="card-body">\n' +
                         '        <h5 class="card-title">' + b + '</h5>\n' +
-                        '        <p class="card-text">' + value['text'] + '</p>\n' +
+                        '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
                         '        <p class="card-text"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + value['views']['count'] + '</p>\n' +
                         '    </div>\n' +
