@@ -1,6 +1,6 @@
 /** VCat Main **/
 var token = getItem("authToken");
-var debug = true;
+var debug = false;
 function getNews() {
     var url = "https://api.vk.com/method/execute.getNewsfeedSmart?access_token="+token+"&filters=post&v=5.68&app_package_id=com.vkontakte.android";
     if (!debug) {
