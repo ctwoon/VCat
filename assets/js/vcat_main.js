@@ -15,22 +15,28 @@ function getNews() {
             $.each(result['response']['items'],function(index, value){
                 if (value['text'].length !== 0) {
                     var cardAttachments = '<p class="card-text">';
-                    $.each(value['attachments'], function( index, value ){
+                    $.each(value['attachments'], function (index, value) {
                         var type = value['type'];
                         //cardAttachments += '<p>Attachment Type: '+type+'</p>';
                         switch (type) {
                             case 'link':
-                                cardAttachments += '<p><a href="'+value['link']['url']+'">'+value['link']['url']+'</a></p>';
+                                cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
                                 break;
                             case 'photo':
-                                cardAttachments += '<p><img src="'+value['photo']['photo_604']+'"></p>';
+                                cardAttachments += '<p><img src="' + value['photo']['photo_604'] + '"></p>';
                                 break;
                         }
                         //cardAttachments += '<p>===</p>';
                     });
                     cardAttachments += '</p>';
-                    var b = getGroupID(Math.abs(value['source_id']),result['response']);
+                    var b = getGroupID(Math.abs(value['source_id']), result['response']);
                     var text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
+                    var comment = "";
+                    if (value.hasOwnProperty('activity')) {
+                        if (value['activity']['type'] === "comment") {
+                            comment = '<p class="card-text comment">Последний комментарий: ' + value['activity']['comment']['text'] + '</p>\n'
+                        }
+                    }
                     //var b = '0';
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
                         '    <div class="card-body">\n' +
@@ -39,6 +45,7 @@ function getNews() {
                         cardAttachments +
                         '        <p class="card-text"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + value['views']['count'] + '</p>\n' +
                         '    </div>\n' +
+                        comment +
                         '</div>');
                 }
             });

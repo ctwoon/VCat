@@ -7,6 +7,17 @@
     color: white;
 }
 
+.semi-transparent {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+}
+
+.comment {
+    padding: 10px;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+}
+
 .semi-transparent:focus {
     background-color: rgba(0,0,0,0.7);
 }
