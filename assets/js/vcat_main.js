@@ -16,6 +16,7 @@ function getNews() {
         url: url,
         success: function( response ) {
             var result = JSON.parse(response);
+            console.log(response);
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
@@ -55,12 +56,18 @@ function getNews() {
                                 comment = '<p class="card-text comment">Последний комментарий: ' + value['activity']['comment']['text'] + '</p>\n'
                             }
                         }
+                        var views = value['views']['count'];
+                        if (views > 1000) {
+                            views = views / 1000;
+                            views = views.toFixed(1);
+                            views = views + "K";
+                        }
                         $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
                             '    <div class="card-body">\n' +
                             '        <h5 class="card-title">' + b + '</h5>\n' +
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
-                            '        <p class="card-text"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + value['views']['count'] + '</p>\n' +
+                            '        <p class="card-text"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '</p>\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
@@ -73,7 +80,7 @@ function getNews() {
             $('.cardContainer').attr('vcat-next', nextID);
             $('.cardContainer').append('<div class="card cardDecor semi-transparent getMore"><p class="card-text">Загрузить больше!</p></div>');
             $(".getMore").click(function() {
-                $(".getMore").html("");
+                $(".getMore").remove();
                 getNewsMore($('.cardContainer').attr('vcat-next'));
             });
         }
@@ -149,6 +156,7 @@ function getNewsMore(attr) {
             $('.cardContainer').attr('vcat-next', nextID);
             $('.cardContainer').append('<div class="card cardDecor semi-transparent getMore"><p class="card-text">Загрузить больше!</p></div>');
             $(".getMore").click(function() {
+                $(".getMore").remove();
                 getNewsMore($('.cardContainer').attr('vcat-next'))
             });
         }
