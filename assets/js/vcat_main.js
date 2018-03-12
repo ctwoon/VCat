@@ -37,6 +37,10 @@ function getNews(attr) {
                                     cardAttachments += '<p><img src="' + value['photo']['photo_604'] + '"></p>';
                                     break;
                                 case 'doc':
+                                    if (value['doc']['ext']=="gif") {
+                                        cardAttachments += '<p><img src="' + value['doc']['url'] + '"></p>';
+                                        break;
+                                    }
                                     var size = value['doc']['size'] / 1000 / 1000;
                                     cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: '+size+'MB)</a></p>';
                                     break;
