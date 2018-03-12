@@ -1,18 +1,3 @@
-var bg = getItem('config_bg');
-if (!bg) {
-    setItem('config_bg', 0);
-    bg = 0;
-}
-if (bg == 0) {
-    $.getJSON("assets/gradients.json", function(json) {
-        var item = json[Math.floor(Math.random()*json.length)];
-        $('.dynamicBG').css('background', 'linear-gradient(to right, '+item['colors'][0]+', '+item['colors'][1]+')');
-    });
-}
-if (bg == 1) {
-    $('.dynamicBG').css('background', 'url("assets/img/bg1.jpg")');
-}
-
 removeFocus();
 addFocus('.navHome');
 insertHTML('itemMain.html');

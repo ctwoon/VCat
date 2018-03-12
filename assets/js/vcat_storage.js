@@ -19,4 +19,19 @@ function decodeURL() {
     obj.value = decodeURIComponent(encoded.replace(/\+/g,  " "));
 }
 
-var debug = true;
+var debug = false;
+
+var theme = getItem('config_bg');
+if (!theme) {
+    setItem('config_bg', 'darkMaterial');
+    bg = 'darkMaterial';
+}
+themes_loadTheme('darkMaterial')
+
+function themes_loadTheme(themeName) {
+  $("<link/>", {
+   rel: "stylesheet",
+   type: "text/css",
+   href: "assets/themes/"+themeName+".css"
+  }).appendTo("head");
+}
