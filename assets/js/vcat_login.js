@@ -17,6 +17,7 @@ $(".loginButton").click(function() {
         url: url
     }).done(function(data) {
         setItem("authToken", JSON.parse(data)['access_token']);
+        setItem("userId", JSON.parse(data)['user_id']);
         window.location.href = 'main.html';
     });
 });

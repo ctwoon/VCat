@@ -35,6 +35,12 @@ $(".navAbout").click(function() {
     insertHTML('itemAbout.html');
 });
 
+$(".navFriends").click(function() {
+    removeFocus();
+    addFocus('.navFriends');
+    insertHTML('itemFriends.html');
+});
+
 $(".logoutButton").click(function() {
     setItem('authToken', '');
     window.location.href = "index.html";
