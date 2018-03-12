@@ -1,32 +1,13 @@
 /** VCat LocalStorage Utils + some other utils **/
-function setItem(key,value) {
-    localStorage.setItem(key, value);
-}
-
-function getItem(key) {
-    return localStorage.getItem(key);
-}
-
-// from https://meyerweb.com/eric/tools/dencoder/
-function encodeURL() {
-    var obj = document.getElementById('dencoder');
-    var unencoded = obj.value;
-    obj.value = encodeURIComponent(unencoded).replace(/'/g,"%27").replace(/"/g,"%22");
-}
-function decodeURL() {
-    var obj = document.getElementById('dencoder');
-    var encoded = obj.value;
-    obj.value = decodeURIComponent(encoded.replace(/\+/g,  " "));
-}
-
-var debug = false;
+// Use my proxy. If set to false, project's root proxy is used.
+var debug = true;
 
 var theme = getItem('config_bg');
 if (!theme) {
     setItem('config_bg', 'darkMaterial');
     bg = 'darkMaterial';
 }
-themes_loadTheme(theme)
+themes_loadTheme(theme);
 
 function themes_loadTheme(themeName) {
   $("<link/>", {
@@ -34,4 +15,16 @@ function themes_loadTheme(themeName) {
    type: "text/css",
    href: "assets/themes/"+themeName+".css"
   }).appendTo("head");
+}
+
+/**$.getJSON("assets/gradients.json", function(json) {
+         var item = json[Math.floor(Math.random()*json.length)]; ('.dynamicBG').css('background', 'linear-gradient(to right, '+item['colors'][0]+', '+item['colors'][1]+')');
+});**/
+
+function setItem(key,value) {
+    localStorage.setItem(key, value);
+}
+
+function getItem(key) {
+    return localStorage.getItem(key);
 }

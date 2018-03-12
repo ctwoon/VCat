@@ -1,0 +1,17 @@
+{
+  "officalThemes": [
+    {
+      "themeName": "Material Dark",
+      "themePath": "assets/themes/darkMaterial.css"
+    },
+    {
+      "themeName": "Material Light",
+      "themePath": "assets/themes/whiteMaterial.css"
+    },
+    {
+      "themeName": "Transparent (like login and 0.4u1)",
+      "themePath": "assets/themes/transparentLogin.css"
+    }
+  ],
+  "repoThemes": []
+}

@@ -22,3 +22,6 @@ body {
 .sidebar .nav-link.active {
   color: #4CAF50;
 }
+a {
+  color: #4CAF50;
+}

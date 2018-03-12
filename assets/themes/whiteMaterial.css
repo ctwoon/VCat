@@ -17,9 +17,42 @@ body {
 }
 .navbar-brand {
   background: none;
-  color: white;
+  color: black;
 }
 /* Colors */
 .sidebar .nav-link.active {
   color: #4CAF50;
+}
+
+a {
+    color: #4CAF50;
+}
+/** Text (only white) **/
+.sidebar .nav-link {
+  color: black;
+}
+
+.sidebar .nav-link .feather {
+    color: black;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: black;
+}
+
+.navbar-dark .navbar-brand {
+    color: black;
+}
+
+.semi-transparent {
+    color: black;
+}
+
+.card-text {
+    color: black;
+}
+
+.spinner {
+    border: 2px solid #000;
+    border-right-color: transparent;
 }
