@@ -26,7 +26,7 @@ if (!theme) {
     setItem('config_bg', 'darkMaterial');
     bg = 'darkMaterial';
 }
-themes_loadTheme('darkMaterial')
+themes_loadTheme(theme)
 
 function themes_loadTheme(themeName) {
   $("<link/>", {
