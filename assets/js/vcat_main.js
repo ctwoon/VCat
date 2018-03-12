@@ -3,7 +3,7 @@ var token = getItem("authToken");
 if (!token) {
     window.location.href="index.html";
 }
-var debug = true;
+var debug = false;
 var ab = false;
 
 function getNews(attr) {
@@ -37,7 +37,7 @@ function getNews(attr) {
                                     cardAttachments += '<p><img src="' + value['photo']['photo_604'] + '"></p>';
                                     break;
                                 case 'doc':
-                                    if (value['doc']['ext']=="gif") {
+                                    if (value['doc']['ext'] === "gif") {
                                         cardAttachments += '<p><img src="' + value['doc']['url'] + '"></p>';
                                         break;
                                     }

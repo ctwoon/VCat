@@ -19,34 +19,7 @@ $(".loginButton").click(function() {
         setItem("authToken", JSON.parse(data)['access_token']);
         window.location.href = 'main.html';
     });
-    /**
-     $('.loginLink').attr('href', url);
-     $('.loginLink').html('Перейти! (в новой вкладке)');
-     $('#loginModal').modal();**/
 });
-
-/**$(".captchaOpen").click(function() {
-    $('#loginModal').modal('hide');
-    $('#captchaModal').modal('show');
-    $('.captchaImage').hide();
-    $('.captchaKey').hide();
-    $('.captchaLink').hide();
-});
-
- $(".captchaGet").click(function() {
-    $('.captchaImage').attr('src', $('.captchaURL').val());
-    $('.captchaImage').show();
-    $('.captchaKey').show();
-});
-
- $(".captchaGetURL").click(function() {
-    var key = $(".captchaKey").val();
-    var sid = $(".captchaID").val();
-    var aurl = url + encodeURIComponent("&captcha_sid="+sid+"&captcha_key="+key);
-    $('.captchaLinkReal').attr('href', aurl);
-    $('.captchaLinkReal').html('Перейти! (в новой вкладке)');
-    $('.captchaLink').show();
-}); **/
 
 $(".saveToken").click(function() {
     $('#loginModal').modal('hide');
