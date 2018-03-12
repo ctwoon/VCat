@@ -16,7 +16,6 @@ function getNews() {
         url: url,
         success: function( response ) {
             var result = JSON.parse(response);
-            console.log(response);
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
@@ -40,6 +39,11 @@ function getNews() {
                                     $.each(value['poll']['answers'],function(index, value) {
                                         cardAttachments += '<p>- '+value['text']+' ('+value['votes']+' голосов) ['+value['rate']+'%]</p>';
                                     });
+                                    break;
+                                case 'audio':
+                                    var durMin = Math.floor(value['audio']['duration'] / 60);
+                                    var durSec = value['audio']['duration'] - durMin*60;
+                                    cardAttachments += '<p>Аудиозапись: '+value['audio']['title']+' от '+value['audio']['artist']+' ['+durMin+':'+durSec+']</p>';
                                     break;
                                 default:
                                     cardAttachments += '<p>Неподдерживаемый тип вложения: '+type+'</p>';
