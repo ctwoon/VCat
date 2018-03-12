@@ -18,3 +18,5 @@ function decodeURL() {
     var encoded = obj.value;
     obj.value = decodeURIComponent(encoded.replace(/\+/g,  " "));
 }
+
+var debug = true;

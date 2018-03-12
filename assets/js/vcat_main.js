@@ -3,7 +3,6 @@ var token = getItem("authToken");
 if (!token) {
     window.location.href="index.html";
 }
-var debug = false;
 var ab = false;
 
 function getNews(attr) {

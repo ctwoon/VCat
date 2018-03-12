@@ -1,5 +1,4 @@
 var url;
-var debug = false;
 var token = getItem("authToken");
 if (token) {
     window.location.href="main.html";

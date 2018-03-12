@@ -1,5 +1,5 @@
 var bg = getItem('config_bg');
-if (bg.length == 0) {
+if (!bg) {
     setItem('config_bg', 0);
     bg = 0;
 }
