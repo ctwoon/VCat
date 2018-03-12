@@ -4,6 +4,7 @@ if (!token) {
     window.location.href="index.html";
 }
 var debug = true;
+var ab = false;
 
 function getNews(attr) {
     var url;
@@ -86,13 +87,21 @@ function getNews(attr) {
             feather.replace();
             $('.spinnerLoad').hide();
             var nextID = result['response']['next_from'];
-            $('.cardContainer').attr('vcat-next', nextID).append('<div class="card cardDecor semi-transparent getMore"><p class="card-text">Загрузить больше!</p></div>');
-            $(".getMore").click(function() {
-                $(".getMore").remove();
-                getNews($('.cardContainer').attr('vcat-next'));
-            });
+            $('.cardContainer').attr('vcat-next', nextID);
+            initOnScroll();
         }
     });
+}
+
+function initOnScroll() {
+    if (ab === false) {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+                getNews($('.cardContainer').attr('vcat-next'));
+            }
+        });
+        ab = true;
+    }
 }
 
 function getGroupID(source_id,json) {
