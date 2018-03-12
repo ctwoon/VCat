@@ -6,7 +6,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $about = array(
-    'proxyName' => 'Offical VK Kitten proxy',
+    'proxyName' => 'VK Kitten proxy template',
     'proxyContact' => '@wtfwatcher (Telegram)',
     'proxyAuthor' => 'iTaysonLab'
 );
