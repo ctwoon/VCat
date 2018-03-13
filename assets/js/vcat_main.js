@@ -20,6 +20,7 @@ function getNews(attr) {
     $.ajax({
         url: url,
         success: function( response ) {
+           // console.log(response);
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
@@ -53,6 +54,11 @@ function getNews(attr) {
                                     var durMin = Math.floor(value['audio']['duration'] / 60);
                                     var durSec = value['audio']['duration'] - durMin*60;
                                     cardAttachments += '<p>Аудиозапись: '+value['audio']['title']+' от '+value['audio']['artist']+' ['+durMin+':'+durSec+']</p>';
+                                break;
+                                case 'video':
+                                    var durMin = Math.floor(value['video']['duration'] / 60);
+                                    var durSec = value['video']['duration'] - durMin*60;
+                                    cardAttachments += '<p>Видеозапись: '+value['video']['title']+' (ID: '+value['video']['id']+') ['+durMin+':'+durSec+']</p>';
                                     break;
                                 default:
                                     cardAttachments += '<p>Неподдерживаемый тип вложения: '+type+'</p>';
