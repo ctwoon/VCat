@@ -1,0 +1,27 @@
+/** Body background */
+body {
+  background: #000000;
+}
+/** Cards */
+.cardDecor {
+  background: #000000;
+  border-radius: 0.25rem;
+  border: none;
+}
+/** Sidebars and Navbars */
+.sidebar {
+  background: #000000;
+}
+.navbar {
+  background: #000000;
+}
+.navbar-brand {
+  background: none;
+}
+/* Colors */
+.sidebar .nav-link.active {
+  color: #4CAF50;
+}
+a {
+  color: #4CAF50;
+}

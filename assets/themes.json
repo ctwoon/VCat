@@ -13,6 +13,18 @@
       "themeDescription": "Светлая тема в стиле Material Design."
     },
     {
+      "themeName": "Blackout",
+      "themePath": "assets/themes/blackout.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Ультра-черная тема. Полезно для AMOLED."
+    },
+    {
+      "themeName": "Night Blue",
+      "themePath": "assets/themes/tgNightBlue.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Темно-синяя тема из Telegram X."
+    },
+    {
       "themeName": "Transparent (like login and 0.4u1)",
       "themePath": "assets/themes/transparentLogin.css",
       "themeAuthor": "iTaysonLab",
