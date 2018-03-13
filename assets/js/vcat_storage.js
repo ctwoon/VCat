@@ -2,10 +2,10 @@
 // Use my proxy. If set to false, project's root proxy is used.
 var debug = true;
 
-var theme = getItem('config_bg');
+var theme = getItem('config_theme');
 if (!theme) {
-    setItem('config_bg', 'darkMaterial');
-    bg = 'darkMaterial';
+    setItem('config_theme', 'assets/themes/darkMaterial.css');
+    theme = 'assets/themes/darkMaterial.css';
 }
 themes_loadTheme(theme);
 
@@ -13,13 +13,11 @@ function themes_loadTheme(themeName) {
   $("<link/>", {
    rel: "stylesheet",
    type: "text/css",
-   href: "assets/themes/"+themeName+".css"
+   href: themeName
   }).appendTo("head");
 }
 
-/**$.getJSON("assets/gradients.json", function(json) {
-         var item = json[Math.floor(Math.random()*json.length)]; ('.dynamicBG').css('background', 'linear-gradient(to right, '+item['colors'][0]+', '+item['colors'][1]+')');
-});**/
+/****/
 
 function setItem(key,value) {
     localStorage.setItem(key, value);

@@ -1,11 +1,47 @@
-$(".configBackground").click(function() {
-   var bg = getItem('config_bg');
-   if (bg == 0) {
-       setItem('config_bg', 1);
-       $(".configBackgroundSummary").html("Случайный градиент | [Картинка]");
-   }
-   if (bg == 1) {
-       setItem('config_bg', 0);
-       $(".configBackgroundSummary").html("[Случайный градиент] | Картинка");
-   }
+$.getJSON("assets/themes.json", function(json) {
+    var currentTheme = getItem('config_theme');
+    $.each(json['officalThemes'], function (index,value) {
+        var isApply = "";
+        if (value['themePath'] == currentTheme) {
+            isApply = " (установлено)";
+        }
+        $(".themePlace").append(
+            "<div vcat-themePath=\""+value['themePath']+"\" class=\"card cardDecor semi-transparent themeSwitch\">\n" +
+            " <div class=\"card-body\">\n" +
+            " <p class=\"card-text\">\n" +
+            value['themeName'] + isApply +
+            " </p>\n" +
+            " <p class=\"card-text\">\n" +
+            value['themeDescription'] +
+            " </p>\n" +
+            " <p class=\"card-text\">\n<i>От " +
+            value['themeAuthor'] +
+            " </i></p>\n" +
+            " </div>\n" +
+            " </div>"
+        )
+    });
+
+    $( ".themeSwitch" ).click(function() {
+        var themePath = $(this).attr('vcat-themePath');
+        setItem('config_theme', themePath);
+        bootbox.confirm({
+            message: "Тема установлена. Для применения изменений перезагрузите страницу.",
+            buttons: {
+                confirm: {
+                    label: 'Перезагрузить',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Позже',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    window.location.href = "main.html";
+                }
+            }
+        });
+    });
 });

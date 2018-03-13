@@ -2,15 +2,21 @@
   "officalThemes": [
     {
       "themeName": "Material Dark",
-      "themePath": "assets/themes/darkMaterial.css"
+      "themePath": "assets/themes/darkMaterial.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Темная тема в стиле Material Design."
     },
     {
       "themeName": "Material Light",
-      "themePath": "assets/themes/whiteMaterial.css"
+      "themePath": "assets/themes/whiteMaterial.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Светлая тема в стиле Material Design."
     },
     {
       "themeName": "Transparent (like login and 0.4u1)",
-      "themePath": "assets/themes/transparentLogin.css"
+      "themePath": "assets/themes/transparentLogin.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Прозрачная тема (встречалась в версии 0.4u1)."
     }
   ],
   "repoThemes": []
