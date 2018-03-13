@@ -19,10 +19,16 @@
       "themeDescription": "Ультра-черная тема. Полезно для AMOLED."
     },
     {
+      "themeName": "Smart Invert",
+      "themePath": "assets/themes/invert.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Темная тема с плавными переходами цветов."
+    },
+    {
       "themeName": "Night Blue",
       "themePath": "assets/themes/tgNightBlue.css",
       "themeAuthor": "iTaysonLab",
-      "themeDescription": "Темно-синяя тема из Telegram X."
+      "themeDescription": "Простая темно-синяя тема."
     },
     {
       "themeName": "Transparent (like login and 0.4u1)",
