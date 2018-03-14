@@ -54,6 +54,7 @@ function getNews(attr) {
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
+                        var itemID = value['post_id'];
                         var cardAttachments = '<p class="card-text">';
                         $.each(value['attachments'], function (index, value) {
                             var type = value['type'];
@@ -110,7 +111,7 @@ function getNews(attr) {
                             views = views.toFixed(1);
                             views = views + "K";
                         }
-                        $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
+                        $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard" vcat-postid="'+itemID+'">\n' +
                             '    <div class="card-body">\n' +
                             '        <h5 class="card-title">' + b + '</h5>\n' +
                             '        <p class="card-text">' + text + '</p>\n' +
