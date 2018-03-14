@@ -49,7 +49,7 @@ function getNews(attr) {
     $.ajax({
         url: url,
         success: function( response ) {
-            console.log(response);
+            //console.log(response);
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
@@ -111,12 +111,18 @@ function getNews(attr) {
                             views = views.toFixed(1);
                             views = views + "K";
                         }
-                        $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard" vcat-postid="'+itemID+'">\n' +
+                        var isLikedClass="";
+                        var isLiked="false";
+                        if (value['likes']['user_likes'] == 1) {
+                            isLikedClass="text-danger";
+                            isLiked=true;
+                        }
+                        $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard">\n' +
                             '    <div class="card-body">\n' +
                             '        <h5 class="card-title">' + b + '</h5>\n' +
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
-                            '        <p class="card-text"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '</p>\n' +
+                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;</abbr><i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
@@ -128,9 +134,57 @@ function getNews(attr) {
             var nextID = result['response']['next_from'];
             $('.cardContainer').attr('vcat-next', nextID);
             initOnScroll();
+            $(".likeCount").click(function() {
+                var id = $(this).attr('vcat-postid');
+                var isLiked = $(this).attr('vcat-isliked');
+                if(isLiked == "false") {
+                    likePost(id);
+                    $(this).attr('vcat-isliked', true);
+                    $(this).attr('class', 'likeCount text-danger');
+                } else {
+                    unlikePost(id);
+                    $(this).attr('vcat-isliked', false);
+                    $(this).attr('class', 'likeCount');
+                }
+            });
         }
     });
 }
+
+function likePost(id, source) {
+    var url;
+    url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&v=5.73";
+    if (!debug) {
+        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    } else {
+        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    }
+    $.ajax({
+        url: url,
+        success: function( response ) {
+            console.log(response);
+            var result = JSON.parse(response);
+        }
+    });
+}
+
+function unlikePost(id, source) {
+    var url;
+    url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&v=5.73";
+    if (!debug) {
+        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    } else {
+        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    }
+    $.ajax({
+        url: url,
+        success: function( response ) {
+            console.log(response);
+            var result = JSON.parse(response);
+        }
+    });
+}
+
 
 function initOnScroll() {
     if (ab === false) {
