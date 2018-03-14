@@ -133,12 +133,14 @@ function getNews(attr) {
 
 function initOnScroll() {
     if (ab === false) {
-        $(window).scroll(function () {
-            if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-                getNews($('.cardContainer').attr('vcat-next'));
-            }
-        });
+        $(window).scroll(newsScrollHandler);
         ab = true;
+    }
+}
+
+function newsScrollHandler() {
+    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+        getNews($('.cardContainer').attr('vcat-next'));
     }
 }
 
@@ -187,6 +189,8 @@ $(".navFriends").click(function() {
     removeFocus();
     addFocus('.navFriends');
     insertHTML('itemFriends.html');
+    ab = false;
+    $(window).off("scroll", newsScrollHandler);
 });
 
 $(".logoutButton").click(function() {
