@@ -1,3 +1,10 @@
+function setItem(key,value) {
+    localStorage.setItem(key, value);
+}
+
+function getItem(key) {
+    return localStorage.getItem(key);
+}
 var url;
 var token = getItem("authToken");
 if (token) {

@@ -17,7 +17,7 @@ function themes_loadTheme(themeName) {
     }).appendTo("head");
 }
 
-/****/
+/** Storage **/
 
 function setItem(key,value) {
     localStorage.setItem(key, value);
