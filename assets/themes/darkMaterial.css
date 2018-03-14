@@ -25,3 +25,7 @@ body {
 a {
   color: #4CAF50;
 }
+
+.text-danger {
+  color: #4CAF50 !important;
+}

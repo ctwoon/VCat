@@ -122,7 +122,7 @@ function getNews(attr) {
                             '        <h5 class="card-title">' + b + '</h5>\n' +
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
-                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;</abbr><i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
+                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
@@ -142,10 +142,22 @@ function getNews(attr) {
                     likePost(id, source);
                     $(this).attr('vcat-isliked', true);
                     $(this).attr('class', 'likeCount text-danger');
+                    $(this).contents().filter(function() {
+                        return this.nodeType == 3
+                    }).each(function(){
+                        var cur = parseInt($(this).text());
+                        var newt = cur + 1;
+                        this.textContent = this.textContent.replace($(this).text().toString(), newt.toString());
+                    });
                 } else {
                     unlikePost(id, source);
                     $(this).attr('vcat-isliked', false);
                     $(this).attr('class', 'likeCount');
+                    $(this).contents().filter(function() {
+                        return this.nodeType == 3
+                    }).each(function(){
+                        this.textContent = this.textContent.replace($(this).text().toString(), $(this).text()-1);
+                    });
                 }
             });
         }
@@ -164,7 +176,8 @@ function likePost(id, source) {
         url: url,
         success: function( response ) {
             var result = JSON.parse(response);
-            insertHTML('itemMain.html');
+            //console.log(response);
+            //insertHTML('itemMain.html');
         }
     });
 }
@@ -181,7 +194,8 @@ function unlikePost(id, source) {
         url: url,
         success: function( response ) {
             var result = JSON.parse(response);
-            insertHTML('itemMain.html');
+           // console.log(response);
+           // insertHTML('itemMain.html');
         }
     });
 }
