@@ -49,7 +49,7 @@ function getNews(attr) {
     $.ajax({
         url: url,
         success: function( response ) {
-           // console.log(response);
+            console.log(response);
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
