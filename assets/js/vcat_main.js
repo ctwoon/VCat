@@ -1,10 +1,39 @@
-/** VCat Main **/
+/** Init **/
+// Use my proxy. If set to false, project's root proxy is used.
+var debug = true;
+
+var theme = getItem('config_theme');
+if (!theme) {
+    setItem('config_theme', 'assets/themes/darkMaterial.css');
+    theme = 'assets/themes/darkMaterial.css';
+}
+themes_loadTheme(theme);
+
+function themes_loadTheme(themeName) {
+    $("<link/>", {
+        rel: "stylesheet",
+        type: "text/css",
+        href: themeName
+    }).appendTo("head");
+}
+
+/****/
+
+function setItem(key,value) {
+    localStorage.setItem(key, value);
+}
+
+function getItem(key) {
+    return localStorage.getItem(key);
+}
+
 var token = getItem("authToken");
+var user_id = getItem("userId");
 if (!token) {
     window.location.href="index.html";
 }
 var ab = false;
-
+/** News section **/
 function getNews(attr) {
     var url;
     if (typeof attr === "undefined") {
@@ -130,4 +159,126 @@ function getGroupID(source_id,json) {
         });
     }
     return result;
+}
+/** Navigation section **/
+removeFocus();
+addFocus('.navHome');
+insertHTML('itemMain.html');
+
+$(".navHome").click(function() {
+    removeFocus();
+    addFocus('.navHome');
+    insertHTML('itemMain.html');
+});
+
+$(".navConfig").click(function() {
+    removeFocus();
+    addFocus('.navConfig');
+    insertHTML('itemConfig.html');
+});
+
+$(".navAbout").click(function() {
+    removeFocus();
+    addFocus('.navAbout');
+    insertHTML('itemAbout.html');
+});
+
+$(".navFriends").click(function() {
+    removeFocus();
+    addFocus('.navFriends');
+    insertHTML('itemFriends.html');
+});
+
+$(".logoutButton").click(function() {
+    setItem('authToken', '');
+    window.location.href = "index.html";
+});
+
+function removeFocus() {
+    $(".nav-item .nav-link").removeClass("active");
+}
+
+function insertHTML(url) {
+    $(".htmlContainer").load(url)
+}
+
+function addFocus(selector) {
+    $(selector).addClass("active");
+}
+/** Config section **/
+function getThemesInConfig() {
+    $.getJSON("assets/themes.json", function (json) {
+        var currentTheme = getItem('config_theme');
+        $.each(json['officalThemes'], function (index, value) {
+            var isApply = "";
+            if (value['themePath'] == currentTheme) {
+                isApply = " (установлено)";
+            }
+            $(".themePlace").append(
+                "<div vcat-themePath=\"" + value['themePath'] + "\" class=\"card cardDecor semi-transparent themeSwitch\">\n" +
+                " <div class=\"card-body\">\n" +
+                " <p class=\"card-text\">\n" +
+                value['themeName'] + isApply +
+                " </p>\n" +
+                " <p class=\"card-text\">\n" +
+                value['themeDescription'] +
+                " </p>\n" +
+                " <p class=\"card-text\">\n<i>От " +
+                value['themeAuthor'] +
+                " </i></p>\n" +
+                " </div>\n" +
+                " </div>"
+            )
+        });
+
+        $(".themeSwitch").click(function () {
+            var themePath = $(this).attr('vcat-themePath');
+            setItem('config_theme', themePath);
+            bootbox.confirm({
+                message: "Тема установлена. Для применения изменений перезагрузите страницу.",
+                buttons: {
+                    confirm: {
+                        label: 'Перезагрузить',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Позже',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = "main.html";
+                    }
+                }
+            });
+        });
+    });
+}
+/** Friends section */
+function getFriends() {
+    var url;
+    url = "https://api.vk.com/method/friends.get?user_id="+user_id+"&access_token="+token+"&v=5.73&order=hints&fields=photo_100&count=9000&offset=0";
+    if (!debug) {
+        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    } else {
+        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    }
+    console.log(url);
+    $.ajax({
+        url: url,
+        success: function( response ) {
+            var result = JSON.parse(response);
+            $.each(result['response']['items'],function(index, value){
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
+                    '    <div class="card-body">\n' +
+                    '        <img class="friendFloat" src="'+value['photo_100']+'">' +
+                    '        <p class="card-text">' + value['first_name'] + ' ' + value['last_name'] + '</p>\n' +
+                    '    </div>\n' +
+                    '</div>');
+            });
+            feather.replace();
+            $('.spinnerLoad').hide();
+        }
+    });
 }
