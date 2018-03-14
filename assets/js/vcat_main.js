@@ -54,7 +54,6 @@ function getNews(attr) {
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
-                        var itemID = value['post_id'];
                         var cardAttachments = '<p class="card-text">';
                         $.each(value['attachments'], function (index, value) {
                             var type = value['type'];
@@ -117,12 +116,13 @@ function getNews(attr) {
                             isLikedClass="text-danger";
                             isLiked=true;
                         }
+                        var itemID = value['post_id'];
                         $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard">\n' +
                             '    <div class="card-body">\n' +
                             '        <h5 class="card-title">' + b + '</h5>\n' +
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
-                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;</abbr><i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
+                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + ' &nbsp;&nbsp;&nbsp;</abbr><i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
@@ -137,12 +137,13 @@ function getNews(attr) {
             $(".likeCount").click(function() {
                 var id = $(this).attr('vcat-postid');
                 var isLiked = $(this).attr('vcat-isliked');
+                var source = $(this).attr('vcat-author');
                 if(isLiked == "false") {
-                    likePost(id);
+                    likePost(id, source);
                     $(this).attr('vcat-isliked', true);
                     $(this).attr('class', 'likeCount text-danger');
                 } else {
-                    unlikePost(id);
+                    unlikePost(id, source);
                     $(this).attr('vcat-isliked', false);
                     $(this).attr('class', 'likeCount');
                 }
@@ -153,7 +154,7 @@ function getNews(attr) {
 
 function likePost(id, source) {
     var url;
-    url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&v=5.73";
+    url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     if (!debug) {
         url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
     } else {
@@ -162,15 +163,15 @@ function likePost(id, source) {
     $.ajax({
         url: url,
         success: function( response ) {
-            console.log(response);
             var result = JSON.parse(response);
+            insertHTML('itemMain.html');
         }
     });
 }
 
 function unlikePost(id, source) {
     var url;
-    url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&v=5.73";
+    url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     if (!debug) {
         url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
     } else {
@@ -179,8 +180,8 @@ function unlikePost(id, source) {
     $.ajax({
         url: url,
         success: function( response ) {
-            console.log(response);
             var result = JSON.parse(response);
+            insertHTML('itemMain.html');
         }
     });
 }
