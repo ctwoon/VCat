@@ -17,6 +17,15 @@ function themes_loadTheme(themeName) {
     }).appendTo("head");
 }
 
+function craftURL(url) {
+  if (!debug) {
+      url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+  } else {
+      url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+  }
+  return url;
+}
+
 /** Storage **/
 
 function setItem(key,value) {
@@ -41,11 +50,7 @@ function getNews(attr) {
     } else {
         url = "https://api.vk.com/method/execute.getNewsfeedSmart?access_token="+token+"&filters=post&v=5.68&app_package_id=com.vkontakte.android&start_from="+attr;
     }
-    if (!debug) {
-        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    } else {
-        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    }
+    url = craftURL(url);
     $.ajax({
         url: url,
         success: function( response ) {
@@ -167,11 +172,7 @@ function getNews(attr) {
 function likePost(id, source) {
     var url;
     url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
-    if (!debug) {
-        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    } else {
-        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    }
+    url = craftURL(url);
     $.ajax({
         url: url,
         success: function( response ) {
@@ -185,11 +186,7 @@ function likePost(id, source) {
 function unlikePost(id, source) {
     var url;
     url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
-    if (!debug) {
-        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    } else {
-        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    }
+    url = craftURL(url);
     $.ajax({
         url: url,
         success: function( response ) {
@@ -237,30 +234,36 @@ removeFocus();
 addFocus('.navHome');
 insertHTML('itemMain.html');
 
+function removeScrollFocus() {
+  ab = false;
+  $(window).off("scroll", newsScrollHandler);
+}
+
+function switchToPage(dom, html) {
+  removeFocus();
+  removeScrollFocus();
+  addFocus(dom);
+  insertHTML(html);
+}
+
 $(".navHome").click(function() {
-    removeFocus();
-    addFocus('.navHome');
-    insertHTML('itemMain.html');
+  switchToPage('.navHome', 'itemMain.html');
 });
 
 $(".navConfig").click(function() {
-    removeFocus();
-    addFocus('.navConfig');
-    insertHTML('itemConfig.html');
+  switchToPage('.navConfig', 'itemConfig.html');
 });
 
 $(".navAbout").click(function() {
-    removeFocus();
-    addFocus('.navAbout');
-    insertHTML('itemAbout.html');
+  switchToPage('.navAbout', 'itemAbout.html');
 });
 
 $(".navFriends").click(function() {
-    removeFocus();
-    addFocus('.navFriends');
-    insertHTML('itemFriends.html');
-    ab = false;
-    $(window).off("scroll", newsScrollHandler);
+  switchToPage('.navFriends', 'itemFriends.html');
+});
+
+$(".navMsg").click(function() {
+  switchToPage('.navMsg', 'itemMessages.html');
 });
 
 $(".logoutButton").click(function() {
@@ -333,11 +336,7 @@ function getThemesInConfig() {
 function getFriends() {
     var url;
     url = "https://api.vk.com/method/friends.get?user_id="+user_id+"&access_token="+token+"&v=5.73&order=hints&fields=photo_100&count=9000&offset=0";
-    if (!debug) {
-        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    } else {
-        url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
-    }
+    url = craftURL(url);
     console.log(url);
     $.ajax({
         url: url,
@@ -345,6 +344,32 @@ function getFriends() {
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
+                    '    <div class="card-body">\n' +
+                    '        <img class="friendFloat" src="'+value['photo_100']+'">' +
+                    '        <p class="card-text">' + value['first_name'] + ' ' + value['last_name'] + '</p>\n' +
+                    '    </div>\n' +
+                    '</div>');
+            });
+            feather.replace();
+            $('.spinnerLoad').hide();
+        }
+    });
+}
+/** Messages section */
+function getMessageDialogs() {
+    var url;
+    url = "https://api.vk.com/method/messages.getDialogs?&access_token="+token+"&v=5.74";
+    url = craftURL(url);
+    console.log(url);
+    $.ajax({
+        url: url,
+        success: function( response ) {
+          console.log(response);
+            var result = JSON.parse(response);
+            var count = result['response']['count'];
+            $.each(result['response']['items'],function(index, value){
+                var dialogID = value['message']['user_id'];
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog" vcat-dialog="'+dialogID+'">\n' +
                     '    <div class="card-body">\n' +
                     '        <img class="friendFloat" src="'+value['photo_100']+'">' +
                     '        <p class="card-text">' + value['first_name'] + ' ' + value['last_name'] + '</p>\n' +
