@@ -371,16 +371,24 @@ function getMessageDialogs() {
                 if (value['message']['title'].length > 0) {
                     var isGroup = "(Беседа)";
                     name = value['message']['title'] + " " + isGroup;
+                    dialogID = parseInt(dialogID) + 2000000000;
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog" vcat-dialog="'+dialogID+'">\n' +
+                        '    <div class="card-body">\n' +
+                        '        <p class="card-text">' + name + '</p>\n' +
+                        '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
+                        '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
+                        '    </div>\n' +
+                        '</div>');
                 } else {
                     name = getMessageDialogTitle(dialogID, result['response']);
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog" vcat-dialog="'+dialogID+'">\n' +
+                        '    <div class="card-body">\n' +
+                        '        <p class="card-text">' + name + '</p>\n' +
+                        '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
+                        '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
+                        '    </div>\n' +
+                        '</div>');
                 }
-                $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog" vcat-dialog="'+dialogID+'">\n' +
-                    '    <div class="card-body">\n' +
-                    '        <p class="card-text">' + name + '</p>\n' +
-                    '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
-                    '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
-                    '    </div>\n' +
-                    '</div>');
             });
             feather.replace();
             $('.spinnerLoad').hide();
@@ -404,7 +412,7 @@ function getMessageDialogTitle(source_id,json) {
 
 function getMessages(dialogID) {
     var url;
-    url = "https://api.vk.com/method/messages.getHistory?lang=ru&user_id="+dialogID+"&access_token="+token+"&v=5.74";
+    url = "https://api.vk.com/method/messages.getHistory?lang=ru&peer_id="+dialogID+"&access_token="+token+"&v=5.74";
     console.log(url);
     url = craftURL(url);
     $.ajax({
