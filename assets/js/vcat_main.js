@@ -358,26 +358,79 @@ function getFriends() {
 /** Messages section */
 function getMessageDialogs() {
     var url;
-    url = "https://api.vk.com/method/messages.getDialogs?&access_token="+token+"&v=5.74";
+    url = "https://api.vk.com/method/execute.getDialogsWithProfilesNewFixGroups?lang=ru&https=1&count=40&access_token="+token+"&v=5.69";
     url = craftURL(url);
-    console.log(url);
     $.ajax({
         url: url,
         success: function( response ) {
-          console.log(response);
+            //$('.cardContainer').append(response);
             var result = JSON.parse(response);
-            var count = result['response']['count'];
-            $.each(result['response']['items'],function(index, value){
+            $.each(result['response']['a']['items'],function(index, value){
                 var dialogID = value['message']['user_id'];
+                var name;
+                if (value['message']['title'].length > 0) {
+                    var isGroup = "(Беседа)";
+                    name = value['message']['title'] + " " + isGroup;
+                } else {
+                    name = getMessageDialogTitle(dialogID, result['response']);
+                }
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog" vcat-dialog="'+dialogID+'">\n' +
                     '    <div class="card-body">\n' +
-                    '        <img class="friendFloat" src="'+value['photo_100']+'">' +
-                    '        <p class="card-text">' + value['first_name'] + ' ' + value['last_name'] + '</p>\n' +
+                    '        <p class="card-text">' + name + '</p>\n' +
+                    '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
+                    '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
                     '    </div>\n' +
                     '</div>');
             });
             feather.replace();
             $('.spinnerLoad').hide();
+            $(".showDialog").click(function() {
+                getMessages($(this).attr('vcat-dialog'));
+            });
+        }
+    });
+}
+
+function getMessageDialogTitle(source_id,json) {
+    var result;
+    $.each(json['p'],function(index, value){
+        if (value['id'] === source_id) {
+            result = value['first_name']+" "+value['last_name'];
+            return false;
+        }
+    });
+    return result;
+}
+
+function getMessages(dialogID) {
+    var url;
+    url = "https://api.vk.com/method/messages.getHistory?lang=ru&user_id="+dialogID+"&access_token="+token+"&v=5.74";
+    console.log(url);
+    url = craftURL(url);
+    $.ajax({
+        url: url,
+        success: function( response ) {
+            $('.cardContainer').html(response);
+            var result = JSON.parse(response);
+            /**$.each(result['response']['a']['items'],function(index, value){
+                var dialogID = value['message']['user_id'];
+                var name;
+                if (value['message']['title'].length > 0) {
+                    var isGroup = "(Беседа)";
+                    name = value['message']['title'] + " " + isGroup;
+                } else {
+                    name = getMessageDialogTitle(dialogID, result['response']);
+                }
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog" vcat-dialog="'+dialogID+'">\n' +
+                    '    <div class="card-body">\n' +
+                    '        <p class="card-text">' + name + '</p>\n' +
+                    '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
+                    '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
+                    '    </div>\n' +
+                    '</div>');
+            });
+            feather.replace();
+            $('.spinnerLoad').hide();**/
         }
     });
 }

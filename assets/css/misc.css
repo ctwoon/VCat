@@ -76,3 +76,7 @@
 .card-text {
     margin-bottom: 0px;
 }
+
+.smallText {
+    font-size: 10px;
+}
