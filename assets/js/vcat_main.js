@@ -140,9 +140,9 @@ function getNews(attr) {
                             isLiked=true;
                         }
                         var itemID = value['post_id'];
-                        $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard">\n' +
-                            '    <div class="card-body">\n' +
-                            '        <h5 class="card-title">' + b + '</h5>\n' +
+                        $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
+                            '    <div class="card-body messagePadding">\n' +
+                            '        <h5 class="card-title noPadding smallTitle">' + b + '</h5>\n' +
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
                             '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
@@ -262,7 +262,6 @@ function switchToPage(dom, html) {
   removeFocus();
   removeScrollFocus();
   addFocus(dom);
-  $('.htmlContainer').removeClass('noMarginAndPadding');
   insertHTML('items/'+html);
 }
 
@@ -307,6 +306,8 @@ function addFocus(selector) {
     $(selector).addClass("active");
 }
 
+$('.htmlContainer').addClass('noMarginAndPadding');
+
 logInfo("Main", "Navigation loaded");
 /** Config section **/
 function getThemesInConfig() {
@@ -320,7 +321,7 @@ function getThemesInConfig() {
                 isApply = " (установлено)";
             }
             $(".themePlace").append(
-                "<div vcat-themePath=\"" + value['themePath'] + "\" class=\"card cardDecor semi-transparent themeSwitch\">\n" +
+                "<div vcat-themePath=\"" + value['themePath'] + "\" class=\"card cardDecor semi-transparent themeSwitch message messageBorder\">\n" +
                 " <div class=\"card-body\">\n" +
                 " <p class=\"card-text\">\n" +
                 value['themeName'] + isApply +
@@ -375,8 +376,8 @@ function getFriends() {
           logInfo("FriendList", "Got FriendList JSON");
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
-                $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
-                    '    <div class="card-body">\n' +
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
+                    '    <div class="card-body messagePadding">\n' +
                     '        <img class="friendFloat" src="'+value['photo_100']+'">' +
                     '        <p class="card-text">' + value['first_name'] + ' ' + value['last_name'] + '</p>\n' +
                     '    </div>\n' +
@@ -390,7 +391,6 @@ function getFriends() {
 }
 /** Messages section */
 function getMessageDialogs() {
-  $('.htmlContainer').toggleClass('noMarginAndPadding');
   logInfo("DialogList", "Get DialogList");
     var url = "https://api.vk.com/method/execute.getDialogsWithProfilesNewFixGroups?lang=ru&https=1&count=40&access_token="+token+"&v=5.69";
     url = craftURL(url);
