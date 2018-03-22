@@ -262,6 +262,7 @@ function switchToPage(dom, html) {
   removeFocus();
   removeScrollFocus();
   addFocus(dom);
+  $('.htmlContainer').removeClass('noMarginAndPadding');
   insertHTML('items/'+html);
 }
 
@@ -389,6 +390,7 @@ function getFriends() {
 }
 /** Messages section */
 function getMessageDialogs() {
+  $('.htmlContainer').toggleClass('noMarginAndPadding');
   logInfo("DialogList", "Get DialogList");
     var url = "https://api.vk.com/method/execute.getDialogsWithProfilesNewFixGroups?lang=ru&https=1&count=40&access_token="+token+"&v=5.69";
     url = craftURL(url);
@@ -415,8 +417,8 @@ function getMessageDialogs() {
                         '</div>');*/
                 } else {
                     name = getMessageDialogTitle(dialogID, result['response']);
-                    $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog" vcat-username="'+name+'" vcat-dialog="'+dialogID+'">\n' +
-                        '    <div class="card-body">\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="'+name+'" vcat-dialog="'+dialogID+'">\n' +
+                        '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding">' + name + '</h5>\n' +
                         '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
                         '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
@@ -505,8 +507,8 @@ function getMessages(dialogID, uname) {
                 cardAttachments += '</p>';
                 if (isSentByUser == 1) {
                   userName = "Я";
-                  $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut">\n' +
-                      '    <div class="card-body">\n' +
+                  $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder">\n' +
+                      '    <div class="card-body messagePadding">\n' +
                       '        <h5 class="card-title noPadding">' + userName + '</h5>\n' +
                       '        <p class="card-text">' + text + '</p>\n' +
                       cardAttachments +
@@ -514,8 +516,8 @@ function getMessages(dialogID, uname) {
                       '    </div>\n' +
                       '</div>');
                 } else {
-                  $('.cardContainer').append('<div class="card cardDecor semi-transparent message">\n' +
-                      '    <div class="card-body">\n' +
+                  $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
+                      '    <div class="card-body messagePadding">\n' +
                       '        <h5 class="card-title noPadding">' + userName + '</h5>\n' +
                       '        <p class="card-text">' + text + '</p>\n' +
                       cardAttachments +
