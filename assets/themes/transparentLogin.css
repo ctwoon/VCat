@@ -2,3 +2,7 @@
 body {
   background: url("../img/bg1.jpg");
 }
+
+.messageOut {
+  background: rgba(76, 175, 80, 0.2);
+}

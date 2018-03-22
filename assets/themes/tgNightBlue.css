@@ -28,3 +28,7 @@ a {
 .text-danger {
   color: #61A8E1 !important;
 }
+
+.messageOut {
+  background: rgba(97, 168, 225, 0.2);
+}

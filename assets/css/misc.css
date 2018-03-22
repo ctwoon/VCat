@@ -2,6 +2,10 @@
     margin-bottom: 1rem!important;
 }
 
+.noPadding {
+    margin-bottom: 0!important;
+}
+
 .semi-transparent {
     background-color: rgba(0,0,0,0.5);
     color: white;
@@ -79,4 +83,13 @@
 
 .smallText {
     font-size: 10px;
+}
+
+.message {
+  width: 45%;
+  clear: both;
+}
+
+.messageOut {
+  float: right;
 }
