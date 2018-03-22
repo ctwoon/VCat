@@ -419,7 +419,7 @@ function getMessageDialogs() {
                     name = getMessageDialogTitle(dialogID, result['response']);
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="'+name+'" vcat-dialog="'+dialogID+'">\n' +
                         '    <div class="card-body messagePadding">\n' +
-                        '        <h5 class="card-title noPadding">' + name + '</h5>\n' +
+                        '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                         '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
                         '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
                         '    </div>\n' +
@@ -461,6 +461,7 @@ function getMessages(dialogID, uname) {
                 var isSentByUser = value['out'];
                 var time = timestampToTime(value['date']);
                 var text = value['body'];
+                text = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 var isSeen = value['read_state'];
                 var userId = value['from_id'];
                 var userName = uname;
@@ -508,7 +509,7 @@ function getMessages(dialogID, uname) {
                   userName = "Я";
                   $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder">\n' +
                       '    <div class="card-body messagePadding">\n' +
-                      '        <h5 class="card-title noPadding">' + userName + '</h5>\n' +
+                      '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                       '        <p class="card-text">' + text + '</p>\n' +
                       cardAttachments +
                       '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: '+ isSeen +'</i></p>\n' +
@@ -517,7 +518,7 @@ function getMessages(dialogID, uname) {
                 } else {
                   $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
                       '    <div class="card-body messagePadding">\n' +
-                      '        <h5 class="card-title noPadding">' + userName + '</h5>\n' +
+                      '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                       '        <p class="card-text">' + text + '</p>\n' +
                       cardAttachments +
                       '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: '+ isSeen +'</i></p>\n' +
