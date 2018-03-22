@@ -93,3 +93,9 @@
 .messageOut {
   float: right;
 }
+
+.dialogAttachPic {
+  padding: 10px;
+  height: 128px;
+  width: 128px;
+}

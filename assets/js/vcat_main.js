@@ -1,12 +1,27 @@
 /** Init **/
 // Use my proxy. If set to false, project's root proxy is used.
+function logInfo(tag, msg) {
+  console.log(tag+": "+msg);
+}
+
+function logWarn(tag, msg) {
+  console.warn(tag+": "+msg);
+}
+
+function logError(tag, msg) {
+  console.error(tag+": "+msg);
+}
+
 var debug = true;
+
+logInfo("Main","Welcome to VK Kitten 0.7!");
 
 var theme = getItem('config_theme');
 if (!theme) {
     setItem('config_theme', 'assets/themes/darkMaterial.css');
     theme = 'assets/themes/darkMaterial.css';
 }
+logInfo("ThemeEngine", "Loading theme "+theme);
 themes_loadTheme(theme);
 
 function themes_loadTheme(themeName) {
@@ -41,9 +56,11 @@ var user_id = getItem("userId");
 if (!token) {
     window.location.href="index.html";
 }
+logInfo("Auth", "User auth completed!");
 var ab = false;
 /** News section **/
 function getNews(attr) {
+    logInfo("Newsfeed", "Get Newsfeed");
     var url;
     if (typeof attr === "undefined") {
         url = "https://api.vk.com/method/execute.getNewsfeedSmart?access_token="+token+"&filters=post&v=5.68&app_package_id=com.vkontakte.android";
@@ -56,6 +73,7 @@ function getNews(attr) {
         success: function( response ) {
             //console.log(response);
             var result = JSON.parse(response);
+            logInfo("Newsfeed", "Got Newsfeed JSON");
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
@@ -165,11 +183,13 @@ function getNews(attr) {
                     });
                 }
             });
+            logInfo("Newsfeed", "Finish Newsfeed");
         }
     });
 }
 
 function likePost(id, source) {
+    logInfo("Newsfeed", "Like Post #"+id);
     var url;
     url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     url = craftURL(url);
@@ -184,6 +204,7 @@ function likePost(id, source) {
 }
 
 function unlikePost(id, source) {
+    logInfo("Newsfeed", "Unlike Post #"+id);
     var url;
     url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     url = craftURL(url);
@@ -284,10 +305,14 @@ function insertHTML(url) {
 function addFocus(selector) {
     $(selector).addClass("active");
 }
+
+logInfo("Main", "Navigation loaded");
 /** Config section **/
 function getThemesInConfig() {
+  logInfo("Config", "Get Themes");
     $.getJSON("assets/themes.json", function (json) {
         var currentTheme = getItem('config_theme');
+        logInfo("Config", "Got Themes JSON");
         $.each(json['officalThemes'], function (index, value) {
             var isApply = "";
             if (value['themePath'] == currentTheme) {
@@ -313,6 +338,7 @@ function getThemesInConfig() {
         $(".themeSwitch").click(function () {
             var themePath = $(this).attr('vcat-themePath');
             setItem('config_theme', themePath);
+            logInfo("Config", "Set Theme to "+themePath);
             bootbox.confirm({
                 message: "Тема установлена. Для применения изменений перезагрузите страницу.",
                 buttons: {
@@ -332,16 +358,20 @@ function getThemesInConfig() {
                 }
             });
         });
+
+        logInfo("Config", "Finish Themes");
     });
 }
 /** Friends section */
 function getFriends() {
+  logInfo("FriendList", "Get FriendList");
     var url = "https://api.vk.com/method/friends.get?user_id="+user_id+"&access_token="+token+"&v=5.73&order=hints&fields=photo_100&count=9000&offset=0";
     url = craftURL(url);
     console.log(url);
     $.ajax({
         url: url,
         success: function( response ) {
+          logInfo("FriendList", "Got FriendList JSON");
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent">\n' +
@@ -353,11 +383,13 @@ function getFriends() {
             });
             feather.replace();
             $('.spinnerLoad').hide();
+            logInfo("FriendList", "Finish FriendList");
         }
     });
 }
 /** Messages section */
 function getMessageDialogs() {
+  logInfo("DialogList", "Get DialogList");
     var url = "https://api.vk.com/method/execute.getDialogsWithProfilesNewFixGroups?lang=ru&https=1&count=40&access_token="+token+"&v=5.69";
     url = craftURL(url);
     $.ajax({
@@ -365,6 +397,7 @@ function getMessageDialogs() {
         success: function( response ) {
             //$('.cardContainer').append(response);
             var result = JSON.parse(response);
+            logInfo("DialogList", "Got DialogList JSON");
             $.each(result['response']['a']['items'],function(index, value){
                 var dialogID = value['message']['user_id'];
                 var name;
@@ -396,6 +429,7 @@ function getMessageDialogs() {
             $(".showDialog").click(function() {
                 getMessages($(this).attr('vcat-dialog'), $(this).attr('vcat-username'));
             });
+            logInfo("DialogList", "Finish DialogList");
         }
     });
 }
@@ -412,13 +446,16 @@ function getMessageDialogTitle(source_id,json) {
 }
 
 function getMessages(dialogID, uname) {
+  logInfo("Dialog", "Get Dialog");
     var url = "https://api.vk.com/method/messages.getHistory?lang=ru&peer_id="+dialogID+"&access_token="+token+"&v=5.74";
     url = craftURL(url);
     $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
     $.ajax({
         url: url,
         success: function( response ) {
+          logInfo("Dialog", "Got Dialog JSON");
             var result = JSON.parse(response);
+            console.log(response);
             $.each(result['response']['items'],function(index, value){
                 var isSentByUser = value['out'];
                 var time = timestampToTime(value['date']);
@@ -426,12 +463,53 @@ function getMessages(dialogID, uname) {
                 var isSeen = value['read_state'];
                 var userId = value['from_id'];
                 var userName = uname;
+                var cardAttachments = '<p class="card-text">';
+                $.each(value['attachments'], function (index, value) {
+                    var type = value['type'];
+                    switch (type) {
+                        case 'link':
+                            cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
+                            break;
+                        case 'photo':
+                            cardAttachments += '<p><img class="dialogAttachPic" src="' + value['photo']['photo_604'] + '"></p>';
+                            cardAttachments += '<p><a href="' + value['photo']['photo_604'] + '">Открыть!</a></p>';
+                            break;
+                        case 'doc':
+                            if (value['doc']['ext'] === "gif") {
+                                cardAttachments += '<p><img class="dialogAttachPic" src="' + value['doc']['url'] + '"></p>';
+                            }
+                            var size = value['doc']['size'] / 1000 / 1000;
+                            cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: '+size+'MB)</a></p>';
+                            break;
+                        case 'poll':
+                            cardAttachments += '<p>Голосование: '+value['poll']['question']+' ('+value['poll']['votes']+' голосов)</p>';
+                            $.each(value['poll']['answers'],function(index, value) {
+                                cardAttachments += '<p>- '+value['text']+' ('+value['votes']+' голосов) ['+value['rate']+'%]</p>';
+                            });
+                            break;
+                        case 'audio':
+                            var durMin = Math.floor(value['audio']['duration'] / 60);
+                            var durSec = value['audio']['duration'] - durMin*60;
+                            cardAttachments += '<p>Аудиозапись: '+value['audio']['title']+' от '+value['audio']['artist']+' ['+durMin+':'+durSec+']</p>';
+                        break;
+                        case 'video':
+                            var durMin = Math.floor(value['video']['duration'] / 60);
+                            var durSec = value['video']['duration'] - durMin*60;
+                            cardAttachments += '<p>Видеозапись: '+value['video']['title']+' (ID: '+value['video']['id']+') ['+durMin+':'+durSec+']</p>';
+                            break;
+                        default:
+                            cardAttachments += '<p>Неподдерживаемый тип вложения: '+type+'</p>';
+                            break;
+                    }
+                });
+                cardAttachments += '</p>';
                 if (isSentByUser == 1) {
                   userName = "Я";
                   $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut">\n' +
                       '    <div class="card-body">\n' +
                       '        <h5 class="card-title noPadding">' + userName + '</h5>\n' +
                       '        <p class="card-text">' + text + '</p>\n' +
+                      cardAttachments +
                       '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: '+ isSeen +'</i></p>\n' +
                       '    </div>\n' +
                       '</div>');
@@ -440,6 +518,7 @@ function getMessages(dialogID, uname) {
                       '    <div class="card-body">\n' +
                       '        <h5 class="card-title noPadding">' + userName + '</h5>\n' +
                       '        <p class="card-text">' + text + '</p>\n' +
+                      cardAttachments +
                       '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: '+ isSeen +'</i></p>\n' +
                       '    </div>\n' +
                       '</div>');
@@ -447,6 +526,7 @@ function getMessages(dialogID, uname) {
             });
             feather.replace();
             $('.spinnerLoad').hide();
+            logInfo("Dialog", "Finish Dialog");
         }
     });
 }
