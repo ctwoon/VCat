@@ -457,7 +457,6 @@ function getMessages(dialogID, uname) {
         success: function( response ) {
           logInfo("Dialog", "Got Dialog JSON");
             var result = JSON.parse(response);
-            console.log(response);
             $.each(result['response']['items'],function(index, value){
                 var isSentByUser = value['out'];
                 var time = timestampToTime(value['date']);

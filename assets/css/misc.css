@@ -92,10 +92,12 @@
 .message {
   border-radius: 0px !important;
   margin-bottom: 0px !important;
+  animation: fadein 1s;
 }
 
 .messageBorder {
   border-bottom: 1px solid rgba(0,0,0,0.3) !important;
+  animation: fadein 0.5s;
 }
 
 .messageOut {
@@ -111,4 +113,9 @@
   padding-top: 10px;
   height: 128px;
   width: 128px;
+}
+
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
