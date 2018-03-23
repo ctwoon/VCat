@@ -118,7 +118,6 @@ function getMessages(dialogID, uname) {
                   userName = "Я";
                   $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder">\n' +
                       '    <div class="card-body messagePadding">\n' +
-                      '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                       '        <p class="card-text">' + text + '</p>\n' +
                       cardAttachments +
                       '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: '+ isSeen +'</i></p>\n' +
@@ -142,7 +141,12 @@ function getMessages(dialogID, uname) {
             setTimeout(function(){ jump("endOfDialog"); }, 500);
             $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
                 '    <div class="card-body messagePadding">\n' +
-                '  <input type="text" class="form-control" id="basic-url" placeholder="Сообщение...">' +
+                '<div class="input-group">' +
+                '<input type="text" class="form-control writeBoxText bg-dark" placeholder="Сообщение">' +
+                '<span class="input-group-btn">' +
+                '<button class="btn btn-default btn-dark writeBoxButton" type="button">Отправить!</button>' +
+                '</span>' +
+                '</div>' +
                 '    </div>\n' +
                 '</div>');
         }
