@@ -14,7 +14,6 @@ function getDiscover(attr) {
         success: function( response ) {
             var result = JSON.parse(response);
             logInfo("Discover", "Got Discover JSON");
-            logError(response);
             $.each(result['response']['items'],function(index, value){
                 if (value['template'] == "title") {
 

@@ -26,6 +26,10 @@ $(".navDiscover").click(function() {
     switchToPage('.navDiscover', 'itemDiscover.html');
 });
 
+$(".navPage").click(function() {
+    switchToPage('.navPage', 'itemPage.html');
+});
+
 $(".navConfig").click(function() {
   switchToPage('.navConfig', 'itemConfig.html');
 });

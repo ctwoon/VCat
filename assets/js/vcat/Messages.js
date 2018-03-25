@@ -12,7 +12,6 @@ function getMessageDialogs() {
                 var dialogID = value['message']['user_id'];
                 var name;
                 if (value['message']['title'].length > 0) {
-                    // No group chats for now, sorry!
                     var isGroup = "(Беседа)";
                     var isGroup2 = true;
                     var debugInfo2 = '<p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n';
