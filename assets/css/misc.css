@@ -156,3 +156,7 @@ p {
         flex: 0 0 85%;
     }
 }
+
+.writeBoxText {
+    color: white !important;
+}

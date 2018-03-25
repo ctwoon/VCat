@@ -160,6 +160,12 @@ function getMessages(dialogID, uname, isGroup) {
                 '</div>' +
                 '    </div>\n' +
                 '</div>');
+            $(".writeBoxButton").click(function () {
+                var sendState = sendMessage($(".vcatSend").attr('vcat-sendto'), $(".writeBoxText").val());
+                if (sendState) {
+                    getMessages(dialogID, uname, isGroup)
+                }
+            });
         }
     });
 }
@@ -201,4 +207,26 @@ function timestampToTime(timestamp) {
     var minutes = "0" + date.getMinutes();
     var seconds = "0" + date.getSeconds();
     return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+}
+
+function sendMessage(dialogID, message) {
+    var url = "https://api.vk.com/method/messages.send?message="+ encodeURIComponent(message) +"&peer_id=" + dialogID + "&access_token=" + token + "&v=5.74";
+    logInfo("SendMessages", "Get SendMessages");
+    url = craftURL(url);
+    var result1 = false;
+    $.ajax({
+        url: url,
+        async:false,
+        success: function (response) {
+            var result = JSON.parse(response);
+            if (Array.isArray(response['error'])) {
+                logInfo("SendMessages", "Error: "+result['error']['error_msg']);
+                result1 = false;
+            } else {
+                logInfo("SendMessages", "Done");
+                result1 = true;
+            }
+        }
+    });
+    return result1;
 }
