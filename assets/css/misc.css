@@ -159,3 +159,13 @@ p {
 .writeBoxText {
     color: white !important;
 }
+
+.btn-zone {
+    margin: 5px;
+}
+
+.btn-transparent {
+    color: white;
+    background-color: rgba(0,0,0,0.2);
+    border-color: rgba(0,0,0,0.2);
+}

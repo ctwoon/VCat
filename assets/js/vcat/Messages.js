@@ -86,6 +86,7 @@ function getMessages(dialogID, uname, isGroup) {
                 var isSeen = value['read_state'];
                 var userId = value['from_id'];
                 var userName = uname;
+                var messageID = value['id'];
                 if (isGroup) {
                     userName = getGroupUsername(userId, groupUsers);
                 }
@@ -125,7 +126,6 @@ function getMessages(dialogID, uname, isGroup) {
                             cardAttachments += '<p>Видеозапись: ' + value['video']['title'] + ' (ID: ' + value['video']['id'] + ') [' + durMin + ':' + durSec + ']</p>';
                             break;
                         case 'sticker':
-                            console.log(value['sticker']);
                             cardAttachments += '<p><img class="dialogAttachPic" src="' + value['sticker']['images'][0]['url'] + '"></p>';
                             if (debugInfo) {
                                 cardAttachments += '<p>Информация о стикере: Коллекция - ' + value['sticker']['product_id'] + ', Код стикера - ' + value['sticker']['sticker_id'] + '</p>';
@@ -145,6 +145,10 @@ function getMessages(dialogID, uname, isGroup) {
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
                         '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: ' + isSeen + '</i></p>\n' +
+                        '    <div class="btn-zone">\n' +
+                        '    <button type="button" class="btn btn-transparent editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Редактировать</button>\n' +
+                        '    <button type="button" class="btn btn-transparent removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Удалить</button>\n' +
+                        '    </div>\n' +
                         '    </div>\n' +
                         '</div>');
                 } else {
@@ -181,6 +185,14 @@ function getMessages(dialogID, uname, isGroup) {
                 if (sendState) {
                     getMessages(dialogID, uname, isGroup)
                 }
+            });
+            $(".editMessage").click(function () {
+                editMessage($(this).attr('vcat-msgid'), $(this).attr('vcat-dialogid'));
+                getMessages(dialogID, uname, isGroup);
+            });
+            $(".removeMessage").click(function () {
+                removeMessage($(this).attr('vcat-msgid'), $(this).attr('vcat-dialogid'));
+                getMessages(dialogID, uname, isGroup);
             });
         }
     });
@@ -237,4 +249,34 @@ function sendMessage(dialogID, message) {
         }
     });
     return result1;
+}
+
+function editMessage(messageID, dialogID) {
+    var message = prompt("Сообщение, на которое нужно изменить:");
+    var url = "https://api.vk.com/method/messages.edit?message="+ encodeURIComponent(message) +"&peer_id=" + dialogID + "&message_id="+messageID+"&access_token=" + token + "&v=5.74";
+    logInfo("EditMessage", "Get EditMessage");
+    url = craftURL(url);
+    $.ajax({
+        url: url,
+        async:false,
+        success: function (response) {
+        }
+    });
+}
+
+function removeMessage(messageID, dialogID) {
+    var allow = confirm("Удалить сообщение?");
+    if (allow == true) {
+        var deleteForAll = "&delete_for_all=true";
+        var url = "https://api.vk.com/method/messages.delete?message_ids=" + messageID + deleteForAll + "&access_token=" + token + "&v=5.74";
+        logInfo("RemoveMessage", "Get RemoveMessage");
+        url = craftURL(url);
+        $.ajax({
+            url: url,
+            async: false,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    }
 }

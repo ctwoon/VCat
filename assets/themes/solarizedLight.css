@@ -21,11 +21,18 @@ body {
 }
 /* Colors */
 .sidebar .nav-link.active {
-    color: #859900;
+    color: #2aa198;
+}
+a {
+    color: #2aa198;
 }
 
-a {
-    color: #859900;
+.text-danger {
+    color: #2aa198 !important;
+}
+
+.messageOut {
+    background: rgba(42, 161, 152, 0.2);
 }
 /** Text (only white) **/
 .sidebar .nav-link {
@@ -70,12 +77,5 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .spinner {
     border-right-color: transparent;
-}
-.text-danger {
-    color: #859900 !important;
-}
-
-.messageOut {
-    background: rgba(133, 153, 0, 0.2);
 }
 
