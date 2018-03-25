@@ -116,6 +116,14 @@ function getMessages(dialogID, uname, isGroup) {
                             var durSec = value['video']['duration'] - durMin * 60;
                             cardAttachments += '<p>Видеозапись: ' + value['video']['title'] + ' (ID: ' + value['video']['id'] + ') [' + durMin + ':' + durSec + ']</p>';
                             break;
+                        case 'sticker':
+                            console.log(value['sticker']);
+                            cardAttachments += '<p><img class="dialogAttachPic" src="' + value['sticker']['images'][0]['url'] + '"></p>';
+                            if (debugInfo) {
+                                cardAttachments += '<p>Информация о стикере: Коллекция - ' + value['sticker']['product_id'] + ', Код стикера - ' + value['sticker']['sticker_id'] + '</p>';
+                            }
+                            cardAttachments += '<p>Скачать - <a href="' + value['sticker']['images'][1]['url'] + '">64px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][1]['url'] + '">128px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][2]['url'] + '">256px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][3]['url'] + '">352px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][4]['url'] + '">512px</a></p>';
+                            break;
                         default:
                             cardAttachments += '<p>Неподдерживаемый тип вложения: ' + type + '</p>';
                             break;
@@ -199,14 +207,6 @@ function getGroupUsername(userID, json) {
         }
     });
     return result;
-}
-
-function timestampToTime(timestamp) {
-    var date = new Date(timestamp * 1000);
-    var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-    var seconds = "0" + date.getSeconds();
-    return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 }
 
 function sendMessage(dialogID, message) {

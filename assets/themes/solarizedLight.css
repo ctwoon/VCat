@@ -1,0 +1,81 @@
+/** Body background */
+body {
+    background: #fdf6e3;
+}
+/** Cards */
+.cardDecor {
+    background: #eee8d5;
+    border-radius: 0.25rem;
+    border: none;
+}
+/** Sidebars and Navbars */
+.sidebar {
+    background: #eee8d5;
+}
+.navbar {
+    background: #eee8d5;
+}
+.navbar-brand {
+    background: none;
+    color: black;
+}
+/* Colors */
+.sidebar .nav-link.active {
+    color: #859900;
+}
+
+a {
+    color: #859900;
+}
+/** Text (only white) **/
+.sidebar .nav-link {
+    color: #657b83;
+}
+
+.sidebar .nav-link .feather {
+    color: #657b83;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #657b83;
+}
+
+.navbar-dark .navbar-brand {
+    color: #657b83;
+}
+
+.semi-transparent {
+    color: #657b83;
+}
+
+.card-text {
+    color: #657b83;
+}
+
+.logoutButton {
+    color: #657b83 !important;
+}
+
+.writeBoxText {
+    background-color: #657b83 !important;
+}
+
+.writeBoxText:focus {
+    color: white !important;
+}
+
+.writeBoxButton {
+     background: #657b83;
+ }
+
+.spinner {
+    border-right-color: transparent;
+}
+.text-danger {
+    color: #859900 !important;
+}
+
+.messageOut {
+    background: rgba(133, 153, 0, 0.2);
+}
+

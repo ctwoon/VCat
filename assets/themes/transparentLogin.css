@@ -2,3 +2,8 @@
 body {
   background: url("../img/bg1.jpg");
 }
+
+::placeholder {
+  color: #fff !important;
+  opacity: 1;
+}

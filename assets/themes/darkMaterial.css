@@ -29,3 +29,8 @@ a {
 .text-danger {
   color: #4CAF50 !important;
 }
+
+::placeholder {
+  color: #FFF !important;
+  opacity: 1;
+}

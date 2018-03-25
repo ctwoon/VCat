@@ -32,3 +32,8 @@ a {
 .messageOut {
   background: rgba(97, 168, 225, 0.2);
 }
+
+::placeholder {
+  color: #fff !important;
+  opacity: 1;
+}

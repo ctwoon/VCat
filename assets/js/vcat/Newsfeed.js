@@ -73,6 +73,7 @@ function getNews(attr) {
                             views = views.toFixed(1);
                             views = views + "K";
                         }
+                        var date = timestampToTime(value['date']);
                         var isLikedClass="";
                         var isLiked="false";
                         if (value['likes']['user_likes'] == 1) {
@@ -86,6 +87,7 @@ function getNews(attr) {
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
                             '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
+                            '        <p class="card-text smallText"> <i>' + date + '</i></p>\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
@@ -189,4 +191,12 @@ function getGroupID(source_id,json) {
         });
     }
     return result;
+}
+
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp * 1000);
+    var hours = date.getHours();
+    var minutes = "0" + date.getMinutes();
+    var seconds = "0" + date.getSeconds();
+    return hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 }

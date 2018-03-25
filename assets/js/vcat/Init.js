@@ -1,7 +1,9 @@
 // Use my proxy. If set to false, project's root proxy is used.
 var debug = true;
+// Show various debug messages in HTML (like sticker info)
+var debugInfo = true;
 
-logInfo("Main","Welcome to VK Kitten 0.7!");
+logInfo("Main","Welcome to VCat 0.8!");
 
 var theme = getItem('config_theme');
 if (!theme) {
