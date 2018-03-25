@@ -86,8 +86,8 @@ function getNews(attr) {
                             '        <h5 class="card-title noPadding smallTitle">' + b + '</h5>\n' +
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
-                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                             '        <p class="card-text smallText"> <i>' + date + '</i></p>\n' +
+                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
