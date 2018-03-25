@@ -22,6 +22,10 @@ $(".navHome").click(function() {
   switchToPage('.navHome', 'itemMain.html');
 });
 
+$(".navDiscover").click(function() {
+    switchToPage('.navDiscover', 'itemDiscover.html');
+});
+
 $(".navConfig").click(function() {
   switchToPage('.navConfig', 'itemConfig.html');
 });
@@ -60,5 +64,14 @@ function addFocus(selector) {
 }
 
 $('.htmlContainer').addClass('noMarginAndPadding');
+
+// This may fix some navbar bugs
+var noscroll = document.getElementById('noscroll');
+
+noscroll.addEventListener('touchmove', function(e) {
+
+    e.preventDefault();
+
+}, false);
 
 logInfo("Main", "Navigation loaded");

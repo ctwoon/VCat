@@ -15,22 +15,30 @@ function getMessageDialogs() {
                     // No group chats for now, sorry!
                     var isGroup = "(Беседа)";
                     var isGroup2 = true;
+                    var debugInfo2 = '<p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n';
+                    if (!debugInfo) {
+                        debugInfo2 = "<p></p>";
+                    }
                      name = value['message']['title'] + " " + isGroup;
                      dialogID = parseInt(value['message']['chat_id']) + 2000000000;
                      $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
                      '    <div class="card-body messagePadding">\n' +
                      '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                      '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
-                     '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
+                         debugInfo2 +
                      '    </div>\n' +
                      '</div>');
                 } else {
                     name = getMessageDialogTitle(dialogID, result['response']);
+                    var debugInfo2 = '<p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n';
+                    if (!debugInfo) {
+                        debugInfo2 = "<p></p>";
+                    }
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                         '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
-                        '        <p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n' +
+                        debugInfo2 +
                         '    </div>\n' +
                         '</div>');
                 }
@@ -98,6 +106,7 @@ function getMessages(dialogID, uname, isGroup) {
                                 cardAttachments += '<p><img class="dialogAttachPic" src="' + value['doc']['url'] + '"></p>';
                             }
                             var size = value['doc']['size'] / 1000 / 1000;
+                            size = size.toFixed(2);
                             cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: ' + size + 'MB)</a></p>';
                             break;
                         case 'poll':

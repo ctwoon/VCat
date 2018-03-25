@@ -34,6 +34,7 @@ function getNews(attr) {
                                         break;
                                     }
                                     var size = value['doc']['size'] / 1000 / 1000;
+                                    size = size.toFixed(2);
                                     cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: '+size+'MB)</a></p>';
                                     break;
                                 case 'poll':

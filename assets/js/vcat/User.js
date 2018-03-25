@@ -1,12 +1,12 @@
-function getFriends() {
-  logInfo("FriendList", "Get FriendList");
+function getUser(userID) {
+  logInfo("User", "Get User");
     var url = "https://api.vk.com/method/friends.get?user_id="+user_id+"&access_token="+token+"&v=5.73&order=hints&fields=photo_100&count=9000&offset=0";
     url = craftURL(url);
     console.log(url);
     $.ajax({
         url: url,
         success: function( response ) {
-          logInfo("FriendList", "Got FriendList JSON");
+          logInfo("User", "Got User JSON");
             var result = JSON.parse(response);
             $.each(result['response']['items'],function(index, value){
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder showUser" vcat-userid="'+value['id']+'">\n' +
@@ -18,10 +18,7 @@ function getFriends() {
             });
             feather.replace();
             $('.spinnerLoad').hide();
-            $(".showUser").click(function () {
-                getUser($(this).attr('vcat-userid'));
-            });
-            logInfo("FriendList", "Finish FriendList");
+            logInfo("User", "Finish User");
         }
     });
 }

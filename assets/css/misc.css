@@ -78,9 +78,8 @@
 
 .friendFloat {
     float: left;
-    height: 64px;
-    width: 64px;
-    margin: 10px;
+    height: 32px;
+    width: 32px;
 }
 
 @keyframes rotate {
