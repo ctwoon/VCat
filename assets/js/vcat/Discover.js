@@ -176,10 +176,13 @@ function initOnScrollDiscover() {
 }
 
 function discoverScrollHandler() {
-    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+    if ($(window).scrollTop() + $(window).height() > $(document).height() - 150) {
+        removeDiscoverScrollFocus();
         getDiscover($('.cardContainer').attr('vcat-next'));
     }
 }
+
+
 
 function getDiscoverGroupID(source_id,json) {
     var result;

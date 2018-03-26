@@ -11,9 +11,15 @@ function removeScrollFocus() {
   $(window).off("scroll", newsScrollHandler);
 };
 
+function removeDiscoverScrollFocus() {
+    ab = false;
+    $(window).off("scroll", discoverScrollHandler);
+};
+
 function switchToPage(dom, html) {
   removeFocus();
   removeScrollFocus();
+  removeDiscoverScrollFocus();
   addFocus(dom);
   insertHTML('items/'+html);
 };

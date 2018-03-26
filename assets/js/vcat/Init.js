@@ -3,7 +3,7 @@ var debug = true;
 // Show various debug messages in HTML (like sticker info)
 var debugInfo = true;
 
-logInfo("Main","Welcome to VCat 0.8!");
+logInfo("Main","Welcome to VCat 0.8.1!");
 
 var theme = getItem('config_theme');
 if (!theme) {
