@@ -19,9 +19,7 @@ function getDiscover(attr) {
 
                 } else {
                     value = value['post'];
-                    if (value['marked_as_ads'] === 0) {
                         if (value['text'].length !== 0) {
-                            console.log("GOT HERE");
                             var cardAttachments = '<p class="card-text">';
                             $.each(value['attachments'], function (index, value) {
                                 var type = value['type'];
@@ -93,13 +91,12 @@ function getDiscover(attr) {
                                 '        <p class="card-text">' + text + '</p>\n' +
                                 cardAttachments +
                                 '        <p class="card-text smallText"> <i>' + date + '</i></p>\n' +
-                                '        <p class="card-text"><ab2br class="likeCount ' + isLikedClass + '" vcat-author="' + value['source_id'] + '" vcat-postid="' + itemID + '" vcat-isliked="' + isLiked + '"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</ab2br>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
+                                '        <p class="card-text"><abbr class="likeCount ' + isLikedClass + '" vcat-author="' + value['source_id'] + '" vcat-postid="' + itemID + '" vcat-isliked="' + isLiked + '"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<abbr class="commentCount" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                                 '    </div>\n' +
                                 comment +
                                 '</div>');
                         }
                     }
-                }
             });
             feather.replace();
             $('.spinnerLoad').hide();
@@ -131,6 +128,11 @@ function getDiscover(attr) {
                         this.textContent = this.textContent.replace($(this).text().toString(), $(this).text()-1);
                     });
                 }
+            });
+            $(".commentCount").click(function() {
+                var id = $(this).attr('vcat-postid');
+                var source = $(this).attr('vcat-author');
+                getComments(id, source);
             });
             logInfo("Discover", "Finish Discover");
         }

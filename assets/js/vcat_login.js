@@ -1,5 +1,3 @@
-// Use my proxy. If set to false, project's root proxy is used.
-var debug = true;
 function setItem(key,value) {
     localStorage.setItem(key, value);
 }
