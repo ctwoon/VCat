@@ -1,4 +1,5 @@
-switchToPage('.navHome', 'itemMain.html');
+switchToPage('.navHome', 'itemSpinner.html');
+getNews();
 
 function jump(h) {
     var url = location.href;
@@ -25,15 +26,18 @@ function switchToPage(dom, html) {
 };
 
 $(".navHome").click(function() {
-  switchToPage('.navHome', 'itemMain.html');
+  switchToPage('.navHome', 'itemSpinner.html');
+  getNews();
 });
 
 $(".navDiscover").click(function() {
-    switchToPage('.navDiscover', 'itemDiscover.html');
+    switchToPage('.navDiscover', 'itemSpinner.html');
+    getDiscover();
 });
 
 $(".navPage").click(function() {
-    switchToPage('.navPage', 'itemPage.html');
+    switchToPage('.navPage', 'itemSpinner.html');
+    getCurrentUser();
 });
 
 $(".navConfig").click(function() {
@@ -45,11 +49,13 @@ $(".navAbout").click(function() {
 });
 
 $(".navFriends").click(function() {
-  switchToPage('.navFriends', 'itemFriends.html');
+  switchToPage('.navFriends', 'itemSpinner.html');
+  getFriends();
 });
 
 $(".navMsg").click(function() {
-  switchToPage('.navMsg', 'itemMessages.html');
+  switchToPage('.navMsg', 'itemSpinner.html');
+  getMessageDialogs();
 });
 
 $(".navDebug").click(function() {
@@ -74,14 +80,5 @@ function addFocus(selector) {
 }
 
 $('.htmlContainer').addClass('noMarginAndPadding');
-
-// This may fix some navbar bugs
-var noscroll = document.getElementById('noscroll');
-
-noscroll.addEventListener('touchmove', function(e) {
-
-    e.preventDefault();
-
-}, false);
 
 logInfo("Main", "Navigation loaded");

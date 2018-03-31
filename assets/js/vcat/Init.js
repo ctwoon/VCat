@@ -1,7 +1,7 @@
 // Show various debug messages in HTML (like sticker info)
 var debugInfo = true;
 
-logInfo("Main","Welcome to VCat 0.8.1!");
+logInfo("Main","Welcome to VCat 0.8.2!");
 
 var theme = getItem('config_theme');
 if (!theme) {
@@ -20,10 +20,10 @@ function themes_loadTheme(themeName) {
 }
 
 function craftURL(url) {
-  if (!debug) {
+  if (!useProxy) {
       url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
   } else {
-      url = "http://vcatclient.000webhostapp.com/proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+      url = proxyURL + "?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
   }
   return url;
 }

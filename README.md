@@ -4,14 +4,16 @@
 
 *Alternative browser VK client*
 
-*What is done:*
-- Mobile support (beta)
+*Features:*
+- Works in Ukraine!
+- Mobile support
 - Login (only login, without captcha)
-- Newsfeed (with autoloading!)
-- Likes and unlikes (not dislikes!)
-- Messages (with send!)
-- "Discover" from mobile app version 5.0+ (why not?)
-- Friend list (clickable!)
-- User info with posts (not full info)
+- Newsfeed with autoloading
+- Likes and comment reader (only for posts)
+- Messages (with groups and editing)
+- "Discover" (recommendations) from mobile app
+- Friend list
+- User info with posts 
+- Groups
 
 This site will be in Russian until I add localization system.
