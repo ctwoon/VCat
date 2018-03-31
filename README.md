@@ -5,6 +5,7 @@
 *Alternative browser VK client*
 
 *What is done:*
+- Mobile support (beta)
 - Login (only login, without captcha)
 - Newsfeed (with autoloading!)
 - Likes and unlikes (not dislikes!)

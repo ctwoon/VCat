@@ -14,8 +14,38 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">VCat</a>
     <input class="form-control form-control-dark w-100" type="text" placeholder="Поиск в ВК..." aria-label="Search">
     <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
+        <li class="nav-item text-nowrap d-none d-md-block">
             <a class="nav-link logoutButton">Выйти</a>
+        <li class="nav-item dropdown d-md-none">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Меню
+            </a>
+            <div class="dropdown-menu d-md-none mobileNav" aria-labelledby="navbarDropdown">
+                <a class="navPage dropdown-item" href="#">
+                    Моя страница
+                </a>
+                <a class="navHome dropdown-item" href="#">
+                    Новости
+                </a>
+                <a class="navDiscover dropdown-item" href="#">
+                    Рекомендации
+                </a>
+                <a class="navMsg dropdown-item" href="#">
+                    Сообщения
+                </a>
+                <a class="navFriends dropdown-item" href="#">
+                    Друзья
+                </a>
+                <a class="navConfig dropdown-item" href="#">
+                    Темы
+                </a>
+                <a class="navAbout dropdown-item" href="#">
+                    О клиенте
+                </a>
+                <a class="navDebug dropdown-item" href="#">
+                    Отладка
+                </a>
+            </div>
         </li>
     </ul>
 </nav>

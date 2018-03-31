@@ -8,7 +8,7 @@ function getItem(key) {
 var url;
 var token = getItem("authToken");
 if (token) {
-    window.location.href="main.html";
+   window.location.href="main.html";
 }
 $(".loginButton").click(function() {
     var username = $(".loginName").val();
@@ -22,9 +22,11 @@ $(".loginButton").click(function() {
     $.ajax({
         url: url
     }).done(function(data) {
-        setItem("authToken", JSON.parse(data)['access_token']);
-        setItem("userId", JSON.parse(data)['user_id']);
-        window.location.href = 'main.html';
+        if (JSON.parse(data)['access_token']) {
+            setItem("authToken", JSON.parse(data)['access_token']);
+            setItem("userId", JSON.parse(data)['user_id']);
+            window.location.href = 'main.html';
+        }
     });
 });
 

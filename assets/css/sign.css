@@ -3,6 +3,10 @@
   font-family: 'IBM Plex Sans', sans-serif !important;
 }
 
+p {
+    margin-bottom: 10px !important;
+}
+
 html,
 body {
     height: 100%;
