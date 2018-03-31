@@ -188,3 +188,9 @@ p {
 .dropdown-item {
     padding: 0.5rem !important;
 }
+
+.navbar-brand {
+    box-shadow: none;
+    padding-bottom: 0;
+    padding-top: 0;
+}
