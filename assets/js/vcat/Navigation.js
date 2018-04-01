@@ -53,6 +53,11 @@ $(".navFriends").click(function() {
   getFriends();
 });
 
+$(".navGroups").click(function() {
+    switchToPage('.navGroups', 'itemSpinner.html');
+    getGroups();
+});
+
 $(".navMsg").click(function() {
   switchToPage('.navMsg', 'itemSpinner.html');
   getMessageDialogs();
