@@ -4,7 +4,7 @@
 
 *Alternative browser VK client*
 
-*Features:*
+*What I have done:*
 - Works in Ukraine!
 - Mobile support
 - Login (only login, without captcha)
@@ -14,6 +14,8 @@
 - "Discover" (recommendations) from mobile app
 - Friend list
 - User info with posts 
-- Groups
+- Group list
+- Multiaccount (beta)
+- Account offline mode (still beta)
 
 This site will be in Russian until I add localization system.
