@@ -3,6 +3,7 @@ var debugInfo = true;
 
 logInfo("Main","Welcome to VCat 0.8.2!");
 
+
 var theme = getItem('config_theme');
 if (!theme) {
     setItem('config_theme', 'assets/themes/darkMaterial.css');
@@ -17,6 +18,34 @@ if (!offlineMode) {
 } else {
     logInfo("Config", "Offline mode is available - "+offlineMode);
 }
+
+var accountSlot = getItem('multi_slot');
+if (!accountSlot) {
+    setItem('multi_slot', 1);
+    accountSlot = 1;
+}
+var token;
+var user_id;
+if (accountSlot == 2) {
+    token = getItem("multi_acc_token");
+    user_id = getItem("multi_acc_userid");
+} else {
+    token = getItem("authToken");
+    user_id = getItem("userId");
+}
+
+console.log('MultiAccount', 'Slot: '+accountSlot);
+var secondAccountID = getItem('multi_acc_userid');
+if (!secondAccountID) {
+    setItem('multi_acc_userid', '');
+    secondAccountID = "";
+}
+var secondAccountToken = getItem('multi_acc_token');
+if (!secondAccountToken) {
+    setItem('multi_acc_token', '');
+    secondAccountToken = "";
+}
+
 logInfo("ThemeEngine", "Loading theme "+theme);
 themes_loadTheme(theme);
 

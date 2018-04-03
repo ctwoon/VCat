@@ -7,8 +7,13 @@ function getItem(key) {
 }
 var url;
 var token = getItem("authToken");
+var request = getItem("multi_login_request");
 if (token) {
-   window.location.href="main.html";
+    if (request == 1) {
+        $('.slogan').html('Вход в мультиаккаунт (слот 2)');
+    } else {
+        window.location.href = "main.html";
+    }
 }
 $(".loginButton").click(function() {
     var username = $(".loginName").val();
@@ -23,8 +28,13 @@ $(".loginButton").click(function() {
         url: url
     }).done(function(data) {
         if (JSON.parse(data)['access_token']) {
-            setItem("authToken", JSON.parse(data)['access_token']);
-            setItem("userId", JSON.parse(data)['user_id']);
+            if (request == 1) {
+                setItem("multi_acc_token", JSON.parse(data)['access_token']);
+                setItem("multi_acc_userid", JSON.parse(data)['user_id']);
+            } else {
+                setItem("authToken", JSON.parse(data)['access_token']);
+                setItem("userId", JSON.parse(data)['user_id']);
+            }
             window.location.href = 'main.html';
         }
     });
