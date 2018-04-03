@@ -132,6 +132,7 @@ function getNews(attr) {
                 getComments(id, source);
             });
             logInfo("Newsfeed", "Finish Newsfeed");
+            sendOffline();
         }
     });
 }
@@ -171,6 +172,21 @@ function initOnScroll() {
     if (ab === false) {
         $(window).scroll(newsScrollHandler);
         ab = true;
+    }
+}
+
+function sendOffline() {
+    if (offlineMode == "enabled") {
+        logInfo("Offline", "Send Offline State");
+        var url = "https://api.vk.com/method/account.setOffline?access_token=" + token + "&v=5.73";
+        url = craftURL(url);
+        $.ajax({
+            url: url,
+            success: function (response) {
+                var result = JSON.parse(response);
+                logInfo("Offline", "Offline send OK - " + response);
+            }
+        });
     }
 }
 

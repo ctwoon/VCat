@@ -8,6 +8,15 @@ if (!theme) {
     setItem('config_theme', 'assets/themes/darkMaterial.css');
     theme = 'assets/themes/darkMaterial.css';
 }
+
+var offlineMode = getItem('app_offline');
+if (!offlineMode) {
+    setItem('app_offline', 'disabled');
+    offlineMode = 'disabled';
+    logInfo("Config", "Offline mode not set! Setting to disabled");
+} else {
+    logInfo("Config", "Offline mode is available - "+offlineMode);
+}
 logInfo("ThemeEngine", "Loading theme "+theme);
 themes_loadTheme(theme);
 

@@ -42,6 +42,7 @@ $(".navPage").click(function() {
 
 $(".navConfig").click(function() {
   switchToPage('.navConfig', 'itemConfig.html');
+  getThemesInConfig();
 });
 
 $(".navAbout").click(function() {
@@ -65,6 +66,15 @@ $(".navMsg").click(function() {
 
 $(".navDebug").click(function() {
   switchToPage('.navDebug', 'itemDebug.html');
+});
+
+$(".navAppConfig").click(function() {
+    removeFocus();
+    removeScrollFocus();
+    removeDiscoverScrollFocus();
+    addFocus(".navAppConfig");
+    $(".cardContainer").html("");
+    getSettings();
 });
 
 $(".logoutButton").click(function() {

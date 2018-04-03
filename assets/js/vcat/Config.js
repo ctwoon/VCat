@@ -10,10 +10,10 @@ function getThemesInConfig() {
             }
             $(".themePlace").append(
                 "<div vcat-themePath=\"" + value['themePath'] + "\" class=\"card cardDecor semi-transparent themeSwitch message messageBorder\">\n" +
-                " <div class=\"card-body\">\n" +
-                " <p class=\"card-text\">\n" +
+                " <div class=\"card-body messagePadding\">\n" +
+                " <h5 class=\"card-text noPadding smallTitle\">\n" +
                 value['themeName'] + isApply +
-                " </p>\n" +
+                " </h5>\n" +
                 " <p class=\"card-text\">\n" +
                 value['themeDescription'] +
                 " </p>\n" +
@@ -50,5 +50,57 @@ function getThemesInConfig() {
         });
 
         logInfo("Config", "Finish Themes");
+    });
+}
+
+function getSettings() {
+    $('.htmlContainer').html("<div class='cardContainer'></div>");
+    var cfg1 = "отключено";
+    var cfg1a = true;
+    if (offlineMode == "enabled") {
+        cfg1 = 'включено';
+        cfg1a = false;
+    }
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configOffline">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">Оффлайн-режим ('+cfg1+')</h5>\n' +
+        '        <p class="card-text">Включает режим "вне сети". Это может не сработать в ряде случаев.</p>\n' +
+        '    </div>\n' +
+        '</div>');
+
+    //
+
+    $(".configOffline").click(function () {
+        var result = 'disabled';
+        if (cfg1a) {
+            result = "enabled";
+        }
+        setItem('app_offline', result);
+        logInfo("Config", "Set Offline to "+result);
+        offlineMode = result;
+        $('.htmlContainer').html("");
+        getSettings();
+    });
+
+}
+
+function requestReload() {
+    bootbox.confirm({
+        message: "Настройка установлена. Для применения изменений перезагрузите страницу.",
+        buttons: {
+            confirm: {
+                label: 'Перезагрузить',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'Позже',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                window.location.href = "main.html";
+            }
+        }
     });
 }
