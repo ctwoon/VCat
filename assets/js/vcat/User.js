@@ -8,7 +8,6 @@ function getUser(userID) {
         url: url,
         success: function( response ) {
           logInfo("User", "Got User JSON");
-          console.log(response);
             var result = JSON.parse(response);
             var name;
             $.each(result['response'],function(index, value){

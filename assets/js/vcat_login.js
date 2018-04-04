@@ -31,6 +31,7 @@ $(".loginButton").click(function() {
             if (request == 1) {
                 setItem("multi_acc_token", JSON.parse(data)['access_token']);
                 setItem("multi_acc_userid", JSON.parse(data)['user_id']);
+                setItem("multi_login_request", 0);
             } else {
                 setItem("authToken", JSON.parse(data)['access_token']);
                 setItem("userId", JSON.parse(data)['user_id']);

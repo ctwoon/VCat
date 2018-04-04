@@ -1,7 +1,9 @@
 // Show various debug messages in HTML (like sticker info)
 var debugInfo = true;
 
-logInfo("Main","Welcome to VCat 0.8.2!");
+const VCAT_VERSION = "0.8.3";
+
+logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
 
 var theme = getItem('config_theme');
