@@ -34,7 +34,6 @@ function getUser(userID) {
                     '        <h4 class="card-title noPadding smallTitle">Информация</h4>\n' +
                     '        <p class="card-text">День рождения: ' + value['bdate'] + '</p>\n' +
                     '        <p class="card-text">Пол: ' + sex + '</p>\n' +
-                    '        <p class="card-text">Место проживания: ' + value['city']['title'] + ', ' + value['country']['title'] + '</p>\n' +
                     '    </div>\n' +
                     '</div>');
                 name = value['first_name']+" "+value['last_name'];
@@ -133,7 +132,7 @@ function getUserWall(userID, uname) {
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
                             '        <p class="card-text smallText"> <i>' + date + '</i></p>\n' +
-                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['owner_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
+                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+userID+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<abbr class="commentCount" vcat-author="'+userID+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + ' </abbr>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
@@ -209,7 +208,7 @@ function getUserWall(userID, uname) {
                             '        <p class="card-text">' + text + '</p>\n' +
                             cardAttachments +
                             '        <p class="card-text smallText"> <i>' + date + '</i></p>\n' +
-                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['owner_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="message-square"></i> ' + value['comments']['count'] + ' &nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
+                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+userID+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<abbr class="commentCount" vcat-author="'+userID+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + ' </abbr>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
                             '    </div>\n' +
                             comment +
                             '</div>');
@@ -241,6 +240,11 @@ function getUserWall(userID, uname) {
                         this.textContent = this.textContent.replace($(this).text().toString(), $(this).text()-1);
                     });
                 }
+            });
+            $(".commentCount").click(function() {
+                var id = $(this).attr('vcat-postid');
+                var source = $(this).attr('vcat-author');
+                getComments(id, source);
             });
             logInfo("UserWall", "Finish UserWall");
         }

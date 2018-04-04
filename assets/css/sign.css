@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500&subset=cyrillic');
+
 * {
-  font-family: 'IBM Plex Sans', sans-serif !important;
+    font-family: 'Ubuntu', sans-serif !important;
 }
 
 p {
