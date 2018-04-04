@@ -26,7 +26,7 @@ function getGroups() {
 
 function getGroupInfo(groupID) {
     logInfo("GroupInfo", "Get GroupInfo");
-    var fields = "id,name,screen_name";
+    var fields = "id,name,screen_name,description";
     $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
     var url = "https://api.vk.com/method/groups.getById?group_ids="+groupID+"&fields="+fields+"&access_token="+token+"&v=5.73";
     url = craftURL(url);
@@ -34,6 +34,7 @@ function getGroupInfo(groupID) {
         url: url,
         success: function( response ) {
             logInfo("GroupInfo", "Got GroupInfo JSON");
+            console.log(response);
             var result = JSON.parse(response);
             $.each(result['response'],function(index, value){
                 var closedState;
@@ -52,6 +53,7 @@ function getGroupInfo(groupID) {
                 } else {
                     closedState = "частная "+groupType;
                 }
+                var description = value['description'].replace(/(?:\r\n|\r|\n)/g, '<br>');
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder userMainCard">\n' +
                     '    <div class="card-body messagePadding">\n' +
                     '        <h4 class="card-title noPadding">' + value['name'] + '</h4>\n' +
@@ -61,7 +63,7 @@ function getGroupInfo(groupID) {
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder userMainCard">\n' +
                     '    <div class="card-body messagePadding">\n' +
                     '        <h4 class="card-title noPadding smallTitle">Информация</h4>\n' +
-                    '        <p class="card-text">День рождения: ' + 0+ '</p>\n' +
+                    '        <p class="card-text">' + description + '</p>\n' +
                     '    </div>\n' +
                     '</div>');
             });

@@ -10,7 +10,6 @@ function getFriends() {
             $.each(result['response']['items'],function(index, value){
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder showUser" vcat-userid="'+value['id']+'">\n' +
                     '    <div class="card-body messagePadding">\n' +
-                    '        <img class="friendFloat " src="'+value['photo_100']+'">' +
                     '        <p class="card-text">' + value['first_name'] + ' ' + value['last_name'] + '</p>\n' +
                     '    </div>\n' +
                     '</div>');
