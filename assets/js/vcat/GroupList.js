@@ -34,7 +34,6 @@ function getGroupInfo(groupID) {
         url: url,
         success: function( response ) {
             logInfo("GroupInfo", "Got GroupInfo JSON");
-            console.log(response);
             var result = JSON.parse(response);
             $.each(result['response'],function(index, value){
                 var closedState;
@@ -66,6 +65,8 @@ function getGroupInfo(groupID) {
                     '        <p class="card-text">' + description + '</p>\n' +
                     '    </div>\n' +
                     '</div>');
+                var id = value['id'];
+                getUserWall(-id, value['name']);
             });
             feather.replace();
             $('.spinnerLoad').hide();
