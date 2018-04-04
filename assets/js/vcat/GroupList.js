@@ -17,7 +17,7 @@ function getGroups() {
             });
             feather.replace();
             $('.spinnerLoad').hide();
-            $(".showUser").click(function () {
+            $(".showGroup").click(function () {
                 /*logError($(this).attr('vcat-userid'));
                 getUser($(this).attr('vcat-userid'));*/
             });

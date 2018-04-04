@@ -28,9 +28,10 @@ function getThemesInConfig() {
         $(".themeSwitch").click(function () {
             var themePath = $(this).attr('vcat-themePath');
             setItem('config_theme', themePath);
+            themes_loadTheme(themePath);
             logInfo("Config", "Set Theme to "+themePath);
             bootbox.confirm({
-                message: "Тема установлена. Для применения изменений перезагрузите страницу.",
+                message: "Тема установлена. Рекомендуем перезагрузить страницу.",
                 buttons: {
                     confirm: {
                         label: 'Перезагрузить',

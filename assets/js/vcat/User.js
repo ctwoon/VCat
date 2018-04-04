@@ -49,7 +49,7 @@ function getUser(userID) {
 }
 
 function getCurrentUser() {
-    getUser(userID)
+    getUser(user_id);
 }
 
 function getUserWall(userID, uname) {
