@@ -11,7 +11,7 @@ var key2;
 var isInMessages = false;
 
 function initPoll(server, ts, pts ,key) {
-    serverURL = server+"?act=a_check&key="+key+"&ts="+ts+"&wait=25&mode=2&version=2";
+    serverURL = "https://"+server+"?act=a_check&key="+key+"&ts="+ts+"&wait=25&mode=2&version=2";
     serverURL = craftURL(serverURL);
     server2 = server;
     ts2 = ts;
@@ -65,7 +65,8 @@ function poll(){
 };
 
 function getLongpollData() {
-    var url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=3', VK_SDK_VERSION);
+    var url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=3', '5.74');
+    console.log(url);
     logInfo("EditMessage", "Get LongPoll");
     $.ajax({
         url: url,

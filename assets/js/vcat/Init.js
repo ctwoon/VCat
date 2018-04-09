@@ -1,6 +1,5 @@
 // Show various debug messages in HTML (like sticker info)
 var debugInfo = true;
-
 const VCAT_VERSION = "0.8.4";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
@@ -67,3 +66,8 @@ function craftURL(url) {
   }
   return url;
 }
+
+function craftMethodURL(methodType, methodName, methodParams, apiVersion) {
+    return craftURL('https://api.vk.com/method/'+methodType+'.'+methodName+'?access_token='+token+'&'+methodParams+'&v='+apiVersion);
+}
+getLongpollData();

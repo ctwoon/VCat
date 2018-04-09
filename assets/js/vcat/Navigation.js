@@ -23,6 +23,7 @@ function switchToPage(dom, html) {
   removeDiscoverScrollFocus();
   addFocus(dom);
   insertHTML('items/'+html);
+  isInMessages = false;
 };
 
 $(".navHome").click(function() {

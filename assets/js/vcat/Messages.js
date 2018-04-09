@@ -19,6 +19,7 @@ function getMessageDialogs() {
                         debugInfo2 = "<p></p>";
                     }
                      name = value['message']['title'] + " " + isGroup;
+                    currentChatID = parseInt(value['message']['chat_id']);
                      dialogID = parseInt(value['message']['chat_id']) + 2000000000;
                      $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
                      '    <div class="card-body messagePadding">\n' +
@@ -74,7 +75,6 @@ function getMessages(dialogID, uname, isGroup) {
             logInfo("Dialog", "Got Dialog JSON");
             var result = JSON.parse(response);
             result['response']['items'].reverse();
-            var groupUsers;
             if (isGroup) {
                 groupUsers = getGroupUsers(dialogID);
             }
@@ -169,6 +169,8 @@ function getMessages(dialogID, uname, isGroup) {
             setTimeout(function () {
                 jump("endOfDialog");
             }, 500);
+            isInMessages = true;
+            poll();
             $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
                 '    <div class="card-body messagePadding">\n' +
                 '<div class="input-group">' +
