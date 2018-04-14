@@ -17,81 +17,7 @@ function getNews(attr) {
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
-                        var cardAttachments = '<p class="card-text">';
-                        $.each(value['attachments'], function (index, value) {
-                            var type = value['type'];
-                            //cardAttachments += '<p>Attachment Type: '+type+'</p>';
-                            switch (type) {
-                                case 'link':
-                                    cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
-                                    break;
-                                case 'photo':
-                                    cardAttachments += '<p><img src="' + value['photo']['photo_604'] + '"></p>';
-                                    break;
-                                case 'doc':
-                                    if (value['doc']['ext'] === "gif") {
-                                        cardAttachments += '<p><img src="' + value['doc']['url'] + '"></p>';
-                                        break;
-                                    }
-                                    var size = value['doc']['size'] / 1000 / 1000;
-                                    size = size.toFixed(2);
-                                    cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: '+size+'MB)</a></p>';
-                                    break;
-                                case 'poll':
-                                    cardAttachments += '<p>Голосование: '+value['poll']['question']+' ('+value['poll']['votes']+' голосов)</p>';
-                                    $.each(value['poll']['answers'],function(index, value) {
-                                        cardAttachments += '<p>- '+value['text']+' ('+value['votes']+' голосов) ['+value['rate']+'%]</p>';
-                                    });
-                                    break;
-                                case 'audio':
-                                    var durMin = Math.floor(value['audio']['duration'] / 60);
-                                    var durSec = value['audio']['duration'] - durMin*60;
-                                    cardAttachments += '<p>Аудиозапись: '+value['audio']['title']+' от '+value['audio']['artist']+' ['+durMin+':'+durSec+']</p>';
-                                break;
-                                case 'video':
-                                    var durMin = Math.floor(value['video']['duration'] / 60);
-                                    var durSec = value['video']['duration'] - durMin*60;
-                                    cardAttachments += '<p>Видеозапись: '+value['video']['title']+' (ID: '+value['video']['id']+') ['+durMin+':'+durSec+']</p>';
-                                    break;
-                                default:
-                                    cardAttachments += '<p>Неподдерживаемый тип вложения: '+type+'</p>';
-                                    break;
-                            }
-                            //cardAttachments += '<p>===</p>';
-                        });
-                        cardAttachments += '</p>';
-                        var b = getGroupID(Math.abs(value['source_id']), result['response']);
-                        var text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
-                        var comment = "";
-                        if (value.hasOwnProperty('activity')) {
-                            if (value['activity']['type'] === "comment") {
-                                comment = '<p class="card-text comment">Последний комментарий: ' + value['activity']['comment']['text'] + '</p>\n'
-                            }
-                        }
-                        var views = value['views']['count'];
-                        if (views > 1000) {
-                            views = views / 1000;
-                            views = views.toFixed(1);
-                            views = views + "K";
-                        }
-                        var date = timestampToTime(value['date']);
-                        var isLikedClass="";
-                        var isLiked="false";
-                        if (value['likes']['user_likes'] == 1) {
-                            isLikedClass="text-danger";
-                            isLiked=true;
-                        }
-                        var itemID = value['post_id'];
-                        $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
-                            '    <div class="card-body messagePadding">\n' +
-                            '        <h5 class="card-title noPadding smallTitle">' + b + '</h5>\n' +
-                            '        <p class="card-text">' + text + '</p>\n' +
-                            cardAttachments +
-                            '        <p class="card-text smallText"> <i>' + date + '</i></p>\n' +
-                            '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<abbr class="commentCount" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
-                            '    </div>\n' +
-                            comment +
-                            '</div>');
+                        parseNewsfeed(value, result);
                     }
                 }
             });
@@ -150,6 +76,91 @@ function likePost(id, source) {
             //insertHTML('itemMain.html');
         }
     });
+}
+
+function parseNewsfeed(value, result) {
+    var cardAttachments = '<p class="card-text">';
+    var emptyAttachments = true;
+    $.each(value['attachments'], function (index, value) {
+        var type = value['type'];
+        emptyAttachments = false;
+        //cardAttachments += '<p>Attachment Type: '+type+'</p>';
+        switch (type) {
+            case 'link':
+                cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
+                break;
+            case 'photo':
+                cardAttachments += '<p><img src="' + value['photo']['photo_604'] + '"></p>';
+                break;
+            case 'doc':
+                if (value['doc']['ext'] === "gif") {
+                    cardAttachments += '<p><img src="' + value['doc']['url'] + '"></p>';
+                    break;
+                }
+                var size = value['doc']['size'] / 1000 / 1000;
+                size = size.toFixed(2);
+                cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: '+size+'MB)</a></p>';
+                break;
+            case 'poll':
+                cardAttachments += '<p>Голосование: '+value['poll']['question']+' ('+value['poll']['votes']+' голосов)</p>';
+                $.each(value['poll']['answers'],function(index, value) {
+                    cardAttachments += '<p>- '+value['text']+' ('+value['votes']+' голосов) ['+value['rate']+'%]</p>';
+                });
+                break;
+            case 'audio':
+                var durMin = Math.floor(value['audio']['duration'] / 60);
+                var durSec = value['audio']['duration'] - durMin*60;
+                cardAttachments += '<p>Аудиозапись: '+value['audio']['title']+' от '+value['audio']['artist']+' ['+durMin+':'+durSec+']</p>';
+                break;
+            case 'video':
+                var durMin = Math.floor(value['video']['duration'] / 60);
+                var durSec = value['video']['duration'] - durMin*60;
+                cardAttachments += '<p>Видеозапись: '+value['video']['title']+' (ID: '+value['video']['id']+') ['+durMin+':'+durSec+']</p>';
+                break;
+            default:
+                cardAttachments += '<p>Неподдерживаемый тип вложения: '+type+'</p>';
+                break;
+        }
+        //cardAttachments += '<p>===</p>';
+    });
+    cardAttachments += '</p>';
+    var b = getGroupID(Math.abs(value['source_id']), result['response']);
+    var text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
+    if (emptyAttachments) {
+        if (enlargeText == "enabled") {
+            text = "<span class='vk5-largeText'>" + text + "</span>";
+        }
+    }
+    var comment = "";
+    if (value.hasOwnProperty('activity')) {
+        if (value['activity']['type'] === "comment") {
+            comment = '<p class="card-text comment">Последний комментарий: ' + value['activity']['comment']['text'] + '</p>\n'
+        }
+    }
+    var views = value['views']['count'];
+    if (views > 1000) {
+        views = views / 1000;
+        views = views.toFixed(1);
+        views = views + "K";
+    }
+    var date = timestampToTime(value['date']);
+    var isLikedClass="";
+    var isLiked="false";
+    if (value['likes']['user_likes'] == 1) {
+        isLikedClass="text-danger";
+        isLiked=true;
+    }
+    var itemID = value['post_id'];
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">' + b + '</h5>\n' +
+        '        <p class="card-text">' + text + '</p>\n' +
+        cardAttachments +
+        '        <p class="card-text smallText"> <i>' + date + '</i></p>\n' +
+        '        <p class="card-text"><abbr class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<abbr class="commentCount" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + '</abbr>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '\n' +
+        '    </div>\n' +
+        comment +
+        '</div>');
 }
 
 function unlikePost(id, source) {

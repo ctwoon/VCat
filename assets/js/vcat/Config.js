@@ -1,3 +1,22 @@
+function initConfig() {
+    offlineMode = getItem('app_offline');
+    enlargeText = getItem('app_vk5post');
+    if (!offlineMode) {
+        setItem('app_offline', 'disabled');
+        offlineMode = 'disabled';
+        logInfo("Config", "Offline mode not set! Setting to disabled");
+    } else {
+        logInfo("Config", "Offline mode is available - "+offlineMode);
+    }
+    if (!enlargeText) {
+        setItem('app_vk5post', 'disabled');
+        enlargeText = 'disabled';
+        logInfo("Config", "Enlarge text mode not set! Setting to disabled");
+    } else {
+        logInfo("Config", "Enlarge text mode is available - "+enlargeText);
+    }
+}
+
 function getThemesInConfig() {
   logInfo("Config", "Get Themes");
     $.getJSON("assets/themes.json", function (json) {
@@ -57,32 +76,44 @@ function getThemesInConfig() {
 function getSettings() {
     $('.htmlContainer').html("<div class='cardContainer'></div>");
     var cfg1 = "отключено";
-    var cfg1a = true;
+    var cfg1a = 'enabled';
     if (offlineMode == "enabled") {
         cfg1 = 'включено';
-        cfg1a = false;
+        cfg1a = 'disabled';
     }
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configOffline">\n' +
+    var cfg2 = "отключено";
+    var cfg2a = 'enabled';
+    if (enlargeText == "enabled") {
+        cfg2 = 'включено';
+        cfg2a = 'disabled';
+    }
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_offline" vcat-shouldon="'+cfg1a+'">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Оффлайн-режим ('+cfg1+')</h5>\n' +
         '        <p class="card-text">Включает режим "вне сети". Это может не сработать в ряде случаев.</p>\n' +
         '    </div>\n' +
         '</div>');
-
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_vk5post" vcat-shouldon="'+cfg2a+'">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">Увеличение текста ('+cfg2+')</h5>\n' +
+        '        <p class="card-text">Увеличение текста в ленте новостей, если в нем нет вложений.</p>\n' +
+        '    </div>\n' +
+        '</div>');
     //
 
-    $(".configOffline").click(function () {
-        var result = 'disabled';
-        if (cfg1a) {
-            result = "enabled";
-        }
-        setItem('app_offline', result);
-        logInfo("Config", "Set Offline to "+result);
-        offlineMode = result;
-        $('.htmlContainer').html("");
-        getSettings();
+    $(".configSet").click(function () {
+        setConfig($(this).attr('vcat-shouldon'), $(this).attr('vcat-config'));
     });
 
+}
+
+function setConfig(check, key) {
+    console.log(check);
+    setItem(key, check);
+    logInfo("Config", "Set "+key+" to "+check);
+    initConfig();
+    $('.htmlContainer').html("");
+    getSettings();
 }
 
 function requestReload() {

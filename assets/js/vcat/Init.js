@@ -12,13 +12,8 @@ if (!theme) {
 }
 
 var offlineMode = getItem('app_offline');
-if (!offlineMode) {
-    setItem('app_offline', 'disabled');
-    offlineMode = 'disabled';
-    logInfo("Config", "Offline mode not set! Setting to disabled");
-} else {
-    logInfo("Config", "Offline mode is available - "+offlineMode);
-}
+var enlargeText = getItem('app_vk5post');
+initConfig();
 
 var accountSlot = getItem('multi_slot');
 if (!accountSlot) {
