@@ -27,7 +27,7 @@ function poll(){
                 console.log(data);
                 ts2 = data['ts'];
                 serverURL = server2 + "?act=a_check&key=" + key2 + "&ts=" + ts2 + "&wait=25&mode=2&version=2";
-                serverURL = craftURL(serverURL);
+                serverURL = craftPollURL(serverURL);
                 // go work
                 $.each(data['updates'], function (index, value) {
                     switch (value[0]) {
@@ -51,11 +51,11 @@ function poll(){
                             }
                             break;
                         case 62:
-                            var userID = value[1];
+                           /* var userID = value[1];
                             var chat_id = value[2];
                             if (chat_id == chatID) {
                                 $(".msgStatus").html(getGroupUsername2(userID, groupUsers)+" набирает...")
-                            }
+                            }*/
                             break;
                     }
                 });

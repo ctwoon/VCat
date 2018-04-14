@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500&subset=cyrillic');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&subset=cyrillic');
 
 * {
-    font-family: 'Ubuntu', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .padding {

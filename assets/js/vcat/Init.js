@@ -67,6 +67,10 @@ function craftURL(url) {
   return url;
 }
 
+function craftPollURL(url) {
+    return craftURL("https://"+url);
+}
+
 function craftMethodURL(methodType, methodName, methodParams, apiVersion) {
     return craftURL('https://api.vk.com/method/'+methodType+'.'+methodName+'?access_token='+token+'&'+methodParams+'&v='+apiVersion);
 }
