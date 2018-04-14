@@ -19,7 +19,6 @@ function getMessageDialogs() {
                         debugInfo2 = "<p></p>";
                     }
                      name = value['message']['title'] + " " + isGroup;
-                    currentChatID = parseInt(value['message']['chat_id']);
                      dialogID = parseInt(value['message']['chat_id']) + 2000000000;
                      $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
                      '    <div class="card-body messagePadding">\n' +
@@ -53,6 +52,17 @@ function getMessageDialogs() {
     });
 }
 
+function getGroupUsername2(userID, json) {
+    var result;
+    $.each(json['response'],function(index, value){
+        if (value['id'] == userID) {
+            result = value['first_name'] + " " + value['last_name'];
+            return false;
+        }
+    });
+    return result;
+}
+
 function getMessageDialogTitle(source_id, json) {
     var result;
     $.each(json['p'], function (index, value) {
@@ -74,6 +84,7 @@ function getMessages(dialogID, uname, isGroup) {
         success: function (response) {
             logInfo("Dialog", "Got Dialog JSON");
             var result = JSON.parse(response);
+            currentChatID = dialogID;
             result['response']['items'].reverse();
             if (isGroup) {
                 groupUsers = getGroupUsers(dialogID);
@@ -162,16 +173,15 @@ function getMessages(dialogID, uname, isGroup) {
                         '</div>');
                 }
             });
-            $('.cardContainer').append('<a id="endOfDialog"></a>');
             feather.replace();
             $('.spinnerLoad').hide();
             logInfo("Dialog", "Finish Dialog");
             setTimeout(function () {
-                jump("endOfDialog");
+                jumpToEnd();
             }, 500);
             isInMessages = true;
             poll();
-            $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
+            $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
                 '    <div class="card-body messagePadding">\n' +
                 '<div class="input-group">' +
                 '<input type="text" class="form-control writeBoxText bg-dark" placeholder="Сообщение">' +

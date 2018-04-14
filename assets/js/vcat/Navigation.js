@@ -1,10 +1,8 @@
 switchToPage('.navHome', 'itemSpinner.html');
 getNews();
 
-function jump(h) {
-    var url = location.href;
-    location.href = "#"+h;
-    history.replaceState(null,null,url);
+function jumpToEnd() {
+    $(document).scrollTop(Math.abs($('.cardContainer').height()));
 };
 
 function removeScrollFocus() {

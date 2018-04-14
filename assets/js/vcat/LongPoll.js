@@ -19,6 +19,8 @@ function initPoll(server, ts, pts ,key) {
     poll();
 }
 
+var pollBuffer;
+
 function poll(){
     if (isInMessages) {
         console.log("LongPoll request");
@@ -36,17 +38,21 @@ function poll(){
                                 // we are in current chat, add message
                                 if (isInMessages) {
                                     // additional check because no AJAX aborting
-                                    var id = value[6]['from'];
-                                    var name = getGroupUsername2(id, groupUsers);
-                                    $('.cardContainer').append('<li class="mdl-list__item noPadding"><span class="mdl-list__item-primary-content"><div class="mdl-card fullWidth">\n' +
-                                        '       <div class="mdl-card__title"><h2 class="mdl-card__title-text">' + name + '</h2></div>' +
-                                        '        <div class="mdl-card__supporting-text"><p>' + value[5] +  '</p>\n' +
-                                        '        <p class="card-text smallText"> <i>(' + timestampToTime(value[4]) + '), Using Longpoll</i></p>\n' +
-                                        '</div></div></span></li>');
-                                    $('.cardContainer').append('<a id="endOfDialog"></a>');
-                                    setTimeout(function () {
-                                        jump("endOfDialog");
-                                    }, 500);
+                                    if (value[5] !== pollBuffer) {
+                                        var id = value[6]['from'];
+                                        var name = getGroupUsername2(id, groupUsers);
+                                        $('.writeBoxWrap').before('<div class="card cardDecor semi-transparent message messageBorder">\n' +
+                                            '    <div class="card-body messagePadding">\n' +
+                                            '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
+                                            '        <p class="card-text">' + value[5] + '</p>\n' +
+                                            '        <p class="card-text smallText"> <i>(' + timestampToTime(value[4]) + '), получено через Longpoll</i></p>\n' +
+                                            '    </div>\n' +
+                                            '</div>');
+                                        setTimeout(function () {
+                                            jumpToEnd();
+                                        }, 500);
+                                        pollBuffer = value[5];
+                                    }
                                 }
                             }
                             break;

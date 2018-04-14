@@ -204,7 +204,7 @@ function sendOffline() {
 function newsScrollHandler() {
     if ($(window).scrollTop() + $(window).height() > $(document).height() - 150) {
         removeScrollFocus();
-        getNews($('.cardContainer').attr('vcat-next'));
+            getNews($('.cardContainer').attr('vcat-next'));
     }
 }
 
