@@ -219,6 +219,10 @@ p {
     cursor: pointer;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 /* Widgets */
 .widget {
     margin-bottom: 10px;
