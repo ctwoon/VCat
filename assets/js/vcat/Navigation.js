@@ -41,15 +41,6 @@ $(".navPage").click(function() {
     getCurrentUser();
 });
 
-$(".navConfig").click(function() {
-  switchToPage('.navConfig', 'itemConfig.html');
-  getThemesInConfig();
-});
-
-$(".navAbout").click(function() {
-  switchToPage('.navAbout', 'itemAbout.html');
-});
-
 $(".navFriends").click(function() {
   switchToPage('.navFriends', 'itemSpinner.html');
   getFriends();

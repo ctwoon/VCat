@@ -18,6 +18,15 @@ function initConfig() {
 }
 
 function getThemesInConfig() {
+    $(".themePlace").append(
+        "<div class=\"card cardDecor semi-transparent back message messageBorder\">\n" +
+        " <div class=\"card-body messagePadding\">\n" +
+        " <h5 class=\"card-text noPadding smallTitle\">\n" +
+        "&lt; Назад" +
+        " </h5>\n" +
+        " </div>\n" +
+        " </div>"
+    );
   logInfo("Config", "Get Themes");
     $.getJSON("assets/themes.json", function (json) {
         var currentTheme = getItem('config_theme');
@@ -28,7 +37,7 @@ function getThemesInConfig() {
                 isApply = " (установлено)";
             }
             $(".themePlace").append(
-                "<div vcat-themePath=\"" + value['themePath'] + "\" class=\"card cardDecor semi-transparent themeSwitch message messageBorder\">\n" +
+                "<div vcat-themePath=\"" + value['themePath'] + "\" vcat-themeName=\"" + value['themeName'] + "\" class=\"card cardDecor semi-transparent themeSwitch message messageBorder\">\n" +
                 " <div class=\"card-body messagePadding\">\n" +
                 " <h5 class=\"card-text noPadding smallTitle\">\n" +
                 value['themeName'] + isApply +
@@ -41,12 +50,14 @@ function getThemesInConfig() {
                 " </i></p>\n" +
                 " </div>\n" +
                 " </div>"
-            )
+            );
         });
 
         $(".themeSwitch").click(function () {
             var themePath = $(this).attr('vcat-themePath');
+            var themeName = $(this).attr('vcat-themeName');
             setItem('config_theme', themePath);
+            setItem('config_theme_name', themeName);
             themes_loadTheme(themePath);
             logInfo("Config", "Set Theme to "+themePath);
             bootbox.confirm({
@@ -69,6 +80,10 @@ function getThemesInConfig() {
             });
         });
 
+        $(".back").click(function () {
+            getSettings();
+        });
+
         logInfo("Config", "Finish Themes");
     });
 }
@@ -87,6 +102,12 @@ function getSettings() {
         cfg2 = 'включено';
         cfg2a = 'disabled';
     }
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder themes">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">Выбор темы</h5>\n' +
+        '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
+        '    </div>\n' +
+        '</div>');
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_offline" vcat-shouldon="'+cfg1a+'">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Оффлайн-режим ('+cfg1+')</h5>\n' +
@@ -99,12 +120,28 @@ function getSettings() {
         '        <p class="card-text">Увеличение текста в ленте новостей, если в нем нет вложений.</p>\n' +
         '    </div>\n' +
         '</div>');
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder about">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">О VCat</h5>\n' +
+        '        <p class="card-text">Текущая версия: '+VCAT_VERSION+'</p>\n' +
+        '    </div>\n' +
+        '</div>');
     //
 
     $(".configSet").click(function () {
         setConfig($(this).attr('vcat-shouldon'), $(this).attr('vcat-config'));
     });
-
+    $(".themes").click(function () {
+        $('.htmlContainer').html("<div class='themePlace'></div>");
+        getThemesInConfig();
+    });
+    $(".about").click(function () {
+        switchToPage('.navAppConfig', 'itemAbout.html');
+        getThemesInConfig();
+        $(".back").click(function () {
+            getSettings();
+        });
+    });
 }
 
 function setConfig(check, key) {

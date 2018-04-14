@@ -1,13 +1,13 @@
-// Show various debug messages in HTML (like sticker info)
 var debugInfo = true;
-const VCAT_VERSION = "0.8.4";
+const VCAT_VERSION = "0.8.5";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
-
 var theme = getItem('config_theme');
+var themeName = getItem('config_theme_name');
 if (!theme) {
     setItem('config_theme', 'assets/themes/darkMaterial.css');
+    setItem('config_theme_name', 'Material Dark');
     theme = 'assets/themes/darkMaterial.css';
 }
 
