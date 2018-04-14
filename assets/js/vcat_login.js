@@ -1,4 +1,5 @@
 var useProxy = true;
+var proxyURL = "http://vcatclient.000webhostapp.com/proxy.php";
 
 function setItem(key,value) {
     localStorage.setItem(key, value);

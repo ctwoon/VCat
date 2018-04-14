@@ -3,6 +3,7 @@ function initConfig() {
     enlargeText = getItem('app_vk5post');
     allowLongpoll = getItem('app_longpoll');
     useProxy = getItem('app_useproxy');
+    proxyURL = getItem('app_proxyurl');
     if (!offlineMode) {
         setItem('app_offline', 'disabled');
         offlineMode = 'disabled';
@@ -13,11 +14,15 @@ function initConfig() {
     }
     if (!allowLongpoll) {
         setItem('app_longpoll', 'enabled');
-        allowLongpoll = 'disabled';
+        allowLongpoll = 'enabled';
     }
     if (!useProxy) {
-        setItem('app_useproxy', 'enabled');
+        setItem('app_useproxy', 'disabled');
         useProxy = 'disabled';
+    }
+    if (!proxyURL) {
+        setItem('app_proxyurl', 'http://vcatclient.000webhostapp.com/proxy.php');
+        proxyURL = 'http://vcatclient.000webhostapp.com/proxy.php';
     }
 }
 
@@ -118,40 +123,47 @@ function getSettings() {
         cfg4 = 'включено';
         cfg4a = 'disabled';
     }
-    addSCategory('Персонализация');
+    themeName = getItem("config_theme_name");
+    addSCategory('Интерфейс');
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder themes">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Темы</h5>\n' +
         '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
         '    </div>\n' +
         '</div>');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_offline" vcat-shouldon="'+cfg1a+'">\n' +
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_offline" vcat-shouldon="'+cfg1a+'">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Оффлайн-режим ('+cfg1+')</h5>\n' +
         '        <p class="card-text">Включает режим "вне сети". Это может не сработать в ряде случаев.</p>\n' +
         '    </div>\n' +
         '</div>');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_vk5post" vcat-shouldon="'+cfg2a+'">\n' +
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_vk5post" vcat-shouldon="'+cfg2a+'">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Увеличение текста ('+cfg2+')</h5>\n' +
         '        <p class="card-text">Увеличение текста в ленте новостей, если в нем нет вложений.</p>\n' +
         '    </div>\n' +
         '</div>');
     addSCategory('Основное');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_longpoll" vcat-shouldon="'+cfg3a+'">\n' +
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_longpoll" vcat-shouldon="'+cfg3a+'">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Использовать Longpoll ('+cfg3+')</h5>\n' +
         '        <p class="card-text">Динамическое обновление сообщений. Отключите для повышения стабильности.</p>\n' +
         '    </div>\n' +
         '</div>');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_useproxy" vcat-shouldon="'+cfg4a+'">\n' +
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_useproxy" vcat-shouldon="'+cfg4a+'">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Удаленный прокси ('+cfg4+')</h5>\n' +
         '        <p class="card-text">Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.</p>\n' +
         '    </div>\n' +
         '</div>');
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSetProxyURL pointer">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">URL удаленного прокси</h5>\n' +
+        '        <p class="card-text">Используется: '+proxyURL+'</p>\n' +
+        '    </div>\n' +
+        '</div>');
     addSCategory('Информация');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder about">\n' +
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder about pointer">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">О VCat</h5>\n' +
         '        <p class="card-text">Текущая версия: '+VCAT_VERSION+'</p>\n' +
@@ -161,6 +173,10 @@ function getSettings() {
 
     $(".configSet").click(function () {
         setConfig($(this).attr('vcat-shouldon'), $(this).attr('vcat-config'));
+    });
+    $(".configSetProxyURL").click(function () {
+        var a = prompt("URL прокси:", proxyURL);
+        setConfig(a, "app_proxyurl");
     });
     $(".themes").click(function () {
         $('.htmlContainer').html("<div class='themePlace'></div>");
@@ -184,7 +200,6 @@ function addSCategory(categoryName) {
 }
 
 function setConfig(check, key) {
-    console.log(check);
     setItem(key, check);
     logInfo("Config", "Set "+key+" to "+check);
     initConfig();

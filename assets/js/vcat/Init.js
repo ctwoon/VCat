@@ -1,5 +1,5 @@
 var debugInfo = true;
-const VCAT_VERSION = "0.9";
+const VCAT_VERSION = "0.9.1";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
@@ -13,6 +13,7 @@ if (!theme) {
 
 var offlineMode = getItem('app_offline');
 var enlargeText = getItem('app_vk5post');
+var proxyURL = getItem('app_proxyurl');
 var allowLongpoll = getItem('app_longpoll');
 var useProxy = getItem('app_useproxy');
 var slotUI = 2;
@@ -32,6 +33,10 @@ if (accountSlot == 2) {
 } else {
     token = getItem("authToken");
     user_id = getItem("userId");
+}
+
+if (!token) {
+    window.location.href = "index.html";
 }
 $('.navSwitchAccount').html("К аккаунту "+slotUI);
 $('.navSwitchAccountPC').html("<i data-feather=\"user-plus\"></i>К аккаунту "+slotUI);
