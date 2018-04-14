@@ -10,6 +10,7 @@ function getMusic() {
         url: url,
         success: function( response ) {
             $('.spinnerLoad').hide();
+            console.log(result);
             logInfo("Music", "Got audio list");
             var result = JSON.parse(response);
             $.each(result['response']['audios']['' + 'items'], function (index, value) {
@@ -30,7 +31,6 @@ function getMusic() {
             $('.audio').click(function() {
                 window.open($(this).attr('vcat-audiourl'));
             });
-            console.log(result);
         }
     });
 }
