@@ -155,7 +155,7 @@ function getMessages(dialogID, uname, isGroup) {
                         '    <div class="card-body messagePadding">\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
-                        '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: ' + isSeen + '</i></p>\n' +
+                        '        <p class="card-text smallText"><i>(' + time + ')</i></p>\n' +
                         '    <div class="btn-zone">\n' +
                         '    <button type="button" class="btn btn-transparent editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Редактировать</button>\n' +
                         '    <button type="button" class="btn btn-transparent removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Удалить</button>\n' +

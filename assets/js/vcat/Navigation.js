@@ -34,6 +34,11 @@ $(".navDiscover").click(function() {
     getDiscover();
 });
 
+$(".navMusic").click(function() {
+    switchToPage('.navMusic', 'itemSpinner.html');
+    getMusic();
+});
+
 $(".navPage").click(function() {
     switchToPage('.navPage', 'itemSpinner.html');
     getCurrentUser();
