@@ -150,6 +150,9 @@ function parseNewsfeed(value, result) {
         isLikedClass="text-danger";
         isLiked=true;
     }
+    if (typeof b === "undefined") {
+        b = "";
+    }
     var itemID = value['post_id'];
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
         '    <div class="card-body messagePadding">\n' +

@@ -39,6 +39,7 @@ function poll(){
                                 if (isInMessages) {
                                     // additional check because no AJAX aborting
                                     if (value[5] !== pollBuffer) {
+                                        // fix for duplicating messages
                                         var id = value[6]['from'];
                                         var name = getGroupUsername2(id, groupUsers);
                                         $('.writeBoxWrap').before('<div class="card cardDecor semi-transparent message messageBorder">\n' +
@@ -77,6 +78,7 @@ function getLongpollData() {
     $.ajax({
         url: url,
         success: function (response) {
+            console.log(response);
             var result = JSON.parse(response);
             initPoll(result['response']['server'], result['response']['ts'], result['response']['pts'], result['response']['key'])
         }

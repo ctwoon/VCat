@@ -197,5 +197,19 @@ p {
 .navbar-brand {
     box-shadow: none;
     padding-bottom: 0;
-    padding-top: 0.5rem;
+    padding-top: 0;
+    background: transparent;
+}
+
+.paddingLeft {
+    padding-left: 30px;
+}
+
+.paddingRight {
+    padding-right: 30px;
+}
+
+/* Widgets */
+.widget {
+    margin-bottom: 10px;
 }

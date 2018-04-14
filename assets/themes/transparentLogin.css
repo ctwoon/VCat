@@ -1,6 +1,8 @@
 /** Body background */
 body {
   background: url("../img/bg1.jpg");
+  background-position: bottom left;
+    background-attachment: fixed;
 }
 
 ::placeholder {
