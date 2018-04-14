@@ -1,19 +1,23 @@
 function initConfig() {
     offlineMode = getItem('app_offline');
     enlargeText = getItem('app_vk5post');
+    allowLongpoll = getItem('app_longpoll');
+    useProxy = getItem('app_useproxy');
     if (!offlineMode) {
         setItem('app_offline', 'disabled');
         offlineMode = 'disabled';
-        logInfo("Config", "Offline mode not set! Setting to disabled");
-    } else {
-        logInfo("Config", "Offline mode is available - "+offlineMode);
     }
     if (!enlargeText) {
         setItem('app_vk5post', 'disabled');
         enlargeText = 'disabled';
-        logInfo("Config", "Enlarge text mode not set! Setting to disabled");
-    } else {
-        logInfo("Config", "Enlarge text mode is available - "+enlargeText);
+    }
+    if (!allowLongpoll) {
+        setItem('app_longpoll', 'enabled');
+        allowLongpoll = 'disabled';
+    }
+    if (!useProxy) {
+        setItem('app_useproxy', 'enabled');
+        useProxy = 'disabled';
     }
 }
 
@@ -102,9 +106,22 @@ function getSettings() {
         cfg2 = 'включено';
         cfg2a = 'disabled';
     }
+    var cfg3 = "отключено";
+    var cfg3a = 'enabled';
+    if (allowLongpoll == "enabled") {
+        cfg3 = 'включено';
+        cfg3a = 'disabled';
+    }
+    var cfg4 = "отключено";
+    var cfg4a = 'enabled';
+    if (useProxy == "enabled") {
+        cfg4 = 'включено';
+        cfg4a = 'disabled';
+    }
+    addSCategory('Персонализация');
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder themes">\n' +
         '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">Выбор темы</h5>\n' +
+        '        <h5 class="card-title noPadding smallTitle">Темы</h5>\n' +
         '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
         '    </div>\n' +
         '</div>');
@@ -120,6 +137,20 @@ function getSettings() {
         '        <p class="card-text">Увеличение текста в ленте новостей, если в нем нет вложений.</p>\n' +
         '    </div>\n' +
         '</div>');
+    addSCategory('Основное');
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_longpoll" vcat-shouldon="'+cfg3a+'">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">Использовать Longpoll ('+cfg3+')</h5>\n' +
+        '        <p class="card-text">Динамическое обновление сообщений. Отключите для повышения стабильности.</p>\n' +
+        '    </div>\n' +
+        '</div>');
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet" vcat-config="app_useproxy" vcat-shouldon="'+cfg4a+'">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">Удаленный прокси ('+cfg4+')</h5>\n' +
+        '        <p class="card-text">Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.</p>\n' +
+        '    </div>\n' +
+        '</div>');
+    addSCategory('Информация');
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder about">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">О VCat</h5>\n' +
@@ -142,6 +173,14 @@ function getSettings() {
             getSettings();
         });
     });
+}
+
+function addSCategory(categoryName) {
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
+        '    <div class="card-body category">\n' +
+        '        <p class="card-text">'+categoryName+'</p>\n' +
+        '    </div>\n' +
+        '</div>');
 }
 
 function setConfig(check, key) {

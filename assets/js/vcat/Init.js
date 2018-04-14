@@ -13,6 +13,8 @@ if (!theme) {
 
 var offlineMode = getItem('app_offline');
 var enlargeText = getItem('app_vk5post');
+var allowLongpoll = getItem('app_longpoll');
+var useProxy = getItem('app_useproxy');
 initConfig();
 
 var accountSlot = getItem('multi_slot');
@@ -54,7 +56,7 @@ function themes_loadTheme(themeName) {
 }
 
 function craftURL(url) {
-  if (!useProxy) {
+  if (useProxy == "disabled") {
       url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
   } else {
       url = proxyURL + "?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");

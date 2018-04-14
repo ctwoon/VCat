@@ -209,6 +209,12 @@ p {
     padding-right: 30px;
 }
 
+.category {
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    padding-left: 0.8rem !important;
+}
+
 /* Widgets */
 .widget {
     margin-bottom: 10px;
