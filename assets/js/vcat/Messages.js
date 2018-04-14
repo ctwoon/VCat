@@ -219,12 +219,9 @@ function getGroupUsers(chatID) {
     var result1;
     $.ajax({
         url: url,
-        async:false,
+        async:true,
         success: function (response) {
-            var result = JSON.parse(response);
-            logInfo("ChatUsers", "Got ChatUsers JSON");
-            result1 = result;
-            logInfo("ChatUsers", "Finish ChatUsers");
+            result1 = false;
         }
     });
     return result1;

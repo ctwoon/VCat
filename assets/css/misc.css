@@ -215,6 +215,10 @@ p {
     padding-left: 0.8rem !important;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 /* Widgets */
 .widget {
     margin-bottom: 10px;

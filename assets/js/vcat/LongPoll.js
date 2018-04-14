@@ -29,7 +29,6 @@ function poll(){
             console.log("LongPoll request");
             $.ajax({
                 url: serverURL, success: function (data) {
-                    console.log(data);
                     ts2 = data['ts'];
                     serverURL = server2 + "?act=a_check&key=" + key2 + "&ts=" + ts2 + "&wait=25&mode=2&version=2";
                     serverURL = craftPollURL(serverURL);

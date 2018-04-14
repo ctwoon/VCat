@@ -15,6 +15,7 @@ var offlineMode = getItem('app_offline');
 var enlargeText = getItem('app_vk5post');
 var allowLongpoll = getItem('app_longpoll');
 var useProxy = getItem('app_useproxy');
+var slotUI = 2;
 initConfig();
 
 var accountSlot = getItem('multi_slot');
@@ -27,10 +28,13 @@ var user_id;
 if (accountSlot == 2) {
     token = getItem("multi_acc_token");
     user_id = getItem("multi_acc_userid");
+    slotUI = 1;
 } else {
     token = getItem("authToken");
     user_id = getItem("userId");
 }
+$('.navSwitchAccount').html("К аккаунту "+slotUI);
+$('.navSwitchAccountPC').html("<i data-feather=\"user-plus\"></i>К аккаунту "+slotUI);
 
 console.log('MultiAccount', 'Slot: '+accountSlot);
 var secondAccountID = getItem('multi_acc_userid');

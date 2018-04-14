@@ -159,7 +159,7 @@ function parseNewsfeed(value, result) {
         '        <h5 class="card-title noPadding smallTitle">' + b + '</h5>\n' +
         '        <p class="card-text">' + text + '</p>\n' +
         cardAttachments +
-        '        <p class="card-text"><span class="likeCount '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</span>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<span class="commentCount" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + '</span>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '&nbsp;&nbsp;&nbsp;<i data-feather="clock"></i> '+date+'\n' +
+        '        <p class="card-text"><span class="likeCount pointer '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</span>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<span class="commentCount" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + '</span>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '&nbsp;&nbsp;&nbsp;<i data-feather="clock"></i> '+date+'\n' +
         '    </div>\n' +
         comment +
         '</div>');
