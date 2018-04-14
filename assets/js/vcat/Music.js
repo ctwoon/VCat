@@ -1,3 +1,5 @@
+var musicToken = getItem('libvkmusic_token');
+
 function getMusic() {
     logInfo("Music", "Get Music");
     var url;
@@ -10,8 +12,8 @@ function getMusic() {
             $('.loading').hide();
             logInfo("Music", "Got audio list: "+response);
             var result = JSON.parse(response);
-            if (result['response']['playlists'] == false) {
-                logInfo("Music", "Error 25, requesting a token...");
+            if (!musicToken) {
+                logInfo("Music", "Requesting token...");
                 getToken();
             }
         }
@@ -23,7 +25,8 @@ function getToken() {
     $.ajax({
         url: url,
         success: function( response ) {
-            console.log(response);
+            console.log("Got token:" + response);
+            setItem('libvkmusic_token', response);
         }
     });
 }
