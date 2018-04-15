@@ -1,9 +1,26 @@
-function uiw_setTitle(data) {
-    $('.widgetTitleText').html(data);
+function uiw_setTitle(block, data) {
+    $('.widgetTitleText-'+block).html(data);
 }
 
-function uiw_setData(data) {
-    $('.widgetBodyHTML').html(data);
+function uiw_setData(block, data) {
+    $('.widgetBodyHTML-'+block).html(data);
 }
 
-widget.start();
+function uiw_addWidgetBlock(block) {
+    $('.widgetPlace').append('<ul class="nav flex-column widget-'+block+'">\n' +
+        '                    <li class="nav-item widgetTitle">\n' +
+        '                        <a class="nav-link" href="#">\n' +
+        '                            <i data-feather="grid"></i>\n' +
+        '                            <span class="widgetTitleText-'+block+'">\n' +
+        '                                Загрузка...\n' +
+        '                            </span>\n' +
+        '                        </a>\n' +
+        '                    </li>\n' +
+        '                    <li class="nav-item widgetBody">\n' +
+        '                        <span class="nav-link widgetBodyHTML-'+block+'">\n' +
+        '                            Загрузка...\n' +
+        '                        </span>\n' +
+        '                    </li>\n' +
+        '                </ul>');
+}
+

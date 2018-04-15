@@ -29,7 +29,7 @@
                     Новости
                 </a>
                 <a class="navDiscover dropdown-item" href="#">
-                    Рекомендации
+                    Популярное
                 </a>
                 <a class="navMsg dropdown-item" href="#">
                     Сообщения
@@ -55,7 +55,7 @@
 </nav>
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block sidebar semi-transparent paddingLeft" id="noscroll">
+        <nav class="col-md-2 d-none d-md-block sidebar semi-transparent" id="noscroll">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -124,30 +124,9 @@
         <main role="main" class="col-md-2 ml-sm-auto col-lg-8 pt-3 px-4 htmlContainer">
 
         </main>
-        <nav class="col-md-2 d-none d-md-block sidebar semi-transparent paddingRight">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column widget">
-                    <li class="nav-item widgetTitle">
-                        <a class="nav-link" href="#">
-                            <i data-feather="grid"></i>
-                            <span class="widgetTitleText">
-                                Загрузка...
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item widgetBody">
-                        <span class="nav-link widgetBodyHTML">
-                            Загрузка...
-                        </span>
-                    </li>
-                </ul>
-                <ul class="nav flex-column widget">
-                <li class="nav-item">
-                    <a class="nav-link navPage" href="#">
-                        <i data-feather="plus"></i>
-                        Виджеты...
-                    </a>
-                </li>
+        <nav class="col-md-2 d-none d-md-block sidebar semi-transparent">
+            <div class="sidebar-sticky widgetPlace">
+
             </ul>
             </div>
         </nav>
@@ -180,8 +159,8 @@
 <script src="assets/js/vcat/Navigation.js"></script>
 <script src="assets/js/vcat/Music.js"></script>
 
-<script src="assets/js/widgets/TestWidget.js"></script>
 <script src="assets/js/vcat/UI_Widgets.js"></script>
+<script src="assets/js/widgets/ClockWidget.js"></script>
 <script>
     feather.replace();
 </script>
