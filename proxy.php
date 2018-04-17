@@ -15,6 +15,9 @@ if (isset($_GET['method']) && $_GET['method'] === "proxyInfo") {
     die(json_encode($about));
 }
 
+if (!isset($_GET['url'])) {
+	die('No url provided!');
+}
 $url = $_GET['url'];
 
 function implodeItem(&$item, $key) {
@@ -31,16 +34,18 @@ function endsWith($haystack, $needle)
 }
 
 $allowed_urls = array(
-    "m.vk.com", "vk.com", "api.vk.com", "oauth.vk.com", "login.vk.com"
+    "m.vk.com", "vk.com", "api.vk.com", "oauth.vk.com", "login.vk.com", "imv4.vk.com"
 );
 
 $args = $_POST;
+$checked_urls = array();
 foreach ($allowed_urls as $u) {
     if (substr($url,0,8+strlen($u))==="https://".$u) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, "VKAndroidApp/4.13.1-1206 (Android 8.0.0; SDK 26; armeabi-v7a; Google Nexus 5; ru)");
+        curl_setopt($ch, CURLOPT_USERAGENT, "VKAndroidApp/4.13.1-1206 (Android 6.0.0; SDK 23; armeabi-v7a; LGE Nexus 5; ru)");
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3600);
         if (!endsWith($url,".png")) {
             curl_setopt($ch, CURLOPT_POST, 1);
             array_walk($args, "implodeItem");
@@ -63,6 +68,9 @@ foreach ($allowed_urls as $u) {
         }
         echo $out;
         return;
-    }
+    } else {
+		array_push($checked_urls, substr($url,0,8+strlen($u))." | https://".$u);
+	}
 }
-die("Access denied");
+echo ("Access denied, url: ".$_GET['url']);
+print_r($checked_urls);
