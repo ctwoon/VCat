@@ -1,4 +1,3 @@
-/** Nice try, VK! :D */
 var ab2 = false;
 function getDiscover(attr) {
     logInfo("Discover", "Get Discover");

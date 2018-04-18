@@ -1,4 +1,5 @@
 function getComments(postID, ownerID) {
+    location.hash = "postComments_"+postID+'_'+ownerID;
     removeScrollFocus();
     removeDiscoverScrollFocus();
     logInfo("Comments", "Get Comments");

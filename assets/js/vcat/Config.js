@@ -37,6 +37,7 @@ function getThemesInConfig() {
         " </div>"
     );
   logInfo("Config", "Get Themes");
+  location.hash = "configThemes";
     $.getJSON("assets/themes.json", function (json) {
         var currentTheme = getItem('config_theme');
         logInfo("Config", "Got Themes JSON");
@@ -183,8 +184,8 @@ function getSettings() {
         getThemesInConfig();
     });
     $(".about").click(function () {
+        location.hash = "configAbout";
         switchToPage('.navAppConfig', 'itemAbout.html');
-        getThemesInConfig();
         $(".back").click(function () {
             getSettings();
         });

@@ -1,7 +1,3 @@
-$(".navSwitchAccount").click(function() {
-    switchAccount();
-});
-
 function switchAccount() {
     if (accountSlot == 1) {
         if (!secondAccountToken) {
