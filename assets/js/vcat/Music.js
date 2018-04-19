@@ -22,7 +22,7 @@ function getMusic() {
                     }
                     var durMin = Math.floor(value['duration'] / 60);
                     var durSec = value['duration'] - durMin*60;
-                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder audio" vcat-audiourl="'+value['url']+'">\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder audio" vcat-audiotext="'+value['artist']+' - '+value['title']+'" vcat-audiourl="'+value['url']+'">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '<h4 class="card-title smallTitle">'+value['artist']+' - '+value['title']+'</h4>' +
                         '<p class="card-text">'+quality+' / '+durMin+':'+durSec+'</p>' +
@@ -31,7 +31,8 @@ function getMusic() {
                         '</div>');
                 });
                 $('.audio').click(function() {
-                    window.open($(this).attr('vcat-audiourl'));
+                    //window.open($(this).attr('vcat-audiourl'));
+                    MusicWidget.setAudioSource($(this).attr('vcat-audiourl'), $(this).attr('vcat-audiotext'));
                 });
                 console.log(result);
             }

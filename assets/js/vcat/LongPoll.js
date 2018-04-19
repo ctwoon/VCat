@@ -72,8 +72,7 @@ function poll(){
             });
         }
     }
-};
-
+}
 function getLongpollData() {
     if (allowLongpoll) {
         var url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=3', '5.74');

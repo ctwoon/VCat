@@ -28,7 +28,7 @@ body {
 }
 
 .navbar {
-    background: #343436;
+    background: #232426;
 }
 
 .widgetBar {
@@ -83,5 +83,5 @@ a {
 }
 
 .text-danger {
-    color: #192f40 !important;
+    color: #305d82 !important;
 }

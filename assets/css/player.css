@@ -1,0 +1,33 @@
+.audio-player {
+    width: 200px;
+}
+.player-controls {
+    align-items: left;
+    justify-content: left;
+}
+
+progress {
+    width: 70%;
+}
+
+progress[value] {
+    -webkit-appearance: none;
+    background-color: white;
+    color: rgba(0,0,0,0.5);
+    height: 5px;
+}
+
+progress[value]::-webkit-progress-bar {
+    background-color: white;
+    border-radius: 2px;
+    color: rgba(0,0,0,0.5);
+}
+
+progress::-webkit-progress-value {
+    background-color: rgba(0,0,0,0.5);
+}
+
+.audioText {
+    font-size: 1rem;
+    text-align: left;
+}
