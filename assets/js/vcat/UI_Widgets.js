@@ -7,7 +7,7 @@ function uiw_setData(block, data) {
 }
 
 function uiw_addWidgetBlock(block) {
-    $('.widgetPlace').append('<ul class="nav flex-column widget-'+block+'">\n' +
+    $('.widgetPlace').append('<ul class="nav flex-column widget widget-'+block+'">\n' +
         '                    <li class="nav-item widgetTitle">\n' +
         '                        <a class="nav-link" href="#">\n' +
         '                            <i data-feather="grid"></i>\n' +
@@ -17,7 +17,7 @@ function uiw_addWidgetBlock(block) {
         '                        </a>\n' +
         '                    </li>\n' +
         '                    <li class="nav-item widgetBody">\n' +
-        '                        <span class="nav-link widgetBodyHTML-'+block+'">\n' +
+        '                        <span class="nav-link widgetText widgetBodyHTML-'+block+'">\n' +
         '                            Загрузка...\n' +
         '                        </span>\n' +
         '                    </li>\n' +

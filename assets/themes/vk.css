@@ -1,0 +1,107 @@
+/** Body background */
+body {
+    background: #edeef0;
+}
+
+/** Cards */
+.cardDecor {
+    background: #FFFFFF;
+    border-radius: 0.25rem !important;
+    border: none;
+    margin-top: 10px;
+    border-bottom: none !important;
+}
+
+.widget {
+    background: #FFFFFF !important;
+    border-radius: 0.25rem;
+}
+
+.cardContainer {
+    margin: 20px;
+}
+
+/** Sidebars and Navbars */
+.sidebar {
+    background: #edeef0;
+    box-shadow: none;
+}
+
+.navbar {
+    background: #4a76a8;
+}
+
+.widgetBar {
+    border-left: none;
+}
+
+.postCounters {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.widgetText {
+    color: black !important;
+}
+
+.feather {
+    color: #192f40 !important;
+}
+
+.nav {
+    background: transparent;
+}
+
+.navbar-brand {
+    background: none;
+    color: white !important;
+}
+
+#noscroll {
+    padding-top: 0;
+}
+
+/* Colors */
+.sidebar .nav-link.active {
+    color: #285473 !important;
+    opacity: 1;
+}
+
+a {
+    color: #192f40;
+}
+
+/** Text (only white) **/
+.sidebar .nav-link {
+    color: #192f40;
+    opacity: 0.7;
+}
+
+.sidebar .nav-link .feather {
+    color: black;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: black;
+}
+
+.navbar-dark .navbar-brand {
+    color: black;
+}
+
+.semi-transparent {
+    color: black;
+}
+
+.card-text {
+    color: black;
+}
+
+.spinner {
+    border-right-color: transparent;
+}
+
+.text-danger {
+    color: #192f40 !important;
+}

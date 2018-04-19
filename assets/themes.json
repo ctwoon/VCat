@@ -7,6 +7,12 @@
       "themeDescription": "Темная тема в стиле Material Design."
     },
     {
+      "themeName": "VK Style",
+      "themePath": "assets/themes/vk.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Светлая тема в стиле веб-версии ВК."
+    },
+    {
       "themeName": "Material Light",
       "themePath": "assets/themes/whiteMaterial.css",
       "themeAuthor": "iTaysonLab",
@@ -17,18 +23,6 @@
       "themePath": "assets/themes/blackout.css",
       "themeAuthor": "iTaysonLab",
       "themeDescription": "Ультра-черная тема. Полезно для AMOLED."
-    },
-    {
-      "themeName": "Smart Invert",
-      "themePath": "assets/themes/invert.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Темная тема с плавными переходами цветов."
-    },
-    {
-      "themeName": "Night Blue",
-      "themePath": "assets/themes/tgNightBlue.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Простая темно-синяя тема."
     },
     {
       "themeName": "Solarized Light",
