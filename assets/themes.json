@@ -13,6 +13,12 @@
       "themeDescription": "Светлая тема в стиле веб-версии ВК."
     },
     {
+      "themeName": "VK Style Dark",
+      "themePath": "assets/themes/vkDark.css",
+      "themeAuthor": "iTaysonLab",
+      "themeDescription": "Темная тема в стиле веб-версии ВК."
+    },
+    {
       "themeName": "Material Light",
       "themePath": "assets/themes/whiteMaterial.css",
       "themeAuthor": "iTaysonLab",
@@ -23,18 +29,6 @@
       "themePath": "assets/themes/blackout.css",
       "themeAuthor": "iTaysonLab",
       "themeDescription": "Ультра-черная тема. Полезно для AMOLED."
-    },
-    {
-      "themeName": "Solarized Light",
-      "themePath": "assets/themes/solarizedLight.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Удобная светлая тема. Приятная для глаза."
-    },
-    {
-      "themeName": "Solarized Dark",
-      "themePath": "assets/themes/solarizedDark.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Удобная темная тема."
     },
     {
       "themeName": "Transparent (like login and 0.4u1)",
