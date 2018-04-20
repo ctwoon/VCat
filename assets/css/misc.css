@@ -244,3 +244,7 @@ p {
         padding-top: 0;
     }
 }
+
+.navColumn {
+    margin-top: 10px;
+}
