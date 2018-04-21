@@ -132,31 +132,17 @@ function getSettings() {
         '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
         '    </div>\n' +
         '</div>');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_offline" vcat-shouldon="'+cfg1a+'">\n' +
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder themeEngine">\n' +
         '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">Оффлайн-режим ('+cfg1+')</h5>\n' +
-        '        <p class="card-text">Включает режим "вне сети". Это может не сработать в ряде случаев.</p>\n' +
+        '        <h5 class="card-title noPadding smallTitle">Кастомизация темы</h5>\n' +
+        '        <p class="card-text">Тестируется!</p>\n' +
         '    </div>\n' +
         '</div>');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_vk5post" vcat-shouldon="'+cfg2a+'">\n' +
-        '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">Увеличение текста ('+cfg2+')</h5>\n' +
-        '        <p class="card-text">Увеличение текста в ленте новостей, если в нем нет вложений.</p>\n' +
-        '    </div>\n' +
-        '</div>');
+    addSSimpleOption("app_offline", cfg1a, cfg1, "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
+    addSSimpleOption("app_vk5post", cfg2a, cfg2, "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
     addSCategory('Основное');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_longpoll" vcat-shouldon="'+cfg3a+'">\n' +
-        '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">Использовать Longpoll ('+cfg3+')</h5>\n' +
-        '        <p class="card-text">Динамическое обновление сообщений. Отключите для повышения стабильности.</p>\n' +
-        '    </div>\n' +
-        '</div>');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="app_useproxy" vcat-shouldon="'+cfg4a+'">\n' +
-        '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">Удаленный прокси ('+cfg4+')</h5>\n' +
-        '        <p class="card-text">Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.</p>\n' +
-        '    </div>\n' +
-        '</div>');
+    addSSimpleOption("app_longpoll", cfg3a, cfg3, "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
+    addSSimpleOption("app_useproxy", cfg4a, cfg4, "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSetProxyURL pointer">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">URL удаленного прокси</h5>\n' +
@@ -183,6 +169,10 @@ function getSettings() {
         $('.htmlContainer').html("<div class='themePlace'></div>");
         getThemesInConfig();
     });
+    $(".themeEngine").click(function () {
+        $('.htmlContainer').html("<div class='themePlace'></div>");
+        openThemeEngine();
+    });
     $(".about").click(function () {
         location.hash = "configAbout";
         switchToPage('.navAppConfig', 'itemAbout.html');
@@ -193,6 +183,15 @@ function addSCategory(categoryName) {
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
         '    <div class="card-body category">\n' +
         '        <p class="card-text">'+categoryName+'</p>\n' +
+        '    </div>\n' +
+        '</div>');
+}
+
+function addSSimpleOption(vcatConfig,vcatShouldOn,vcatConfigOn,optionTitle,optionDesc) {
+    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="'+vcatConfig+'" vcat-shouldon="'+vcatShouldOn+'">\n' +
+        '    <div class="card-body messagePadding">\n' +
+        '        <h5 class="card-title noPadding smallTitle">'+optionTitle+' ('+vcatConfigOn+')</h5>\n' +
+        '        <p class="card-text">'+optionDesc+'</p>\n' +
         '    </div>\n' +
         '</div>');
 }

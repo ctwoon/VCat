@@ -140,10 +140,10 @@
 
 @keyframes fadein {
     from {
-        margin-bottom: -10px;
+        opacity: 0;
     }
     to {
-        margin-bottom: 0;
+        opacity: 1;
     }
 }
 
