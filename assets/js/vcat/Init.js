@@ -53,6 +53,15 @@ function craftURL(url) {
   return url;
 }
 
+function craftMusicURL(url,name) {
+    if (useProxy == "disabled") {
+        url = "proxy.php?method=downloadAudioRequest&name="+name+"&url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    } else {
+        url = proxyURL + "?method=downloadAudioRequest&name="+name+"&url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    }
+    return url;
+}
+
 function craftPollURL(url) {
     return craftURL("https://"+url);
 }

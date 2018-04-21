@@ -20,6 +20,18 @@ if (!isset($_GET['url'])) {
 }
 $url = $_GET['url'];
 
+if (isset($_GET['method']) && $_GET['method'] === "downloadAudioRequest") {
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Content-Type: application/force-download");
+    header("Content-Type: application/octet-stream");
+    header("Content-Type: application/download");
+    header("Content-Disposition: attachment;filename=".$_GET['name']);
+    header("Content-Transfer-Encoding: binary ");
+    die(file_get_contents($url));
+}
+
 function implodeItem(&$item, $key) {
     $item = $key . "=" . $item;
 }
