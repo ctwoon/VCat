@@ -12,7 +12,7 @@ var isInMessages = false;
 
 function initPoll(server, ts, pts ,key) {
     if (allowLongpoll) {
-        serverURL = "https://" + server + "?act=a_check&key=" + key + "&ts=" + ts + "&wait=25&mode=2&version=2";
+        serverURL = "https://" + server + "?act=a_check&key=" + key + "&ts=" + ts + "&wait=25&mode=2&version=4";
         serverURL = craftURL(serverURL);
         server2 = server;
         ts2 = ts;
@@ -44,10 +44,27 @@ function poll(){
                                             // fix for duplicating messages
                                             var id = value[6]['from'];
                                             var name = getGroupUsername2(id, groupUsers);
+                                            var text = value[5];
+                                            if (typeof value[6]['source_act'] !== "undefined") {
+                                                var rs;
+                                                switch (value[6]['source_act']) {
+                                                    case 'chat_unpin_message':
+                                                        rs = "открепил сообщение";
+                                                        break;
+                                                    case 'chat_pin_message':
+                                                        rs = "закрепил сообщение";
+                                                        break;
+                                                    default:
+                                                        rs = "выполнил неизвестное действие "+value[6]['source_act'];
+                                                        break;
+                                                }
+                                                text = name+" "+rs+".";
+                                                name = "";
+                                            }
                                             $('.writeBoxWrap').before('<div class="card cardDecor semi-transparent message messageBorder">\n' +
                                                 '    <div class="card-body messagePadding">\n' +
                                                 '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
-                                                '        <p class="card-text">' + value[5] + '</p>\n' +
+                                                '        <p class="card-text">' + text + '</p>\n' +
                                                 '        <p class="card-text smallText"> <i>(' + timestampToTime(value[4]) + '), получено через Longpoll</i></p>\n' +
                                                 '    </div>\n' +
                                                 '</div>');
@@ -75,7 +92,7 @@ function poll(){
 }
 function getLongpollData() {
     if (allowLongpoll) {
-        var url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=3', '5.74');
+        var url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=4', '5.80');
         console.log(url);
         logInfo("EditMessage", "Get LongPoll");
         $.ajax({

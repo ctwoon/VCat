@@ -54,6 +54,7 @@ function getMessageDialogs() {
 
 function getGroupUsername2(userID, json) {
     var result;
+    json = JSON.parse(json);
     $.each(json['response'],function(index, value){
         if (value['id'] == userID) {
             result = value['first_name'] + " " + value['last_name'];
@@ -76,7 +77,7 @@ function getMessageDialogTitle(source_id, json) {
 
 function getMessages(dialogID, uname, isGroup) {
     logInfo("Dialog", "Get Dialog");
-    var url = "https://api.vk.com/method/messages.getHistory?lang=ru&peer_id=" + dialogID + "&access_token=" + token + "&v=5.74";
+    var url = "https://api.vk.com/method/messages.getHistory?lang=ru&peer_id=" + dialogID + "&access_token=" + token + "&v=5.80";
     url = craftURL(url);
     $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
     $.ajax({
@@ -84,6 +85,7 @@ function getMessages(dialogID, uname, isGroup) {
         success: function (response) {
             logInfo("Dialog", "Got Dialog JSON");
             var result = JSON.parse(response);
+            console.log(response);
             currentChatID = dialogID;
             result['response']['items'].reverse();
             if (isGroup) {
@@ -92,9 +94,8 @@ function getMessages(dialogID, uname, isGroup) {
             $.each(result['response']['items'], function (index, value) {
                 var isSentByUser = value['out'];
                 var time = timestampToTime(value['date']);
-                var text = value['body'];
+                var text = value['text'];
                 text = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
-                var isSeen = value['read_state'];
                 var userId = value['from_id'];
                 var userName = uname;
                 var messageID = value['id'];
@@ -148,6 +149,25 @@ function getMessages(dialogID, uname, isGroup) {
                             break;
                     }
                 });
+                if (typeof value['action'] !== "undefined") {
+                    var rs;
+                    switch (value['action']['type']) {
+                        case 'chat_unpin_message':
+                            rs = "открепил сообщение";
+                            break;
+                        case 'chat_pin_message':
+                            rs = "закрепил сообщение";
+                            break;
+                        case 'chat_invite_user':
+                            rs = "пригласил "+getGroupUsername(value['action']['member_id'], groupUsers);
+                            break;
+                        default:
+                            rs = "выполнил неизвестное действие "+value['action']['type'];
+                            break;
+                    }
+                    text = userName+" "+rs+".";
+                    userName = "";
+                }
                 cardAttachments += '</p>';
                 if (isSentByUser == 1) {
                     userName = "Я";
@@ -168,7 +188,7 @@ function getMessages(dialogID, uname, isGroup) {
                         '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
-                        '        <p class="card-text smallText"> <i>(' + time + '), Прочитано: ' + isSeen + '</i></p>\n' +
+                        '        <p class="card-text smallText"> <i>(' + time + ')</i></p>\n' +
                         '    </div>\n' +
                         '</div>');
                 }
@@ -219,9 +239,9 @@ function getGroupUsers(chatID) {
     var result1;
     $.ajax({
         url: url,
-        async:true,
+        async:false,
         success: function (response) {
-            result1 = false;
+            result1 = response;
         }
     });
     return result1;
@@ -229,6 +249,7 @@ function getGroupUsers(chatID) {
 
 function getGroupUsername(userID, json) {
     var result;
+    json = JSON.parse(json);
     $.each(json['response'],function(index, value){
         if (value['id'] === userID) {
             result = value['first_name'] + " " + value['last_name'];
