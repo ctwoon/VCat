@@ -27,7 +27,7 @@ if (isset($_GET['method']) && $_GET['method'] === "downloadAudioRequest") {
     header("Content-Type: application/force-download");
     header("Content-Type: application/octet-stream");
     header("Content-Type: application/download");
-    header("Content-Disposition: attachment;filename=".$_GET['name']);
+    header("Content-Disposition: attachment;filename=".$_GET['name'].".mp3");
     header("Content-Transfer-Encoding: binary ");
     die(file_get_contents($url));
 }
