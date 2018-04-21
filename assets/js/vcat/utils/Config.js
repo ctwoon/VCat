@@ -132,12 +132,6 @@ function getSettings() {
         '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
         '    </div>\n' +
         '</div>');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder themeEngine">\n' +
-        '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">Кастомизация темы</h5>\n' +
-        '        <p class="card-text">Тестируется!</p>\n' +
-        '    </div>\n' +
-        '</div>');
     addSSimpleOption("app_offline", cfg1a, cfg1, "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
     addSSimpleOption("app_vk5post", cfg2a, cfg2, "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
     addSCategory('Основное');
@@ -168,10 +162,6 @@ function getSettings() {
     $(".themes").click(function () {
         $('.htmlContainer').html("<div class='themePlace'></div>");
         getThemesInConfig();
-    });
-    $(".themeEngine").click(function () {
-        $('.htmlContainer').html("<div class='themePlace'></div>");
-        openThemeEngine();
     });
     $(".about").click(function () {
         location.hash = "configAbout";
