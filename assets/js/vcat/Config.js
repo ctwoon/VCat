@@ -186,9 +186,6 @@ function getSettings() {
     $(".about").click(function () {
         location.hash = "configAbout";
         switchToPage('.navAppConfig', 'itemAbout.html');
-        $(".back").click(function () {
-            getSettings();
-        });
     });
 }
 
