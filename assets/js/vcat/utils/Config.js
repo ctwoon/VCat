@@ -126,7 +126,7 @@ function getSettings() {
     }
     themeName = getItem("config_theme_name");
     addSCategory('Интерфейс');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder themes">\n' +
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder themes">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Темы</h5>\n' +
         '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
@@ -137,19 +137,25 @@ function getSettings() {
     addSCategory('Основное');
     addSSimpleOption("app_longpoll", cfg3a, cfg3, "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
     addSSimpleOption("app_useproxy", cfg4a, cfg4, "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSetProxyURL pointer">\n' +
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder configSetProxyURL pointer">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">URL удаленного прокси</h5>\n' +
         '        <p class="card-text">Используется: '+proxyURL+'</p>\n' +
         '    </div>\n' +
         '</div>');
     addSCategory('Информация');
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder about pointer">\n' +
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder about pointer">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">О VCat</h5>\n' +
         '        <p class="card-text">Текущая версия: '+VCAT_VERSION+'</p>\n' +
         '    </div>\n' +
         '</div>');
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder logoutButton pointer">\n' +
+            '    <div class="card-body messagePadding">\n' +
+            '        <h5 class="card-title noPadding smallTitle">Сбросить данные VCat</h5>\n' +
+            '        <p class="card-text">Это удалит все - от данных входа до мультиаккаунтов.</p>\n' +
+            '    </div>\n' +
+            '</div>');
     //
 
     $(".configSet").click(function () {
@@ -167,10 +173,14 @@ function getSettings() {
         location.hash = "configAbout";
         switchToPage('.navAppConfig', 'itemAbout.html');
     });
+    $(".logoutButton").click(function () {
+      localStorage.clear();
+      window.location.href = "index.html";
+    });
 }
 
 function addSCategory(categoryName) {
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder">\n' +
         '    <div class="card-body category">\n' +
         '        <p class="card-text">'+categoryName+'</p>\n' +
         '    </div>\n' +
@@ -178,7 +188,7 @@ function addSCategory(categoryName) {
 }
 
 function addSSimpleOption(vcatConfig,vcatShouldOn,vcatConfigOn,optionTitle,optionDesc) {
-    $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="'+vcatConfig+'" vcat-shouldon="'+vcatShouldOn+'">\n' +
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="'+vcatConfig+'" vcat-shouldon="'+vcatShouldOn+'">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">'+optionTitle+' ('+vcatConfigOn+')</h5>\n' +
         '        <p class="card-text">'+optionDesc+'</p>\n' +

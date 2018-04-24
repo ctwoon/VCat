@@ -13,6 +13,9 @@ function getMusic() {
                 if (result['execute_errors'][0]['error_code'] == 25) {
                     refreshToken();
                 }
+                if (result['execute_errors'][0]['error_code'] == 9) {
+                    showLoadError(9, 'Flood control', 'Слишком много запросов, повторите попытку через 2-3 минуты.')
+                }
             } else {
                 $('.spinnerLoad').hide();
                 $.each(result['response']['audios']['' + 'items'], function (index, value) {

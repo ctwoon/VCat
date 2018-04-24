@@ -1,3 +1,8 @@
+function showLoadError(code, desc, rcn) {
+  $('.spinnerLoad').append('<p>Ошибка '+code+' / '+desc+'<br>'+rcn+'</p>');
+  $('.spinner').hide();
+}
+
 var ab = false;
 function getNews(attr) {
     logInfo("Newsfeed", "Get Newsfeed");

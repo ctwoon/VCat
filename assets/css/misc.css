@@ -248,3 +248,8 @@ p {
 .navColumn {
     margin-top: 10px;
 }
+
+.cardForceNoPadding {
+  margin-top: 0 !important;
+  border-radius: 0 !important;
+}

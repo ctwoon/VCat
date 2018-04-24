@@ -58,3 +58,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .text-danger {
     color: #4CAF50 !important;
 }
+
+.navbar-dark .navbar-nav .show>.nav-link, .navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .nav-link.active {
+    color: #000;
+}
+
+.dropdown-item {
+    color: #000;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #000;
+}

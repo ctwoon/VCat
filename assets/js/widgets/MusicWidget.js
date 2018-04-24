@@ -1,19 +1,31 @@
 var MusicWidget = {
     widget_codename: "music",
     audio: new Audio(),
+    isEnabled: false,
     url: "",
     title: "",
     widget_name: "Аудиовиджет",
     init: function () {
-        uiw_addWidgetBlock(this.widget_codename);
-        uiw_setTitle(this.widget_codename, this.widget_name);
+
+    },
+    setAudioSource: function (sourceURL, text) {
+        if (!this.isEnabled) {
+            this.isEnabled = true;
+            uiw_addWidgetBlock(this.widget_codename);
+            uiw_setTitle(this.widget_codename, this.widget_name);
+        }
+        this.audio.pause();
+        this.audio = new Audio(sourceURL);
+        this.audio.play();
+        this.url = sourceURL;
+        this.title = text;
         uiw_setData(this.widget_codename, '<div class="audio-player">\n' +
             '  <div class="player-controls scrubber">\n' +
             '    <p class="audioText">...</p>' +
-            '   <button class="btn btn-outline-info pauseAudio">Pause</button>' +
-            '   <button class="btn btn-outline-info playAudio">Play</button>' +
-            '   <button class="btn btn-outline-info downloadAudio">Download</button>' +
-            '  </div>\n' +
+            '   <div class="btn-group" role="group" style="margin-top: 10px;"><button class="btn btn-outline-primary pauseAudio btn-sm">◼</button>' +
+            '   <button class="btn btn-outline-primary playAudio btn-sm">▶</button>' +
+            '   <button class="btn btn-outline-primary downloadAudio btn-sm">Скачать</button>' +
+            '  </div></div>\n' +
             '</div>');
         $(".pauseAudio").click(function () {
             MusicWidget.pause();
@@ -24,13 +36,6 @@ var MusicWidget = {
         $(".downloadAudio").click(function () {
             MusicWidget.downloadAudio();
         });
-    },
-    setAudioSource: function (sourceURL, text) {
-        this.audio.pause();
-        this.audio = new Audio(sourceURL);
-        this.audio.play();
-        this.url = sourceURL;
-        this.title = text;
         $('.audioText').html(text);
     },
     pause: function () {

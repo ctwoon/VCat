@@ -85,3 +85,8 @@ a {
 .text-danger {
     color: #5181b8 !important;
 }
+
+.cardForceNoPadding {
+  margin-top: 0 !important;
+  border-radius: 0 !important;
+}
