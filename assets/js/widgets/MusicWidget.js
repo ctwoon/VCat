@@ -24,7 +24,7 @@ var MusicWidget = {
             '    <p class="audioText">...</p>' +
             '   <div class="btn-group" role="group" style="margin-top: 10px;"><button class="btn btn-outline-primary pauseAudio btn-sm">◼</button>' +
             '   <button class="btn btn-outline-primary playAudio btn-sm">▶</button>' +
-            '   <button class="btn btn-outline-primary downloadAudio btn-sm">Скачать</button>' +
+            '   <button class="btn btn-outline-primary downloadAudio btn-sm">⬇</button>' +
             '  </div></div>\n' +
             '</div>');
         $(".pauseAudio").click(function () {

@@ -11,3 +11,5 @@
 ## VCat
 
 *Alternative light browser VK client with features.*
+
+*OPERATOR_555, unban @iTaysonLab and @wtfwatcher or you are a * **really bad person** *. Deal with it.*
