@@ -1,22 +1,11 @@
+*Русская версия:* https://github.com/HardSer/VCat/blob/master/READMERU.md
+
 **WARNING:** _This application is in beta stage! Expect bugs and crashes!_
+
+*Live preview available here:* https://hardser.github.io/VCat/ *(may crash, don't forget to enable Proxy in Config!)*
+*libvkmusic (VK Music Helper) and libvcatmsg (VCat Notification System Helper) are not public. Please keep this in mind.*
+*Proxy (proxy.php) requires CURL extension. PHP 7 recommended.*
 
 ## VCat
 
-*Alternative browser VK client*
-
-*What I have done:*
-- Works in Ukraine!
-- Mobile support
-- Login (only login, without captcha)
-- Newsfeed with autoloading
-- Theming (maybe the most working thing here)
-- Likes and comment reader (only for posts)
-- Messages (with groups and editing)
-- "Discover" (recommendations) from mobile app
-- Friend list
-- User info with posts 
-- Group list
-- Multiaccount (beta)
-- Account offline mode (still beta)
-
-This site will be in Russian until I add localization system.
+*Alternative light browser VK client with features.*
