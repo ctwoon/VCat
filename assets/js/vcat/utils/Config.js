@@ -137,15 +137,15 @@ function getSettings() {
     }
     themeName = getItem("config_theme_name");
     addSCategory('Интерфейс');
-    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder themes">\n' +
+    /*$('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder themes">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">Темы</h5>\n' +
-        '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
+        '        <p class="card-text">Закрыто на переделку</p>\n' +
         '    </div>\n' +
-        '</div>');
+        '</div>');*/
+    addSSimpleOption("app_darkmode", cfg5a, cfg5, "Темная тема", "Перезагрузите VCat для применения темы.");
     addSSimpleOption("app_offline", cfg1a, cfg1, "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
     addSSimpleOption("app_vk5post", cfg2a, cfg2, "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
-    addSSimpleOption("app_darkmode", cfg5a, cfg5, "Темная тема", "");
     addSCategory('Основное');
     addSSimpleOption("app_longpoll", cfg3a, cfg3, "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
     addSSimpleOption("app_useproxy", cfg4a, cfg4, "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
