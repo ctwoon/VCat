@@ -4,6 +4,7 @@ function initConfig() {
     allowLongpoll = getItem('app_longpoll');
     useProxy = getItem('app_useproxy');
     proxyURL = getItem('app_proxyurl');
+    darkMode = getItem('app_darkmode');
     if (!offlineMode) {
         setItem('app_offline', 'disabled');
         offlineMode = 'disabled';
@@ -19,6 +20,10 @@ function initConfig() {
     if (!useProxy) {
         setItem('app_useproxy', 'disabled');
         useProxy = 'disabled';
+    }
+    if (!darkMode) {
+        setItem('app_darkmode', 'disabled');
+        darkMode = 'disabled';
     }
     if (!proxyURL) {
         setItem('app_proxyurl', 'http://vcatclient.000webhostapp.com/proxy.php');
@@ -124,6 +129,12 @@ function getSettings() {
         cfg4 = 'включено';
         cfg4a = 'disabled';
     }
+    var cfg5 = "отключено";
+    var cfg5a = 'enabled';
+    if (darkMode == "enabled") {
+        cfg5 = 'включено';
+        cfg5a = 'disabled';
+    }
     themeName = getItem("config_theme_name");
     addSCategory('Интерфейс');
     $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder themes">\n' +
@@ -134,6 +145,7 @@ function getSettings() {
         '</div>');
     addSSimpleOption("app_offline", cfg1a, cfg1, "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
     addSSimpleOption("app_vk5post", cfg2a, cfg2, "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
+    addSSimpleOption("app_darkmode", cfg5a, cfg5, "Темная тема", "");
     addSCategory('Основное');
     addSSimpleOption("app_longpoll", cfg3a, cfg3, "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
     addSSimpleOption("app_useproxy", cfg4a, cfg4, "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");

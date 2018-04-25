@@ -8,6 +8,7 @@ var enlargeText = getItem('app_vk5post');
 var proxyURL = getItem('app_proxyurl');
 var allowLongpoll = getItem('app_longpoll');
 var useProxy = getItem('app_useproxy');
+var darkMode = getItem('app_darkmode');
 var slotUI = 2;
 initConfig();
 
