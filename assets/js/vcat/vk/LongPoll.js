@@ -26,7 +26,6 @@ var pollBuffer;
 function poll(){
     if (allowLongpoll) {
         if (isInMessages) {
-            console.log("LongPoll request");
             $.ajax({
                 url: serverURL, success: function (data) {
                     ts2 = data['ts'];
@@ -47,6 +46,7 @@ function poll(){
                                             var text = value[5];
                                             if (typeof value[6]['source_act'] !== "undefined") {
                                                 var rs;
+                                                console.log(value);
                                                 switch (value[6]['source_act']) {
                                                     case 'chat_unpin_message':
                                                         rs = "открепил сообщение";
@@ -54,6 +54,19 @@ function poll(){
                                                     case 'chat_pin_message':
                                                         rs = "закрепил сообщение";
                                                         break;
+                                                    case 'chat_invite_user_by_link':
+                                                        groupUsers = getGroupUsers(currentChatID);
+                                                        name = getGroupUsername2(id, groupUsers);
+                                                        rs = "вступил в чат по ссылке";
+                                                        break;
+                                                    case 'chat_invite_user':
+                                                        groupUsers = getGroupUsers(currentChatID);
+                                                        rs = "пригласил " + getGroupUsername2(value[6]['source_mid'], groupUsers);
+                                                        break;
+                                                    case 'chat_kick_user':
+                                                        groupUsers = getGroupUsers(currentChatID);
+                                                        rs = "исключил " + getGroupUsername2(value[6]['source_mid'], groupUsers);
+                                                      break;
                                                     default:
                                                         rs = "выполнил неизвестное действие "+value[6]['source_act'];
                                                         break;
@@ -65,7 +78,7 @@ function poll(){
                                                 '    <div class="card-body messagePadding">\n' +
                                                 '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                                                 '        <p class="card-text">' + text + '</p>\n' +
-                                                '        <p class="card-text smallText"> <i>(' + timestampToTime(value[4]) + '), получено через Longpoll</i></p>\n' +
+                                                '        <p class="card-text smallText"> <i>' + timestampToTime(value[4]) + '</i></p>\n' +
                                                 '    </div>\n' +
                                                 '</div>');
                                             setTimeout(function () {

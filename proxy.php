@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 $about = array(
     'proxyName' => 'iTaysonLab\'s Offical Proxy',
-    'proxyContact' => '@wtfwatcher (Telegram)',
+    'proxyContact' => '@wtfwatcher / @iTaysonLab (Telegram)',
     'proxyAuthor' => 'iTaysonLab'
 );
 
@@ -16,11 +16,12 @@ if (isset($_GET['method']) && $_GET['method'] === "proxyInfo") {
 }
 
 if (!isset($_GET['url'])) {
-	die('No url provided!');
+  die(json_encode(array("error" => "No URL")));
 }
 $url = $_GET['url'];
 
 if (isset($_GET['method']) && $_GET['method'] === "downloadAudioRequest") {
+  die("FATAL: Audio download disabled for security reasons. Working on it!<br>Link to MP3: <a href='$url'>$url</a>"); /*
     header("Pragma: public");
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -29,7 +30,7 @@ if (isset($_GET['method']) && $_GET['method'] === "downloadAudioRequest") {
     header("Content-Type: application/download");
     header("Content-Disposition: attachment;filename=".$_GET['name'].".mp3");
     header("Content-Transfer-Encoding: binary ");
-    die(file_get_contents($url));
+    die(file_get_contents($url));*/
 }
 
 function implodeItem(&$item, $key) {
@@ -84,5 +85,4 @@ foreach ($allowed_urls as $u) {
 		array_push($checked_urls, substr($url,0,8+strlen($u))." | https://".$u);
 	}
 }
-echo ("Access denied, url: ".$_GET['url']);
-print_r($checked_urls);
+die(json_encode(array("error" => "Access denied", "allowed_urls" => json_encode($allowed_urls))));

@@ -214,9 +214,6 @@ function getMessages(dialogID, uname, isGroup) {
                 '</div>');
             $(".writeBoxButton").click(function () {
                 var sendState = sendMessage($(".vcatSend").attr('vcat-sendto'), $(".writeBoxText").val());
-                if (sendState) {
-                    getMessages(dialogID, uname, isGroup)
-                }
             });
             $(".editMessage").click(function () {
                 editMessage($(this).attr('vcat-msgid'), $(this).attr('vcat-dialogid'));
@@ -266,7 +263,7 @@ function sendMessage(dialogID, message) {
     var result1 = false;
     $.ajax({
         url: url,
-        async:false,
+        async:true,
         success: function (response) {
             var result = JSON.parse(response);
             if (Array.isArray(response['error'])) {
