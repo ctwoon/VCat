@@ -2,6 +2,7 @@ var MusicWidget = {
     widget_codename: "music",
     audio: new Audio(),
     isEnabled: false,
+    isPlaying: true,
     url: "",
     title: "",
     widget_name: "Аудиовиджет",
@@ -22,16 +23,17 @@ var MusicWidget = {
         uiw_setData(this.widget_codename, '<div class="audio-player">\n' +
             '  <div class="player-controls scrubber">\n' +
             '    <p class="audioText">...</p>' +
-            '   <div class="btn-group" role="group" style="margin-top: 10px;"><button class="btn btn-outline-primary pauseAudio btn-sm">◼</button>' +
-            '   <button class="btn btn-outline-primary playAudio btn-sm">▶</button>' +
+            '   <div class="btn-group" role="group" style="margin-top: 10px;">' +
+            '   <button class="btn btn-outline-primary toggleAudio btn-sm">◼</button>' +
             '   <button class="btn btn-outline-primary downloadAudio btn-sm">⬇</button>' +
             '  </div></div>\n' +
             '</div>');
-        $(".pauseAudio").click(function () {
-            MusicWidget.pause();
-        });
-        $(".playAudio").click(function () {
-            MusicWidget.playAudio();
+        $(".toggleAudio").click(function () {
+            if (MusicWidget.isPlaying) {
+                MusicWidget.pause();
+            } else {
+                MusicWidget.playAudio();
+            }
         });
         $(".downloadAudio").click(function () {
             MusicWidget.downloadAudio();
@@ -39,9 +41,13 @@ var MusicWidget = {
         $('.audioText').html(text);
     },
     pause: function () {
+        $(".toggleAudio").html("▶");
+        this.isPlaying = false;
         this.audio.pause();
     },
     playAudio: function () {
+        $(".toggleAudio").html("◼");
+        this.isPlaying = true;
         this.audio.play();
     },
     downloadAudio: function () {

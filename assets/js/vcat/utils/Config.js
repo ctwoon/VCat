@@ -32,8 +32,8 @@ function initConfig() {
 }
 
 function getThemesInConfig() {
-    $(".themePlace").append(
-        "<div class=\"card cardDecor semi-transparent back message messageBorder\">\n" +
+    $(".cardContainer").append(
+        "<div class=\"cardForceNoPadding pointer card cardDecor semi-transparent back message messageBorder\">\n" +
         " <div class=\"card-body messagePadding\">\n" +
         " <h5 class=\"card-text noPadding smallTitle\">\n" +
         "&lt; Назад" +
@@ -51,8 +51,8 @@ function getThemesInConfig() {
             if (value['themePath'] == currentTheme) {
                 isApply = " (установлено)";
             }
-            $(".themePlace").append(
-                "<div vcat-themePath=\"" + value['themePath'] + "\" vcat-themeName=\"" + value['themeName'] + "\" class=\"card cardDecor semi-transparent themeSwitch message messageBorder\">\n" +
+            $(".cardContainer").append(
+                "<div vcat-themePath=\"" + value['themePath'] + "\" vcat-themeName=\"" + value['themeName'] + "\" class=\"cardForceNoPadding pointer card cardDecor semi-transparent themeSwitch postCard message messageBorder\">\n" +
                 " <div class=\"card-body messagePadding\">\n" +
                 " <h5 class=\"card-text noPadding smallTitle\">\n" +
                 value['themeName'] + isApply +
@@ -178,7 +178,7 @@ function getSettings() {
         setConfig(a, "app_proxyurl");
     });
     $(".themes").click(function () {
-        $('.htmlContainer').html("<div class='themePlace'></div>");
+        $('.htmlContainer').html("<div class='cardContainer'></div>");
         getThemesInConfig();
     });
     $(".about").click(function () {
