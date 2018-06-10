@@ -1,5 +1,5 @@
 var debugInfo = true;
-const VCAT_VERSION = "0.9.4";
+const VCAT_VERSION = "0.9.5";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
@@ -20,12 +20,12 @@ if (!accountSlot) {
 var token;
 var user_id;
 if (accountSlot == 2) {
-    token = getItem("multi_acc_token");
-    user_id = getItem("multi_acc_userid");
+    token = getItem("VCat.MultiAccount.Slot2.Token");
+    user_id = getItem("VCat.MultiAccount.Slot2.UserID");
     slotUI = 1;
 } else {
-    token = getItem("authToken");
-    user_id = getItem("userId");
+    token = getItem("VCat.Auth.Token");
+    user_id = getItem("VCat.Auth.UserID");
 }
 
 if (!token) {
@@ -35,14 +35,14 @@ $('.navSwitchAccount').html("К аккаунту "+slotUI);
 $('.navSwitchAccountPC').html("<i data-feather=\"user-plus\"></i>К аккаунту "+slotUI);
 
 console.log('MultiAccount', 'Slot: '+accountSlot);
-var secondAccountID = getItem('multi_acc_userid');
+var secondAccountID = getItem('VCat.MultiAccount.Slot2.UserID');
 if (!secondAccountID) {
-    setItem('multi_acc_userid', '');
+    setItem('VCat.MultiAccount.Slot2.UserID', '');
     secondAccountID = "";
 }
-var secondAccountToken = getItem('multi_acc_token');
+var secondAccountToken = getItem('VCat.MultiAccount.Slot2.Token');
 if (!secondAccountToken) {
-    setItem('multi_acc_token', '');
+    setItem('VCat.MultiAccount.Slot2.Token', '');
     secondAccountToken = "";
 }
 function craftURL(url) {

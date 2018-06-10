@@ -9,39 +9,37 @@
     <title>VCat</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/sign.css" rel="stylesheet">
-    <link href="assets/css/misc.css" rel="stylesheet">
-<body class="text-center" background="assets/img/bg1.jpg" bgcolor="black">
-<form class="form-signin">
-    <h1 class="h3 mb-3 font-weight-normal text-white">VCat</h1>
-    <p class="text-white slogan">Современный веб-клиент ВК на JavaScript.</p>
+<body>
+<form class="form-signin text-center">
+    <h1 class="h3 mb-1 font-weight-normal text-black">VCat</h1>
+    <p class="text-black slogan">Современный веб-клиент ВК на JavaScript.</p>
     <center>
-    <input type="text" id="inputEmail" class="form-control semi-transparent loginName" style="color: white;" placeholder="Имя пользователя" required="" autofocus="">
-    <input type="password" id="inputPassword" class="form-control semi-transparent loginPass" style="color: white;" placeholder="Пароль" required="">
-    <button class="btn btn-lg btn-primary btn-block semi-transparent sign-connect loginButton" type="button">Войти!</button>
+        <input type="text" id="inputEmail" class="form-control loginName" placeholder="Имя пользователя" required="" autofocus="">
+        <input type="password" id="inputPassword" class="form-control loginPass" placeholder="Пароль" required="">
+        <button class="btn btn-lg btn-primary btn-block sign-connect loginButton" type="button">Войти!</button>
     </center>
-    <!--<p class="mt-5 mb-3 text-white saveToken">Вход через access_token... (чуть устарел)</p>-->
-    <p class="mt-5 mb-3 text-white disclaimer">Для полноценной работы используйте последние версии Safari или Google Chrome.<br><b>Дисклеймер:</b> VCat и его автор не связан с APIdog, Mail.Ru Group и VK.<br>Photo by <a href="https://unsplash.com/photos/UbZmAlyidtU?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ivana Cajina</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></p>
+    <a href="#" class="text-black saveToken">Вход через access_token</a>
 </form>
-
 <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content semi-transparent">
+        <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="saveModalTitle">Сохранить токен</h5>
+                <h5 class="modal-title" id="saveModalTitle">Мастер входа через access_token</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body text-fix">
-                <input type="text" id="token" class="form-control semi-transparent-white token" style="color: white;" placeholder="access_token" required="" autofocus="">
+                <p>Для полного доступа к сайту используйте токен Android-приложения.</p>
+                <input type="text" id="userid" class="form-control userid" placeholder="user_id" style="margin-bottom: 5px;" required="" autofocus="">
+                <input type="text" id="token" class="form-control token" placeholder="access_token" required="" autofocus="">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary saveToken2">Сохранить!</button>
+                <button type="button" class="btn btn-primary saveToken2">Далее</button>
             </div>
         </div>
     </div>
 </div>
-<!-- Load -->
 <script src="assets/js/third-party/ui/jquery-3.3.1.min.js"></script>
 <script src="assets/js/third-party/ui/bootstrap.min.js"></script>
 <script src="assets/js/vcat_login.js"></script>
