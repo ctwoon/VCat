@@ -12,9 +12,9 @@ var darkMode = getItem('app_darkmode');
 var slotUI = 2;
 initConfig();
 
-var accountSlot = getItem('multi_slot');
+var accountSlot = getItem('VCat.MultiAccount.Slot');
 if (!accountSlot) {
-    setItem('multi_slot', 1);
+    setItem('VCat.MultiAccount.Slot', 1);
     accountSlot = 1;
 }
 var token;

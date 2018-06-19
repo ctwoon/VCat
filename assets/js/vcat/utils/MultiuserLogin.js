@@ -5,16 +5,16 @@ function switchAccount() {
                 requestLogin();
             }
         } else {
-            setItem('multi_slot', 2);
+            setItem('VCat.MultiAccount.Slot', 2);
             window.location.href = "main.html";
         }
     } else {
-        setItem('multi_slot', 1);
+        setItem('VCat.MultiAccount.Slot', 1);
         window.location.href = "main.html";
     }
 }
 
 function requestLogin() {
-    setItem('multi_login_request', 1);
+    setItem('VCat.MultiAccount.AuthRequest', 1);
     window.location.href = "index.html";
 }
