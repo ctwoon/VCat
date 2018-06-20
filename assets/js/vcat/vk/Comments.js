@@ -10,7 +10,7 @@ function getComments(postID, ownerID) {
         url: url,
         success: function( response ) {
           logInfo("Comments", "Got Comments JSON");
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             $.each(result['response']['items'],function(index, value){
                 var userID = value['from_id'];
                 var text = value['text'];

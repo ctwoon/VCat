@@ -6,7 +6,7 @@ function getGroups() {
         url: url,
         success: function( response ) {
             logInfo("GroupList", "Got GroupList JSON");
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             $.each(result['response']['items'],function(index, value){
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder showGroup" vcat-groupid="'+value['id']+'">\n' +
                     '    <div class="card-body messagePadding">\n' +
@@ -34,7 +34,7 @@ function getGroupInfo(groupID) {
         url: url,
         success: function( response ) {
             logInfo("GroupInfo", "Got GroupInfo JSON");
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             $.each(result['response'],function(index, value){
                 var closedState;
                 var groupType;

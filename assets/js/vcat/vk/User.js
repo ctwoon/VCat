@@ -8,7 +8,7 @@ function getUser(userID) {
         url: url,
         success: function( response ) {
           logInfo("User", "Got User JSON");
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             var name;
             $.each(result['response'],function(index, value){
                 var onlineState;
@@ -39,7 +39,7 @@ function getUser(userID) {
                 name = value['first_name']+" "+value['last_name'];
             });
             feather.replace();
-            $('.spinnerLoad').hide();
+            //$('.spinnerLoad').hide();
             getUserWall(userID, name);
             logInfo("User", "Finish User");
         }

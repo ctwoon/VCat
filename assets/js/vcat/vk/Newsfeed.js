@@ -17,7 +17,7 @@ function getNews(attr) {
         url: url,
         success: function( response ) {
             //console.log(response);
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             logInfo("Newsfeed", "Got Newsfeed JSON");
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {

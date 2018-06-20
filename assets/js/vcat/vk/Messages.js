@@ -6,7 +6,7 @@ function getMessageDialogs() {
         url: url,
         success: function (response) {
             //$('.cardContainer').append(response);
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             logInfo("DialogList", "Got DialogList JSON");
             $.each(result['response']['a']['items'], function (index, value) {
                 var dialogID = value['message']['user_id'];
@@ -84,8 +84,7 @@ function getMessages(dialogID, uname, isGroup) {
         url: url,
         success: function (response) {
             logInfo("Dialog", "Got Dialog JSON");
-            var result = JSON.parse(response);
-            console.log(response);
+            var result = safeParse(response);
             currentChatID = dialogID;
             result['response']['items'].reverse();
             if (isGroup) {
@@ -110,8 +109,10 @@ function getMessages(dialogID, uname, isGroup) {
                             cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
                             break;
                         case 'photo':
-                            cardAttachments += '<p><img class="dialogAttachPic" src="' + value['photo']['photo_604'] + '"></p>';
-                            cardAttachments += '<p><a href="' + value['photo']['photo_604'] + '">Открыть!</a></p>';
+                            var photoURLs = value['photo']['sizes'];
+                            var photoURL = photoURLs[photoURLs.length-1];
+                            cardAttachments += '<p><img class="dialogAttachPic" src="' + photoURL['url'] + '"></p>';
+                            cardAttachments += '<p><a href="' + photoURL['url'] + '">Открыть фотографию!</a></p>';
                             break;
                         case 'doc':
                             if (value['doc']['ext'] === "gif") {
@@ -230,7 +231,6 @@ function getMessages(dialogID, uname, isGroup) {
 function getGroupUsers(chatID) {
     chatID = parseInt(chatID) - 2000000000;
     var url = "https://api.vk.com/method/messages.getChatUsers?lang=ru&fields=first_name,last_name&chat_id=" + chatID + "&access_token=" + token + "&v=5.74";
-    console.log(url);
     logInfo("ChatUsers", "Get ChatUsers");
     url = craftURL(url);
     var result1;
@@ -265,7 +265,7 @@ function sendMessage(dialogID, message) {
         url: url,
         async:true,
         success: function (response) {
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             if (Array.isArray(response['error'])) {
                 logInfo("SendMessages", "Error: "+result['error']['error_msg']);
                 result1 = false;
@@ -302,7 +302,6 @@ function removeMessage(messageID, dialogID) {
             url: url,
             async: false,
             success: function (response) {
-                console.log(response);
             }
         });
     }

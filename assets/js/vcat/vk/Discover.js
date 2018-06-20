@@ -11,7 +11,7 @@ function getDiscover(attr) {
     $.ajax({
         url: url,
         success: function( response ) {
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             logInfo("Discover", "Got Discover JSON");
             $.each(result['response']['items'],function(index, value){
                 if (value['template'] == "title") {
@@ -72,7 +72,7 @@ function likePost(id, source) {
     $.ajax({
         url: url,
         success: function( response ) {
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             //console.log(response);
             //insertHTML('itemMain.html');
         }
@@ -87,7 +87,7 @@ function unlikePost(id, source) {
     $.ajax({
         url: url,
         success: function( response ) {
-            var result = JSON.parse(response);
+            var result = safeParse(response);
            // console.log(response);
            // insertHTML('itemMain.html');
         }

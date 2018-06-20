@@ -6,7 +6,7 @@ function getFriends() {
         url: url,
         success: function( response ) {
           logInfo("FriendList", "Got FriendList JSON");
-            var result = JSON.parse(response);
+            var result = safeParse(response);
             $.each(result['response']['items'],function(index, value){
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder showUser" vcat-userid="'+value['id']+'">\n' +
                     '    <div class="card-body messagePadding">\n' +

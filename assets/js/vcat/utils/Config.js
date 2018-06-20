@@ -21,10 +21,6 @@ function initConfig() {
         setItem('app_useproxy', 'disabled');
         useProxy = 'disabled';
     }
-    if (!darkMode) {
-        setItem('app_darkmode', 'disabled');
-        darkMode = 'disabled';
-    }
     if (!proxyURL) {
         setItem('app_proxyurl', 'http://vcatclient.000webhostapp.com/proxy.php');
         proxyURL = 'http://vcatclient.000webhostapp.com/proxy.php';
@@ -129,12 +125,6 @@ function getSettings() {
         cfg4 = 'включено';
         cfg4a = 'disabled';
     }
-    var cfg5 = "отключено";
-    var cfg5a = 'enabled';
-    if (darkMode == "enabled") {
-        cfg5 = 'включено';
-        cfg5a = 'disabled';
-    }
     themeName = getItem("config_theme_name");
     addSCategory('Интерфейс');
     $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder themes">\n' +
@@ -143,31 +133,15 @@ function getSettings() {
         '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
         '    </div>\n' +
         '</div>');
-    addSSimpleOption("app_darkmode", cfg5a, cfg5, "Темная тема", "Перезагрузите VCat для применения темы.");
     addSSimpleOption("app_offline", cfg1a, cfg1, "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
     addSSimpleOption("app_vk5post", cfg2a, cfg2, "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
     addSCategory('Основное');
     addSSimpleOption("app_longpoll", cfg3a, cfg3, "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
     addSSimpleOption("app_useproxy", cfg4a, cfg4, "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
-    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder configSetProxyURL pointer">\n' +
-        '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">URL удаленного прокси</h5>\n' +
-        '        <p class="card-text">Используется: '+proxyURL+'</p>\n' +
-        '    </div>\n' +
-        '</div>');
+    addSClassOption("configSetProxyURL", "URL удаленного прокси", "Используется: "+proxyURL);
     addSCategory('Информация');
-    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder about pointer">\n' +
-        '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">О VCat</h5>\n' +
-        '        <p class="card-text">Текущая версия: '+VCAT_VERSION+'</p>\n' +
-        '    </div>\n' +
-        '</div>');
-    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder logoutButton pointer">\n' +
-            '    <div class="card-body messagePadding">\n' +
-            '        <h5 class="card-title noPadding smallTitle">Сбросить данные VCat</h5>\n' +
-            '        <p class="card-text">Это удалит все - от данных входа до мультиаккаунтов.</p>\n' +
-            '    </div>\n' +
-            '</div>');
+    addSClassOption("about", "О VCat", "Текущая версия: "+VCAT_VERSION);
+    addSClassOption("logoutButton", "Сбросить данные VCat", "Это удалит все - от данных входа до мультиаккаунтов.");
     //
 
     $(".configSet").click(function () {
@@ -205,6 +179,15 @@ function addSSimpleOption(vcatConfig,vcatShouldOn,vcatConfigOn,optionTitle,optio
         '        <h5 class="card-title noPadding smallTitle">'+optionTitle+' ('+vcatConfigOn+')</h5>\n' +
         '        <p class="card-text">'+optionDesc+'</p>\n' +
         '    </div>\n' +
+        '</div>');
+}
+
+function addSClassOption(className, optionTitle, optionDesc) {
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder '+className+' pointer">' +
+        '    <div class="card-body messagePadding">' +
+        '        <h5 class="card-title noPadding smallTitle">'+optionTitle+'</h5>'  +
+        '        <p class="card-text">'+optionDesc+'</p>' +
+        '    </div>' +
         '</div>');
 }
 

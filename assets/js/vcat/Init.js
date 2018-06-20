@@ -1,5 +1,5 @@
 var debugInfo = true;
-const VCAT_VERSION = "0.9.5";
+const VCAT_VERSION = "0.9.6";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
@@ -11,6 +11,16 @@ var useProxy = getItem('app_useproxy');
 var darkMode = getItem('app_darkmode');
 var slotUI = 2;
 initConfig();
+
+function safeParse(json) {
+    try {
+        var result = JSON.parse(json);
+        return result;
+    } catch (e) {
+        showLoadError(1000, "Ошибка возвращаемых данных", "Проблема с прокси и/или интернет-соединением.");
+        return false;
+    }
+}
 
 var accountSlot = getItem('VCat.MultiAccount.Slot');
 if (!accountSlot) {

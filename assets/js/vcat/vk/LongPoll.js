@@ -46,7 +46,6 @@ function poll(){
                                             var text = value[5];
                                             if (typeof value[6]['source_act'] !== "undefined") {
                                                 var rs;
-                                                console.log(value);
                                                 switch (value[6]['source_act']) {
                                                     case 'chat_unpin_message':
                                                         rs = "открепил сообщение";
@@ -106,12 +105,10 @@ function poll(){
 function getLongpollData() {
     if (allowLongpoll) {
         var url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=4', '5.80');
-        console.log(url);
         logInfo("EditMessage", "Get LongPoll");
         $.ajax({
             url: url,
             success: function (response) {
-                console.log(response);
                 var result = JSON.parse(response);
                 initPoll(result['response']['server'], result['response']['ts'], result['response']['pts'], result['response']['key'])
             }
