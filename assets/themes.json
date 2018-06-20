@@ -1,12 +1,6 @@
 {
   "officalThemes": [
     {
-      "themeName": "Material Dark",
-      "themePath": "assets/themes/darkMaterial.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Темная тема в стиле Material Design."
-    },
-    {
       "themeName": "VK Style",
       "themePath": "assets/themes/defaultTheme.css",
       "themeAuthor": "iTaysonLab",
@@ -17,18 +11,6 @@
       "themePath": "assets/themes/darkTheme.css",
       "themeAuthor": "iTaysonLab",
       "themeDescription": "Темная тема в стиле веб-версии ВК."
-    },
-    {
-      "themeName": "Material Light",
-      "themePath": "assets/themes/whiteMaterial.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Светлая тема в стиле Material Design."
-    },
-    {
-      "themeName": "Blackout",
-      "themePath": "assets/themes/blackout.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Ультра-черная тема. Полезно для AMOLED."
     }
   ],
   "repoThemes": []
