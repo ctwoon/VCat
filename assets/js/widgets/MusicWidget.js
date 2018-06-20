@@ -25,7 +25,6 @@ var MusicWidget = {
             '    <p class="audioText">...</p>' +
             '   <div class="btn-group" role="group" style="margin-top: 10px;">' +
             '   <button class="btn btn-outline-primary toggleAudio btn-sm">◼</button>' +
-            '   <button class="btn btn-outline-primary downloadAudio btn-sm">⬇</button>' +
             '  </div></div>\n' +
             '</div>');
         $(".toggleAudio").click(function () {
@@ -34,9 +33,6 @@ var MusicWidget = {
             } else {
                 MusicWidget.playAudio();
             }
-        });
-        $(".downloadAudio").click(function () {
-            MusicWidget.downloadAudio();
         });
         $('.audioText').html(text);
     },
@@ -49,9 +45,6 @@ var MusicWidget = {
         $(".toggleAudio").html("◼");
         this.isPlaying = true;
         this.audio.play();
-    },
-    downloadAudio: function () {
-        window.open(craftMusicURL(this.url, this.title));
     }
 };
 

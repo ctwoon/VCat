@@ -90,3 +90,17 @@ a {
   margin-top: 0 !important;
   border-radius: 0 !important;
 }
+
+.writeBoxButton {
+    background: #1b1b1b !important;
+    color: white !important;
+}
+
+.writeBoxText {
+    background: #1b1b1b !important;
+}
+
+.btn {
+    background: #1b1b1b !important;
+    color: white !important;
+}

@@ -178,8 +178,8 @@ function getMessages(dialogID, uname, isGroup) {
                         cardAttachments +
                         '        <p class="card-text smallText"><i>(' + time + ')</i></p>\n' +
                         '    <div class="btn-zone">\n' +
-                        '    <button type="button" class="btn btn-transparent editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Редактировать</button>\n' +
-                        '    <button type="button" class="btn btn-transparent removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Удалить</button>\n' +
+                        '    <button type="button" class="btn editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Редактировать</button>\n' +
+                        '    <button type="button" class="btn removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Удалить</button>\n' +
                         '    </div>\n' +
                         '    </div>\n' +
                         '</div>');
@@ -205,10 +205,10 @@ function getMessages(dialogID, uname, isGroup) {
             $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
                 '    <div class="card-body messagePadding">\n' +
                 '<div class="input-group">' +
-                '<input type="text" class="form-control writeBoxText bg-dark" placeholder="Сообщение">' +
+                '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
                 '<input type="hidden" class="vcatSend" vcat-sendto="'+dialogID+'">' +
                 '<span class="input-group-btn">' +
-                '<button class="btn btn-default btn-dark writeBoxButton" type="button">Отправить!</button>' +
+                '<button class="btn btn-default writeBoxButton" type="button">Отправить!</button>' +
                 '</span>' +
                 '</div>' +
                 '    </div>\n' +

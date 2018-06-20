@@ -110,3 +110,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-top: 0 !important;
   border-radius: 0 !important;
 }
+
+.writeBoxButton {
+    background: rgb(220,220,220) !important;
+}
+
+.writeBoxText {
+    background: rgb(220,220,220) !important;
+}
