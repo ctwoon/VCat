@@ -391,3 +391,11 @@ p {
     border-radius: 0 5px 5px 0;
     line-height: 1.7;
 }
+
+.widgetTitle a {
+    padding: 0;
+}
+
+.widgetText {
+    padding: 0;
+}

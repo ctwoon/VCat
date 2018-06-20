@@ -6,6 +6,10 @@ function uiw_setData(block, data) {
     $('.widgetBodyHTML-'+block).html(data);
 }
 
+function uiw_addData(block, data) {
+    $('.widgetBodyHTML-'+block).append(data);
+}
+
 function uiw_addWidgetBlock(block) {
     $('.widgetPlace').append('<ul class="nav flex-column widget widget-'+block+'">\n' +
         '                    <li class="nav-item widgetTitle">\n' +
