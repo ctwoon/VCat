@@ -47,7 +47,6 @@ function getNews(attr) {
                         this.textContent = this.textContent.replace($(this).text().toString(), newt.toString());
                     });
                 } else {
-                    unlikePost(id, source);
                     $(this).attr('vcat-isliked', false);
                     $(this).attr('class', 'likeCount');
                     $(this).contents().filter(function() {
@@ -55,6 +54,7 @@ function getNews(attr) {
                     }).each(function(){
                         this.textContent = this.textContent.replace($(this).text().toString(), $(this).text()-1);
                     });
+                    unlikePost(id, source);
                 }
             });
             $(".commentCount").click(function() {

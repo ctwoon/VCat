@@ -14,6 +14,11 @@ var token = getItem("VCat.Auth.Token");
 if (token) {
     if (request == 1) {
         $('.slogan').html('Вход в мультиаккаунт (слот 2)');
+        $(".cancelLogin").show();
+        $(".cancelLogin").click(function() {
+            setItem("VCat.MultiAccount.AuthRequest", 0);
+            window.location.href = "main.html";
+        });
     } else {
         window.location.href = "main.html";
     }
@@ -39,7 +44,7 @@ $(".loginButton").click(function() {
                 setItem("VCat.Auth.Token", JSON.parse(data)['access_token']);
                 setItem("VCat.Auth.UserID", JSON.parse(data)['user_id']);
             }
-            window.location.href = 'index.html';
+            window.location.href = 'main.html';
         } else {
             var a = JSON.parse(data);
             if (a['error'] == "need_validation") {
