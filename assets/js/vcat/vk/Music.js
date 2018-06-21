@@ -10,6 +10,7 @@ function getMusic() {
             logInfo("Music", "Got audio list");
             try {
                 var result = JSON.parse(response);
+                console.log(result);
                 if (result['execute_errors'] !== undefined) {
                     if (result['execute_errors'][0]['error_code'] == 25) {
                         refreshToken();
@@ -38,7 +39,6 @@ function getMusic() {
                         //window.open($(this).attr('vcat-audiourl'));
                         MusicWidget.setAudioSource($(this).attr('vcat-audiourl'), $(this).attr('vcat-audiotext'));
                     });
-                    console.log(result);
                 }
             } catch (e) {
                 showLoadError(1000, "Ошибка возвращаемых данных", "Проблема с прокси и/или пустые аудиозаписи.");

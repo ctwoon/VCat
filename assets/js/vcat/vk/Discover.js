@@ -18,8 +18,12 @@ function getDiscover(attr) {
 
                 } else {
                     value = value['post'];
-                        if (value['text'].length !== 0) {
-                            parseNewsfeed(value, result);
+                        try {
+                            if (value['text'].length !== 0) {
+                                parseNewsfeed(value, result);
+                            }
+                        } catch (e) {
+                            console.error(e);
                         }
                     }
             });

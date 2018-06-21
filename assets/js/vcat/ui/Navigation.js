@@ -1,5 +1,7 @@
 switchToPage('.navFeed', 'itemSpinner.html');
-location.hash = "feed";
+if (!location.hash) {
+    location.hash = "feed";
+}
 
 function jumpToEnd() {
     $(document).scrollTop(Math.abs($('.cardContainer').height()));

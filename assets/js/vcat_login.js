@@ -96,15 +96,33 @@ $(".saveToken").click(function() {
 
 $(".saveToken2").click(function() {
     var token = $(".token").val();
-    var userid = $(".userid").val();
     if (request == 1) {
         setItem("VCat.MultiAccount.Slot2.Token", token);
-        setItem("VCat.MultiAccount.Slot2.UserID", userid);
         setItem("VCat.MultiAccount.AuthRequest", 0);
     } else {
         setItem("VCat.Auth.Token", token);
-        setItem("VCat.Auth.UserID", userid);
     }
+    var url = "https://api.vk.com/method/users.get?&access_token="+token+"&v=5.73";
+    if (!useProxy) {
+        url = "proxy.php?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    } else {
+        url = proxyURL+"?url=" + encodeURIComponent(url).replace(/'/g, "%27").replace(/"/g, "%22");
+    }
+    $.ajax({
+        url: url
+    }).done(function(data) {
+        try {
+            var response = JSON.parse(data);
+            var userid = response['response'][0]['id'];
+            if (request == 1) {
+                setItem("VCat.MultiAccount.Slot2.UserID", userid);
+            } else {
+                setItem("VCat.Auth.UserID", userid);
+            }
+            window.location.href = 'main.html';
+        } catch (e) {
+            alert("Ошибка получения User ID: неверный access_token?");
+        }
+    });
     $('#saveModal').modal('hide');
-    window.location.href = 'main.html';
 });
