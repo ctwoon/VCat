@@ -28,3 +28,6 @@ function uiw_addWidgetBlock(block) {
         '                </ul>');
 }
 
+function uiw_destroyWidget(block) {
+    $('.widget-'+block).remove();
+}
