@@ -78,8 +78,9 @@ class Group {
 
 // A post.
 class Post {
-    constructor(id) {
+    constructor(id, owner, date, text, comments, likes, reposts, views, attachments, marked_as_ad) {
         this.id = id;
+        // TODO: make full Post
     }
 }
 // A T T A C H M E N T S
