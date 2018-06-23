@@ -3,23 +3,91 @@
 // modified to be easier to read/use
 
 // B A S E
-// User (WIP).
-class User {
+// User with only ID. this.user is complete User object.
+class BasicUser {
     constructor(id) {
         this.id = id;
+        this.user = getUserByID(id);
     }
 
     get fullName() {
-        return this.id;
+        return this.user.fullName();
     }
 }
 
+// A user.
+class User {
+    constructor(id, first_name, last_name, deleted, last_seen, online, online_app_id, online_mobile, placeholder, verified, status) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.deleted = deleted;
+        this.last_seen = last_seen;
+        this.online = online;
+        if (online_app_id) {
+            this.online_app = new Application(online_app_id);
+        }
+        if (online_mobile) {
+            this.online_mobile = online_mobile;
+        }
+        this.placeholder = placeholder;
+        this.verified = verified;
+        this.status = status;
+    }
+
+    get fullName() {
+        return this.first_name + " " + this.last_name;
+    }
+}
+
+// An application.
+class Application {
+    constructor(id, title, type) {
+        this.id = id;
+        this.title = title;
+        this.type = type;
+    }
+
+    set appTitle(title) {
+        this.title = title;
+    }
+
+    set appType(type) {
+        this.type = type;
+    }
+}
+
+// A group.
+class Group {
+    constructor(id, title, screen_name, type, closed, deleted, is_member, placeholder, desc) {
+        this.id = id;
+        this.title = title;
+        this.screen_title = screen_name;
+        this.type = type;
+        this.closed = closed;
+        this.deleted = deleted;
+        this.is_member = is_member;
+        this.placeholder = placeholder;
+        this.desc = desc;
+    }
+
+    set member(is_member) {
+        this.is_member = is_member;
+    }
+}
+
+// A post.
+class Post {
+    constructor(id) {
+        this.id = id;
+    }
+}
 // A T T A C H M E N T S
 // Basic attachment with an owner ID, creation/post date and attachment ID.
 class Attachment {
     constructor(id, owner, date) {
         this.id = id;
-        this.owner = new User(owner);
+        this.owner = new BasicUser(owner);
         this.date = new UnixTimestamp(date);
     }
 
@@ -37,7 +105,7 @@ class Photo extends Attachment {
     constructor(id, album, owner, uploader, text, date, sizes, props) {
         super(id, owner, date);
         this.album = album;
-        this.uploader = new User(uploader);
+        this.uploader = new BasicUser(uploader);
         this.text = text;
         this.sizes = sizes;
         this.props = props;

@@ -8,3 +8,7 @@ function passVal(str) {
     }
     return str;
 }
+
+function getUserByID(user_id) {
+    return new User(user_id);
+}
