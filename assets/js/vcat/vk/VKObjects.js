@@ -1,3 +1,6 @@
+// vk.com/dev/objects made in JS classes
+// made by iTaysonLab in 2018
+
 // B A S E
 class User {
     constructor(id) {
@@ -10,14 +13,28 @@ class User {
 }
 
 // A T T A C H M E N T S
-class Photo {
-    constructor(id, album, owner, uploader, text, date, sizes, props) {
+class Attachment {
+    constructor(id, owner, date) {
         this.id = id;
-        this.album = album;
         this.owner = new User(owner);
+        this.date = new UnixTimestamp(date);
+    }
+
+    get ownerName() {
+        return this.owner.fullName;
+    }
+
+    get time() {
+        return this.date.formattedString;
+    }
+}
+
+class Photo extends Attachment {
+    constructor(id, album, owner, uploader, text, date, sizes, props) {
+        super(id, owner, date);
+        this.album = album;
         this.uploader = new User(uploader);
         this.text = text;
-        this.date = new UnixTimestamp(date);
         this.sizes = sizes;
         this.props = props;
     }
@@ -30,10 +47,6 @@ class Photo {
         return this.props.height;
     }
 
-    get time() {
-        return this.date.formattedString;
-    }
-
     get largestImage() {
         let sizes = this.sizes;
         return sizes[sizes.length-1];
@@ -43,34 +56,63 @@ class Photo {
         return this.sizes[0];
     }
 
-    get ownerName() {
-        return this.owner.fullName;
+    get fullID() {
+        return this.owner.id + "_" + this.id
     }
 }
 
-class Video {
-    constructor(id, owner, title, desc, duration, placeholder, date, views, comments, player) {
-        this.id = id;
-        this.owner = new User(owner);
-        this.date = new UnixTimestamp(date);
+class Video extends Attachment {
+    constructor(id, owner, title, desc, duration, placeholder, date, views, comments, player, access_key) {
+        super(id, owner, date);
         this.title = title;
         this.desc = desc;
         this.duration = new Duration(duration);
         this.placeholder = placeholder;
         this.views = views;
         this.comments = comments;
+        this.access_key = access_key;
     }
 
     get formattedDuration() {
         return this.duration.formattedString();
     }
 
-    get time() {
-        return this.date.formattedString;
+    get fullID() {
+        if (this.access_key) {
+            return this.owner.id + "_" + this.id + "_" + this.access_key;
+        } else {
+            return this.owner.id + "_" + this.id;
+        }
     }
+}
 
-    get ownerName() {
-        return this.owner.fullName;
+class Document extends Attachment {
+   constructor(id, owner, title, ext, size, url, date, type) {
+       super(id, owner, date);
+       this.title = title;
+       this.ext = ext;
+       this.size = new ByteSize(size);
+       this.url = url;
+       this.type = type;
+   }
+
+   get fileName() {
+       return this.title + "." + this.ext;
+   }
+}
+
+class Link {
+    constructor(title, caption, url) {
+        this.title = title;
+        this.caption = caption;
+        this.url = url;
+    }
+}
+
+class Album extends Attachment{
+    constructor(id, owner, date, placeholder, title, desc) {
+        super(id, owner, date);
+        this.placeholder = new Photo();
     }
 }
 
@@ -104,5 +146,21 @@ class Duration {
 
     get formattedString() {
         return this.minutes+":"+this.seconds;
+    }
+}
+
+class ByteSize {
+    constructor(bytes) {
+        this.bytes = bytes;
+    }
+
+    get kilobytes() {
+        let kb = this.bytes / 1024;
+        return kb.toFixed(2);
+    }
+
+    get megabytes() {
+        let mb = this.bytes / 1024 / 1024;
+        return mb.toFixed(2);
     }
 }
