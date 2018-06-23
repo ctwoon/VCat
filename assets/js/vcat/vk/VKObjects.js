@@ -3,6 +3,7 @@
 // modified to be easier to read/use
 
 // B A S E
+// User (WIP).
 class User {
     constructor(id) {
         this.id = id;
@@ -14,6 +15,7 @@ class User {
 }
 
 // A T T A C H M E N T S
+// Basic attachment with an owner ID, creation/post date and attachment ID.
 class Attachment {
     constructor(id, owner, date) {
         this.id = id;
@@ -30,6 +32,7 @@ class Attachment {
     }
 }
 
+// A photo.
 class Photo extends Attachment {
     constructor(id, album, owner, uploader, text, date, sizes, props) {
         super(id, owner, date);
@@ -62,6 +65,8 @@ class Photo extends Attachment {
     }
 }
 
+
+// A video. Can be locked via access_key or be hosted on YouTube/other platforms.
 class Video extends Attachment {
     constructor(id, owner, title, desc, duration, placeholder, date, views, comments, player, access_key) {
         super(id, owner, date);
@@ -87,6 +92,7 @@ class Video extends Attachment {
     }
 }
 
+// A documents. Can have a preview or filetype (defined by VK).
 class Document extends Attachment {
    constructor(id, owner, title, ext, size, url, date, type) {
        super(id, owner, date);
@@ -102,6 +108,7 @@ class Document extends Attachment {
    }
 }
 
+// A simple link.
 class Link {
     constructor(title, caption, url) {
         this.title = title;
@@ -110,9 +117,12 @@ class Link {
     }
 }
 
+// An album. Has a cover Photo.
 class Album extends Attachment{
     constructor(id, owner, date, placeholder, title, desc) {
         super(id, owner, date);
+        this.title = title;
+        this.desc = desc;
         this.placeholder = new Photo(placeholder["id"], id, placeholder["owner_id"], placeholder["user_id"], placeholder["text"], placeholder["date"], placeholder["sizes"], placeholder["props"]);
     }
 
@@ -121,6 +131,7 @@ class Album extends Attachment{
     }
 }
 
+// A sticker. Has a transparent and normal variant.
 class Sticker {
     constructor(id, pack, images, images_bg) {
         this.id = id;
@@ -148,18 +159,30 @@ class Sticker {
     }
 }
 
+// A gift. Has only ID and image.
+class Gift {
+    constructor(id, img48, img96, img256) {
+        this.id = id;
+        this.img48 = img48;
+        this.img96 = img96;
+        this.img256 = img256;
+    }
+}
+
+// A poll.
 class Poll extends Attachment {
-    constructor(id, owner, create, title, votes, current_answer, answers, isAnonymous) {
+    constructor(id, owner, create, title, votes, current_answer, answers, is_anonymous) {
         super(id, owner, create);
         this.title = title;
         this.votes = votes;
         this.current_answer = current_answer;
         this.answers = answers;
-        this.isAnonymous = isAnonymous;
+        this.is_anonymous = is_anonymous;
     }
 }
 
 // H E L P E R S
+// Helpful Unix timestamp utils.
 class UnixTimestamp {
     constructor(timestamp) {
         this.timestamp = timestamp;
@@ -174,6 +197,7 @@ class UnixTimestamp {
     }
 }
 
+// Media duration parser.
 class Duration {
     constructor(seconds) {
         this.baseSeconds = seconds;
@@ -192,6 +216,7 @@ class Duration {
     }
 }
 
+// Document size parser.
 class ByteSize {
     constructor(bytes) {
         this.bytes = bytes;
