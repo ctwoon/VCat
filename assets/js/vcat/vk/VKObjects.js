@@ -1,5 +1,6 @@
-// vk.com/dev/objects made in JS classes
+// https://vk.com/dev/objects made in JS classes
 // made by iTaysonLab in 2018
+// modified to be easier to read/use
 
 // B A S E
 class User {
@@ -112,7 +113,49 @@ class Link {
 class Album extends Attachment{
     constructor(id, owner, date, placeholder, title, desc) {
         super(id, owner, date);
-        this.placeholder = new Photo();
+        this.placeholder = new Photo(placeholder["id"], id, placeholder["owner_id"], placeholder["user_id"], placeholder["text"], placeholder["date"], placeholder["sizes"], placeholder["props"]);
+    }
+
+    get cover() {
+        return this.placeholder.smallestImage;
+    }
+}
+
+class Sticker {
+    constructor(id, pack, images, images_bg) {
+        this.id = id;
+        this.pack = pack;
+        this.images = images;
+        this.images_bg = images_bg;
+    }
+
+    get smallestSticker() {
+        return this.images[0];
+    }
+
+    get largestSticker() {
+        let sizes = this.images;
+        return sizes[sizes.length-1];
+    }
+
+    get smallestBGSticker() {
+        return this.images_bg[0];
+    }
+
+    get largestBGSticker() {
+        let sizes = this.images_bg;
+        return sizes[sizes.length-1];
+    }
+}
+
+class Poll extends Attachment {
+    constructor(id, owner, create, title, votes, current_answer, answers, isAnonymous) {
+        super(id, owner, create);
+        this.title = title;
+        this.votes = votes;
+        this.current_answer = current_answer;
+        this.answers = answers;
+        this.isAnonymous = isAnonymous;
     }
 }
 
