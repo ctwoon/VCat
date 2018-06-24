@@ -2,7 +2,7 @@ function getMusic() {
     logInfo("Music", "Get Music");
     var url;
     var offset = 0;
-    url = craftMethodURL('execute', 'getMusicPage', 'owner_id='+getItem("userId")+"&need_owner=1&need_playlists=1&playlists_count=12&audio_offset="+offset+"&audio_count=100", '5.74');
+    url = craftMethodURL('audio', 'get', "audio_offset="+offset+"&audio_count=100", '5.84');
     logInfo("Music", "Requesting url: "+url);
     $.ajax({
         url: url,
@@ -11,16 +11,16 @@ function getMusic() {
             try {
                 var result = JSON.parse(response);
                 console.log(result);
-                if (result['execute_errors'] !== undefined) {
-                    if (result['execute_errors'][0]['error_code'] == 25) {
+                if (result['error'] !== undefined) {
+                    if (result['error']['error_code'] == 25) {
                         refreshToken();
                     }
-                    if (result['execute_errors'][0]['error_code'] == 9) {
+                    if (result['error']['error_code'] == 9) {
                         showLoadError(9, 'Flood control', 'Слишком много запросов, повторите попытку через 2-3 минуты.')
                     }
                 } else {
                     $('.spinnerLoad').hide();
-                    $.each(result['response']['audios']['' + 'items'], function (index, value) {
+                    $.each(result['response']['items'], function (index, value) {
                         var quality = "Среднее качество";
                         if (value['is_hq']) {
                             quality = "Высокое качество";
@@ -58,6 +58,7 @@ function refreshToken() {
                 success: function(response) {
                     logInfo("Music", "Got response: "+response);
                     var res = JSON.parse(response);
+                    console.log(res);
                     setItem('authToken', res['response']['token']);
                     token = res['response']['token'];
                     getMusic();
