@@ -5,8 +5,8 @@ function getMessageDialogs() {
     $.ajax({
         url: url,
         success: function (response) {
-            //$('.cardContainer').append(response);
             var result = safeParse(response);
+            console.log(result);
             logInfo("DialogList", "Got DialogList JSON");
             $.each(result['response']['a']['items'], function (index, value) {
                 var dialogID = value['message']['user_id'];
@@ -24,7 +24,7 @@ function getMessageDialogs() {
                     '</div></a>');
                 } else {
                     name = getMessageDialogTitle(dialogID, result['response']);
-                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'_1_'+name+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
+                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'_1_"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                         '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
@@ -32,7 +32,6 @@ function getMessageDialogs() {
                         '</div></a>');
                 }
             });
-            feather.replace();
             $('.spinnerLoad').hide();
             $(".showDialog").click(function () {
                 //getMessages($(this).attr('vcat-dialog'), $(this).attr('vcat-username'), $(this).attr('vcat-isGroup'));
@@ -42,10 +41,9 @@ function getMessageDialogs() {
     });
 }
 
-function getGroupUsername2(userID, json) {
+function getGroupUsername2(userID) {
     var result;
-    json = JSON.parse(json);
-    $.each(json['response'],function(index, value){
+    $.each(groupUsers,function(index, value){
         if (value['id'] == userID) {
             result = value['first_name'] + " " + value['last_name'];
             return false;
@@ -53,6 +51,23 @@ function getGroupUsername2(userID, json) {
     });
     return result;
 }
+
+function getGroupUsers(chatID) {
+    chatID = parseInt(chatID) - 2000000000;
+    var url = "https://api.vk.com/method/messages.getChatUsers?lang=ru&fields=first_name,last_name&chat_id=" + chatID + "&access_token=" + token + "&v=5.74";
+    logInfo("ChatUsers", "Get ChatUsers");
+    url = craftURL(url);
+    var result1;
+    $.ajax({
+        url: url,
+        async:false,
+        success: function (response) {
+            result1 = response;
+        }
+    });
+    return result1;
+}
+
 
 function getMessageDialogTitle(source_id, json) {
     var result;
@@ -65,9 +80,11 @@ function getMessageDialogTitle(source_id, json) {
     return result;
 }
 
-function getMessages(dialogID, uname, isGroup) {
+var groupUsers2;
+
+function getMessages(dialogID, isGroup) {
     logInfo("Dialog", "Get Dialog");
-    var url = "https://api.vk.com/method/messages.getHistory?lang=ru&peer_id=" + dialogID + "&access_token=" + token + "&v=5.84";
+    var url = "https://api.vk.com/method/messages.getHistory?lang=ru&extended=1&peer_id=" + dialogID + "&access_token=" + token + "&v=5.84";
     url = craftURL(url);
     $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
     $.ajax({
@@ -75,18 +92,19 @@ function getMessages(dialogID, uname, isGroup) {
         success: function (response) {
             logInfo("Dialog", "Got Dialog JSON");
             var result = safeParse(response);
+            console.log(result);
             currentChatID = dialogID;
             result['response']['items'].reverse();
-            if (isGroup) {
-                groupUsers = getGroupUsers(dialogID);
-            }
+            groupUsers = result['response']['profiles'];
+            groupUsers2 = result['response']['groups'];
             $.each(result['response']['items'], function (index, value) {
                 var isSentByUser = value['out'];
                 var time = timestampToTime(value['date']);
                 var text = value['text'];
                 text = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
                 var userId = value['from_id'];
-                var userName = uname;
+                var userName = getGroupUsername(Math.abs(userId));
+
                 var messageID = value['id'];
                 var backgroundStyle = "";
                 var photoStyle = "";
@@ -187,16 +205,15 @@ function getMessages(dialogID, uname, isGroup) {
                 }
                 cardAttachments += '</p>';
                 if (isSentByUser == 1) {
-                    userName = "Я";
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder" '+backgroundStyle+' '+photoStyle+' >\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
-                        '        <p class="card-text smallText"><i>' + time + '</i></p>\n' +
                         '    <div class="btn-zone">\n' +
                         '    <button type="button" class="'+hasBackground+' btn editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'"><i data-feather="edit-3"></i></button>\n' +
                         '    <button type="button" class="'+hasBackground+' btn removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'"><i data-feather="x-circle"></i></button>\n' +
                         '    </div>\n' +
+                        '        <p class="card-text smallText"><i>' + time + '</i></p>\n' +
                         '    </div>\n' +
                         '</div>');
                 } else {
@@ -218,17 +235,33 @@ function getMessages(dialogID, uname, isGroup) {
             }, 500);
             isInMessages = true;
             poll();
-            $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
-                '    <div class="card-body messagePadding">\n' +
-                '<div class="input-group">' +
-                '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
-                '<input type="hidden" class="vcatSend" vcat-sendto="'+dialogID+'">' +
-                '<span class="input-group-btn">' +
-                '<button class="btn btn-default writeBoxButton" type="button">Отправить!</button>' +
-                '</span>' +
-                '</div>' +
-                '    </div>\n' +
-                '</div>');
+            if (result['response']['conversations'][0].hasOwnProperty('chat_settings')) {
+                if (!result['response']['conversations'][0]['chat_settings']['is_group_channel']) {
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
+                        '    <div class="card-body messagePadding">\n' +
+                        '<div class="input-group">' +
+                        '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
+                        '<input type="hidden" class="vcatSend" vcat-sendto="' + dialogID + '">' +
+                        '<span class="input-group-btn">' +
+                        '<button class="btn btn-default writeBoxButton" type="button">Отправить!</button>' +
+                        '</span>' +
+                        '</div>' +
+                        '    </div>\n' +
+                        '</div>');
+                }
+            } else {
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
+                    '    <div class="card-body messagePadding">\n' +
+                    '<div class="input-group">' +
+                    '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
+                    '<input type="hidden" class="vcatSend" vcat-sendto="' + dialogID + '">' +
+                    '<span class="input-group-btn">' +
+                    '<button class="btn btn-default writeBoxButton" type="button">Отправить!</button>' +
+                    '</span>' +
+                    '</div>' +
+                    '    </div>\n' +
+                    '</div>');
+            }
             $(".writeBoxButton").click(function () {
                 sendMessage($(".vcatSend").attr('vcat-sendto'), $(".writeBoxText").val());
             });
@@ -244,28 +277,17 @@ function getMessages(dialogID, uname, isGroup) {
     });
 }
 
-function getGroupUsers(chatID) {
-    chatID = parseInt(chatID) - 2000000000;
-    var url = "https://api.vk.com/method/messages.getChatUsers?lang=ru&fields=first_name,last_name&chat_id=" + chatID + "&access_token=" + token + "&v=5.74";
-    logInfo("ChatUsers", "Get ChatUsers");
-    url = craftURL(url);
-    var result1;
-    $.ajax({
-        url: url,
-        async:false,
-        success: function (response) {
-            result1 = response;
-        }
-    });
-    return result1;
-}
-
-function getGroupUsername(userID, json) {
+function getGroupUsername(userID) {
     var result;
-    json = JSON.parse(json);
-    $.each(json['response'],function(index, value){
+    $.each(groupUsers,function(index, value){
         if (value['id'] === userID) {
             result = value['first_name'] + " " + value['last_name'];
+            return false;
+        }
+    });
+    $.each(groupUsers2,function(index, value){
+        if (value['id'] == userID) {
+            result = value['name'];
             return false;
         }
     });

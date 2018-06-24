@@ -33,6 +33,7 @@ function poll(){
                     serverURL = craftPollURL(serverURL);
                     // go work
                     $.each(data['updates'], function (index, value) {
+                        console.log(value);
                         switch (value[0]) {
                             case 4:
                                 if (value[3] == currentChatID) {
@@ -42,8 +43,11 @@ function poll(){
                                         if (value[5] !== pollBuffer) {
                                             // fix for duplicating messages
                                             var id = value[6]['from'];
-                                            var name = getGroupUsername2(id, groupUsers);
+                                            var name = getGroupUsername2(id);
                                             var text = value[5];
+                                            if (!name) {
+                                                name = "";
+                                            }
                                             if (typeof value[6]['source_act'] !== "undefined") {
                                                 var rs;
                                                 switch (value[6]['source_act']) {

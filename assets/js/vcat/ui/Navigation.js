@@ -105,6 +105,15 @@ function parseNavHash() {
                     a = hash_action[4];
                 }
                 getMessages(hash_action[2], a, b);
+            } else if (hash_action[1] === "im") {
+                let a = null;
+                let b = null;
+                if (hash_action[3] == 0) {
+                    b = hash_action[4];
+                } else {
+                    a = hash_action[4];
+                }
+                getMessages(hash_action[2], a, b);
             }
             break;
     }

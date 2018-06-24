@@ -95,6 +95,7 @@ function parseNewsfeed(value, result) {
                 cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
                 break;
             case 'photo':
+                console.log(value['photo']);
                 cardAttachments += '<p><img src="' + value['photo']['photo_604'] + '"></p>';
                 break;
             case 'doc':
