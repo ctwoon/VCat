@@ -146,8 +146,7 @@ function getMessages(dialogID, isGroup) {
                             if (value['poll'].hasOwnProperty('photo')) {
                                 hasBackground = "btn-bg";
                                 var ph = value['poll']['photo'];
-                                console.log(ph['images'][0]['url']);
-                                photoStyle = "style=\"background-image: url('";
+                                photoStyle = "style=\"background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('";
                                 photoStyle += ph['images'][0]['url'];
                                 photoStyle += "'); background-size: cover; background-repeat: no-repeat;color: white; background-color: #121212;\"";
                                 console.log("Found a Image Background");
@@ -177,6 +176,17 @@ function getMessages(dialogID, isGroup) {
                                 cardAttachments += '<p>Информация о стикере: Коллекция - ' + value['sticker']['product_id'] + ', Код стикера - ' + value['sticker']['sticker_id'] + '</p>';
                             }
                             cardAttachments += '<p>Скачать - <a href="' + value['sticker']['images'][1]['url'] + '">64px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][1]['url'] + '">128px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][2]['url'] + '">256px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][3]['url'] + '">352px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][4]['url'] + '">512px</a></p>';
+                            break;
+                        case 'article':
+                            hasBackground = "btn-bg";
+                            var art = value['article'];
+                            var size = art['photo']['sizes'];
+                            photoStyle = "style=\"background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('";
+                            photoStyle += size[size.length-1]['url'];
+                            photoStyle += "'); background-size: cover; background-repeat: no-repeat;color: white; background-color: #121212;\"";
+                            cardAttachments += '<p>'+art['owner_name']+'</p>';
+                            cardAttachments += '<p>'+art['title']+'</p>';
+                            cardAttachments += '<p>'+art['view_url']+'</p>';
                             break;
                         default:
                             cardAttachments += '<p>Неподдерживаемый тип вложения: ' + type + '. Информация выведена в DevTools.</p>';
