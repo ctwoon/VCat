@@ -34,7 +34,7 @@ function endsWith($haystack, $needle)
 }
 
 $allowed_urls = array(
-    "m.vk.com", "vk.com", "api.vk.com", "oauth.vk.com", "login.vk.com", "imv4.vk.com"
+    "m.vk.com", "vk.com", "api.vk.com", "oauth.vk.com", "login.vk.com", "imv4.vk.com", "pp.userapi.com"
 );
 
 $args = $_POST;
@@ -64,6 +64,10 @@ foreach ($allowed_urls as $u) {
         }
         if (endsWith($url, ".png")) {
             header('Content-Type: image/png');
+            header('Content-Length: '.strlen($out));
+        }
+        if (endsWith($url, ".jpg")) {
+            header('Content-Type: image/jpg');
             header('Content-Length: '.strlen($out));
         }
         echo $out;

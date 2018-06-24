@@ -16,7 +16,7 @@ function getMessageDialogs() {
                     var isGroup2 = true;
                     name = value['message']['title'] + " " + isGroup;
                     dialogID = parseInt(value['message']['chat_id']) + 2000000000;
-                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_chat_'+dialogID+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
+                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_chat_'+dialogID+'_0_'+isGroup2+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
                     '    <div class="card-body messagePadding">\n' +
                     '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                     '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
@@ -24,7 +24,7 @@ function getMessageDialogs() {
                     '</div></a>');
                 } else {
                     name = getMessageDialogTitle(dialogID, result['response']);
-                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
+                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'_1_'+name+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                         '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
@@ -35,7 +35,7 @@ function getMessageDialogs() {
             feather.replace();
             $('.spinnerLoad').hide();
             $(".showDialog").click(function () {
-                getMessages($(this).attr('vcat-dialog'), $(this).attr('vcat-username'), $(this).attr('vcat-isGroup'));
+                //getMessages($(this).attr('vcat-dialog'), $(this).attr('vcat-username'), $(this).attr('vcat-isGroup'));
             });
             logInfo("DialogList", "Finish DialogList");
         }
@@ -88,6 +88,9 @@ function getMessages(dialogID, uname, isGroup) {
                 var userId = value['from_id'];
                 var userName = uname;
                 var messageID = value['id'];
+                var backgroundStyle = "";
+                var photoStyle = "";
+                var hasBackground = "";
                 if (isGroup) {
                     userName = getGroupUsername(userId, groupUsers);
                 }
@@ -114,6 +117,23 @@ function getMessages(dialogID, uname, isGroup) {
                             break;
                         case 'poll':
                             console.log(value['poll']);
+                            if (value['poll'].hasOwnProperty('background')) {
+                                hasBackground = "btn-bg";
+                                var bg = value['poll']['background'];
+                                if (bg['type'] === "gradient") {
+                                    backgroundStyle = "style='color: white; background: linear-gradient("+bg['angle']+"deg, #"+bg['points'][0]['color']+", #"+bg['points'][1]['color']+")'";
+                                    console.log("Found a Poll Background => Angle: "+bg['angle']+", Color 1: #"+bg['points'][0]['color']+", Color 2: #"+bg['points'][1]['color']);
+                                }
+                            }
+                            if (value['poll'].hasOwnProperty('photo')) {
+                                hasBackground = "btn-bg";
+                                var ph = value['poll']['photo'];
+                                console.log(ph['images'][0]['url']);
+                                photoStyle = "style=\"background-image: url('";
+                                photoStyle += ph['images'][0]['url'];
+                                photoStyle += "'); background-size: cover; background-repeat: no-repeat;color: white; background-color: #121212;\"";
+                                console.log("Found a Image Background");
+                            }
                             cardAttachments += '<p>Голосование: ' + value['poll']['question'] + ' (' + value['poll']['votes'] + ' голосов)</p>';
                             $.each(value['poll']['answers'], function (index, value) {
                                 cardAttachments += '<p>- ' + value['text'] + ' (' + value['votes'] + ' голосов) [' + value['rate'] + '%]</p>';
@@ -129,6 +149,10 @@ function getMessages(dialogID, uname, isGroup) {
                             var durSec = value['video']['duration'] - durMin * 60;
                             cardAttachments += '<p>Видеозапись: ' + value['video']['title'] + ' (ID: ' + value['video']['id'] + ') [' + durMin + ':' + durSec + ']</p>';
                             break;
+                        case 'graffiti':
+                            cardAttachments += '<p><img class="dialogAttachPic" src="' + value['graffiti']['url'] + '"></p>';
+                            cardAttachments += '<p><a href="' + value['graffiti']['url'] + '">Открыть графитти!</a></p>';
+                            break;
                         case 'sticker':
                             cardAttachments += '<p><img class="dialogAttachPic" src="' + value['sticker']['images'][0]['url'] + '"></p>';
                             if (debugInfo) {
@@ -137,7 +161,8 @@ function getMessages(dialogID, uname, isGroup) {
                             cardAttachments += '<p>Скачать - <a href="' + value['sticker']['images'][1]['url'] + '">64px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][1]['url'] + '">128px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][2]['url'] + '">256px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][3]['url'] + '">352px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][4]['url'] + '">512px</a></p>';
                             break;
                         default:
-                            cardAttachments += '<p>Неподдерживаемый тип вложения: ' + type + '</p>';
+                            cardAttachments += '<p>Неподдерживаемый тип вложения: ' + type + '. Информация выведена в DevTools.</p>';
+                            console.log(value);
                             break;
                     }
                 });
@@ -163,19 +188,19 @@ function getMessages(dialogID, uname, isGroup) {
                 cardAttachments += '</p>';
                 if (isSentByUser == 1) {
                     userName = "Я";
-                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder">\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder" '+backgroundStyle+' '+photoStyle+' >\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
                         '        <p class="card-text smallText"><i>' + time + '</i></p>\n' +
                         '    <div class="btn-zone">\n' +
-                        '    <button type="button" class="btn editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Редактировать</button>\n' +
-                        '    <button type="button" class="btn removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Удалить</button>\n' +
+                        '    <button type="button" class="'+hasBackground+' btn editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'"><i data-feather="edit-3"></i></button>\n' +
+                        '    <button type="button" class="'+hasBackground+' btn removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'"><i data-feather="x-circle"></i></button>\n' +
                         '    </div>\n' +
                         '    </div>\n' +
                         '</div>');
                 } else {
-                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder" '+backgroundStyle+' '+photoStyle+' >\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
@@ -205,7 +230,7 @@ function getMessages(dialogID, uname, isGroup) {
                 '    </div>\n' +
                 '</div>');
             $(".writeBoxButton").click(function () {
-                var sendState = sendMessage($(".vcatSend").attr('vcat-sendto'), $(".writeBoxText").val());
+                sendMessage($(".vcatSend").attr('vcat-sendto'), $(".writeBoxText").val());
             });
             $(".editMessage").click(function () {
                 editMessage($(this).attr('vcat-msgid'), $(this).attr('vcat-dialogid'));
@@ -251,7 +276,7 @@ function sendMessage(dialogID, message) {
     var url = "https://api.vk.com/method/messages.send?message="+ encodeURIComponent(message) +"&peer_id=" + dialogID + "&access_token=" + token + "&v=5.74";
     logInfo("SendMessages", "Get SendMessages");
     url = craftURL(url);
-    var result1 = false;
+    $(".writeBoxText").val("");
     $.ajax({
         url: url,
         async:true,
@@ -259,14 +284,11 @@ function sendMessage(dialogID, message) {
             var result = safeParse(response);
             if (Array.isArray(response['error'])) {
                 logInfo("SendMessages", "Error: "+result['error']['error_msg']);
-                result1 = false;
             } else {
                 logInfo("SendMessages", "Done");
-                result1 = true;
             }
         }
     });
-    return result1;
 }
 
 function editMessage(messageID, dialogID) {

@@ -95,7 +95,18 @@ function parseNavHash() {
     // [0] always action, [1] always define, [2],[3] are params
     var hash_action = hash.split("_");
     switch (hash_action[0]) {
-
+        case 'msg':
+            if (hash_action[1] === "chat") {
+                let a = null;
+                let b = null;
+                if (hash_action[3] == 0) {
+                    b = hash_action[4];
+                } else {
+                    a = hash_action[4];
+                }
+                getMessages(hash_action[2], a, b);
+            }
+            break;
     }
     if (hash.includes("msg_chat_")) {
         hash = hash.substring(9, hash.length);
