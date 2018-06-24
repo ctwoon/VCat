@@ -399,3 +399,7 @@ p {
 .widgetText {
     padding: 0;
 }
+
+.vcat-deeplink:hover {
+    text-decoration: none;
+}

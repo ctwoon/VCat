@@ -91,6 +91,15 @@ function parseNavHash() {
             switchAccount();
             break;
     }
+    // Parse actions
+    // [0] always action, [1] always define, [2],[3] are params
+    var hash_action = hash.split("_");
+    switch (hash_action[0]) {
+
+    }
+    if (hash.includes("msg_chat_")) {
+        hash = hash.substring(9, hash.length);
+    }
 }
 
 $('.htmlContainer').addClass('noMarginAndPadding');

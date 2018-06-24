@@ -44,7 +44,7 @@ foreach ($allowed_urls as $u) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, "VKAndroidApp/4.13.1-1206 (Android 6.0.0; SDK 23; armeabi-v7a; LGE Nexus 5; ru)");
+        curl_setopt($ch, CURLOPT_USERAGENT, "VKAndroidApp/5.11.1-2316 (Android 6.0.0; SDK 23; armeabi-v7a; LGE Nexus 5; ru)");
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3600);
         if (!endsWith($url,".png")) {
             curl_setopt($ch, CURLOPT_POST, 1);

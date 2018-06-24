@@ -14,32 +14,22 @@ function getMessageDialogs() {
                 if (value['message']['title'].length > 0) {
                     var isGroup = "(Беседа)";
                     var isGroup2 = true;
-                    var debugInfo2 = '<p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n';
-                    if (!debugInfo) {
-                        debugInfo2 = "<p></p>";
-                    }
-                     name = value['message']['title'] + " " + isGroup;
-                     dialogID = parseInt(value['message']['chat_id']) + 2000000000;
-                     $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
-                     '    <div class="card-body messagePadding">\n' +
-                     '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
-                     '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
-                         debugInfo2 +
-                     '    </div>\n' +
-                     '</div>');
+                    name = value['message']['title'] + " " + isGroup;
+                    dialogID = parseInt(value['message']['chat_id']) + 2000000000;
+                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_chat_'+dialogID+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
+                    '    <div class="card-body messagePadding">\n' +
+                    '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
+                    '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
+                    '    </div>\n' +
+                    '</div></a>');
                 } else {
                     name = getMessageDialogTitle(dialogID, result['response']);
-                    var debugInfo2 = '<p class="card-text smallText"> <i>ID: ' + dialogID + '</i></p>\n';
-                    if (!debugInfo) {
-                        debugInfo2 = "<p></p>";
-                    }
-                    $('.cardContainer').append('<div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
+                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                         '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
-                        debugInfo2 +
                         '    </div>\n' +
-                        '</div>');
+                        '</div></a>');
                 }
             });
             feather.replace();
@@ -77,7 +67,7 @@ function getMessageDialogTitle(source_id, json) {
 
 function getMessages(dialogID, uname, isGroup) {
     logInfo("Dialog", "Get Dialog");
-    var url = "https://api.vk.com/method/messages.getHistory?lang=ru&peer_id=" + dialogID + "&access_token=" + token + "&v=5.80";
+    var url = "https://api.vk.com/method/messages.getHistory?lang=ru&peer_id=" + dialogID + "&access_token=" + token + "&v=5.84";
     url = craftURL(url);
     $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
     $.ajax({
@@ -123,6 +113,7 @@ function getMessages(dialogID, uname, isGroup) {
                             cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: ' + size + 'MB)</a></p>';
                             break;
                         case 'poll':
+                            console.log(value['poll']);
                             cardAttachments += '<p>Голосование: ' + value['poll']['question'] + ' (' + value['poll']['votes'] + ' голосов)</p>';
                             $.each(value['poll']['answers'], function (index, value) {
                                 cardAttachments += '<p>- ' + value['text'] + ' (' + value['votes'] + ' голосов) [' + value['rate'] + '%]</p>';
@@ -176,7 +167,7 @@ function getMessages(dialogID, uname, isGroup) {
                         '    <div class="card-body messagePadding">\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
-                        '        <p class="card-text smallText"><i>(' + time + ')</i></p>\n' +
+                        '        <p class="card-text smallText"><i>' + time + '</i></p>\n' +
                         '    <div class="btn-zone">\n' +
                         '    <button type="button" class="btn editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Редактировать</button>\n' +
                         '    <button type="button" class="btn removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">Удалить</button>\n' +
@@ -189,7 +180,7 @@ function getMessages(dialogID, uname, isGroup) {
                         '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
-                        '        <p class="card-text smallText"> <i>(' + time + ')</i></p>\n' +
+                        '        <p class="card-text smallText"> <i>' + time + '</i></p>\n' +
                         '    </div>\n' +
                         '</div>');
                 }
