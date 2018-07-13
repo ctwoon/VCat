@@ -143,6 +143,10 @@ function getMessages(dialogID, isGroup) {
                                     console.log("Found a Poll Background => Angle: "+bg['angle']+", Color 1: #"+bg['points'][0]['color']+", Color 2: #"+bg['points'][1]['color']);
                                 }
                             }
+                            var userAnswers = [];
+                            if (value['poll'].hasOwnProperty('answer_ids')) {
+                                userAnswers = value['poll']['answer_ids'];
+                            }
                             if (value['poll'].hasOwnProperty('photo')) {
                                 hasBackground = "btn-bg";
                                 var ph = value['poll']['photo'];
@@ -153,7 +157,14 @@ function getMessages(dialogID, isGroup) {
                             }
                             cardAttachments += '<p>Голосование: ' + value['poll']['question'] + ' (' + value['poll']['votes'] + ' голосов)</p>';
                             $.each(value['poll']['answers'], function (index, value) {
-                                cardAttachments += '<div class="progress"><div class="progress-bar" role="progressbar" style="width: '+value['rate']+'%;" aria-valuenow="'+value['rate']+'" aria-valuemin="0" aria-valuemax="100"></div><span>' + value['text'] + ' [' + value['rate'] + '%]</span></div>';
+                                var userPoint = "";
+                                var userPoint2 = "";
+                                if (userAnswers.includes(value['id'])) {
+                                    userPoint = "poll-user";
+                                    userPoint2 = " <i data-feather=\"check\"></i>";
+                                }
+                                cardAttachments += '<div class="progress"><div class="progress-bar '+userPoint+'" role="progressbar" style="width: '+value['rate']+'%;" aria-valuenow="'+value['rate']+'" aria-valuemin="0" aria-valuemax="100"></div>';
+                                cardAttachments += '<span class="poll-answer-left">' + value['text'] +userPoint2+'</span><span class="poll-answer-right">[' + value['rate'] + '%]</span></div>';
                             });
                             break;
                         case 'audio':
@@ -216,6 +227,7 @@ function getMessages(dialogID, isGroup) {
                     text = userName+" "+rs+".";
                     userName = "";
                 }
+                text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">Ссылка: $2</a>')
                 cardAttachments += '</p>';
                 if (isSentByUser == 1) {
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder" '+backgroundStyle+' '+photoStyle+' >\n' +
@@ -225,8 +237,8 @@ function getMessages(dialogID, isGroup) {
                         '    <div class="btn-zone">\n' +
                         '    <button type="button" class="'+hasBackground+' btn editMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'"><i data-feather="edit-3"></i></button>\n' +
                         '    <button type="button" class="'+hasBackground+' btn removeMessage" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'"><i data-feather="x-circle"></i></button>\n' +
+                        '    <button type="button" class="'+hasBackground+' btn timeButton" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">'+time+'</button>\n' +
                         '    </div>\n' +
-                        '        <p class="card-text smallText"><i>' + time + '</i></p>\n' +
                         '    </div>\n' +
                         '</div>');
                 } else {
@@ -235,7 +247,9 @@ function getMessages(dialogID, isGroup) {
                         '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
-                        '        <p class="card-text smallText"> <i>' + time + '</i></p>\n' +
+                        '    <div class="btn-zone">\n' +
+                        '    <button type="button" class="'+hasBackground+' btn timeButton" vcat-msgid="'+messageID+'" vcat-dialogid="'+dialogID+'">'+time+'</button>\n' +
+                        '    </div>\n' +
                         '    </div>\n' +
                         '</div>');
                 }

@@ -434,13 +434,31 @@ p {
     margin-bottom: 0.5rem;
 }
 
+
 .progress span {
-    text-align: center;
-    width: 100%;
+    /*text-align: center;
+    width: 100%;*/
     line-height: 2.2;
     position: absolute;
 }
 
+.poll-answer-right {
+    right: 20px;
+}
+
+.poll-answer-left {
+    left: 20px;
+}
+
+.poll-answer-left svg {
+    top: 2px;
+    position: relative;
+}
+
 .progress-bar {
     background-color: rgba(0, 0, 0, .25);
+}
+
+.progress-bar.poll-user {
+    background-color: rgba(0, 0, 0, .5);
 }
