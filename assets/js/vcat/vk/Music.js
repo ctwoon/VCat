@@ -27,6 +27,8 @@ function getMusic() {
                         }
                         var durMin = Math.floor(value['duration'] / 60);
                         var durSec = value['duration'] - durMin * 60;
+                        var durMin = new String(durMin).padStart(2,0);
+                        var durSec = new String(durSec).padStart(2,0);
                         $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder audio" vcat-audiotext="' + value['artist'] + ' - ' + value['title'] + '" vcat-audiourl="' + value['url'] + '">\n' +
                             '    <div class="card-body messagePadding">\n' +
                             '<h4 class="card-title smallTitle">' + value['artist'] + ' - ' + value['title'] + '</h4>' +

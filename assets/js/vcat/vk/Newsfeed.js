@@ -18,7 +18,6 @@ function getNews(attr) {
         success: function( response ) {
             //console.log(response);
             var result = safeParse(response);
-            logInfo("Newsfeed", "Got Newsfeed JSON");
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
@@ -62,7 +61,6 @@ function getNews(attr) {
                 var source = $(this).attr('vcat-author');
                 getComments(id, source);
             });
-            logInfo("Newsfeed", "Finish Newsfeed");
             sendOffline();
         }
     });
@@ -95,10 +93,13 @@ function parseNewsfeed(value, result) {
                 cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
                 break;
             case 'photo':
+                if (liteMode == "disabled") {
                 cardAttachments += '<p><img src="' + value['photo']['photo_130'] + '"></p>';
+                }
+                cardAttachments += '<p><a href="' + value['photo']['photo_604'] + '">Открыть фотографию!</a></p>';
                 break;
             case 'doc':
-                if (value['doc']['ext'] === "gif") {
+                if (value['doc']['ext'] === "gif" && liteMode == "disabled") {
                     cardAttachments += '<p><img src="' + value['doc']['url'] + '"></p>';
                     break;
                 }

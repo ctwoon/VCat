@@ -1,5 +1,5 @@
 var debugInfo = true;
-const VCAT_VERSION = "0.9.7a";
+const VCAT_VERSION = "0.9.7b";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
@@ -9,6 +9,7 @@ var proxyURL = getItem('app_proxyurl');
 var allowLongpoll = getItem('app_longpoll');
 var useProxy = getItem('app_useproxy');
 var darkMode = getItem('app_darkmode');
+var liteMode = getItem('app_litemode');
 var slotUI = 2;
 initConfig();
 

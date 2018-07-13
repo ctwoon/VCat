@@ -426,3 +426,21 @@ p {
 .btn-bg:hover {
     background: rgba(0,0,0,0.5) !important;
 }
+
+.progress {
+    height: 1.5rem;
+    background-color: rgba(0, 0, 0, .1);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress span {
+    text-align: center;
+    width: 100%;
+    line-height: 2.2;
+    position: absolute;
+}
+
+.progress-bar {
+    background-color: rgba(0, 0, 0, .25);
+}

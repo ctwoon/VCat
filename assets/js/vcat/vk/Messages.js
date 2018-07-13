@@ -1,13 +1,10 @@
 function getMessageDialogs() {
-    logInfo("DialogList", "Get DialogList");
     var url = "https://api.vk.com/method/execute.getDialogsWithProfilesNewFixGroups?lang=ru&https=1&count=40&access_token=" + token + "&v=5.69";
     url = craftURL(url);
     $.ajax({
         url: url,
         success: function (response) {
             var result = safeParse(response);
-            console.log(result);
-            logInfo("DialogList", "Got DialogList JSON");
             $.each(result['response']['a']['items'], function (index, value) {
                 var dialogID = value['message']['user_id'];
                 var name;
@@ -33,10 +30,6 @@ function getMessageDialogs() {
                 }
             });
             $('.spinnerLoad').hide();
-            $(".showDialog").click(function () {
-                //getMessages($(this).attr('vcat-dialog'), $(this).attr('vcat-username'), $(this).attr('vcat-isGroup'));
-            });
-            logInfo("DialogList", "Finish DialogList");
         }
     });
 }
@@ -55,7 +48,6 @@ function getGroupUsername2(userID) {
 function getGroupUsers(chatID) {
     chatID = parseInt(chatID) - 2000000000;
     var url = "https://api.vk.com/method/messages.getChatUsers?lang=ru&fields=first_name,last_name&chat_id=" + chatID + "&access_token=" + token + "&v=5.74";
-    logInfo("ChatUsers", "Get ChatUsers");
     url = craftURL(url);
     var result1;
     $.ajax({
@@ -90,7 +82,6 @@ function getMessages(dialogID, isGroup) {
     $.ajax({
         url: url,
         success: function (response) {
-            logInfo("Dialog", "Got Dialog JSON");
             var result = safeParse(response);
             console.log(result);
             currentChatID = dialogID;
@@ -122,7 +113,9 @@ function getMessages(dialogID, isGroup) {
                         case 'photo':
                             var photoURLs = value['photo']['sizes'];
                             var photoURL = photoURLs[photoURLs.length-1];
+                            if (liteMode == "disabled") {
                             cardAttachments += '<p><img class="dialogAttachPic" src="' + photoURL['url'] + '"></p>';
+                            }
                             cardAttachments += '<p><a href="' + photoURL['url'] + '">Открыть фотографию!</a></p>';
                             break;
                         case 'doc':
@@ -132,6 +125,13 @@ function getMessages(dialogID, isGroup) {
                             var size = value['doc']['size'] / 1000 / 1000;
                             size = size.toFixed(2);
                             cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: ' + size + 'MB)</a></p>';
+                            break;
+                        case 'audio_message':
+                            var durMin = Math.floor(value['audio_message']['duration'] / 60);
+                            var durSec = value['audio_message']['duration'] - durMin * 60;
+                            var durMin = new String(durMin).padStart(2,0);
+                            var durSec = new String(durSec).padStart(2,0);
+                            cardAttachments += '<p>Голосовая запись: <a href="'+value['audio_message']['link_mp3']+'">MP3</a>' + '&nbsp;/&nbsp;<a href="'+value['audio_message']['link_ogg']+'">OGG</a>&nbsp;'  + '[' + durMin + ':' + durSec + ']</p>';
                             break;
                         case 'poll':
                             console.log(value['poll']);
@@ -153,12 +153,14 @@ function getMessages(dialogID, isGroup) {
                             }
                             cardAttachments += '<p>Голосование: ' + value['poll']['question'] + ' (' + value['poll']['votes'] + ' голосов)</p>';
                             $.each(value['poll']['answers'], function (index, value) {
-                                cardAttachments += '<p>- ' + value['text'] + ' (' + value['votes'] + ' голосов) [' + value['rate'] + '%]</p>';
+                                cardAttachments += '<div class="progress"><div class="progress-bar" role="progressbar" style="width: '+value['rate']+'%;" aria-valuenow="'+value['rate']+'" aria-valuemin="0" aria-valuemax="100"></div><span>' + value['text'] + ' [' + value['rate'] + '%]</span></div>';
                             });
                             break;
                         case 'audio':
                             var durMin = Math.floor(value['audio']['duration'] / 60);
                             var durSec = value['audio']['duration'] - durMin * 60;
+                            var durMin = new String(durMin).padStart(2,0);
+                            var durSec = new String(durSec).padStart(2,0);
                             cardAttachments += '<p>Аудиозапись: ' + value['audio']['title'] + ' от ' + value['audio']['artist'] + ' [' + durMin + ':' + durSec + ']</p>';
                             break;
                         case 'video':
@@ -167,15 +169,16 @@ function getMessages(dialogID, isGroup) {
                             cardAttachments += '<p>Видеозапись: ' + value['video']['title'] + ' (ID: ' + value['video']['id'] + ') [' + durMin + ':' + durSec + ']</p>';
                             break;
                         case 'graffiti':
+                            if (liteMode == "disabled") {
                             cardAttachments += '<p><img class="dialogAttachPic" src="' + value['graffiti']['url'] + '"></p>';
+                            }
                             cardAttachments += '<p><a href="' + value['graffiti']['url'] + '">Открыть графитти!</a></p>';
                             break;
                         case 'sticker':
+                            if (liteMode == "disabled") {
                             cardAttachments += '<p><img class="dialogAttachPic" src="' + value['sticker']['images'][0]['url'] + '"></p>';
-                            if (debugInfo) {
-                                cardAttachments += '<p>Информация о стикере: Коллекция - ' + value['sticker']['product_id'] + ', Код стикера - ' + value['sticker']['sticker_id'] + '</p>';
                             }
-                            cardAttachments += '<p>Скачать - <a href="' + value['sticker']['images'][1]['url'] + '">64px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][1]['url'] + '">128px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][2]['url'] + '">256px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][3]['url'] + '">352px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][4]['url'] + '">512px</a></p>';
+                            cardAttachments += '<p>Стикер: <a href="' + value['sticker']['images'][1]['url'] + '">64px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][1]['url'] + '">128px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][2]['url'] + '">256px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][3]['url'] + '">352px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][4]['url'] + '">512px</a></p>';
                             break;
                         case 'article':
                             hasBackground = "btn-bg";
@@ -239,7 +242,6 @@ function getMessages(dialogID, isGroup) {
             });
             feather.replace();
             $('.spinnerLoad').hide();
-            logInfo("Dialog", "Finish Dialog");
             setTimeout(function () {
                 jumpToEnd();
             }, 500);
@@ -259,6 +261,21 @@ function getMessages(dialogID, isGroup) {
                         '    </div>\n' +
                         '</div>');
                 }
+            } else if (result['response']['conversations'][0].hasOwnProperty('current_keyboard')) {
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
+                    '<div class="card-body messagePadding">\n' +
+                    '<div class="input-group">' +
+                    '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
+                    '<input type="hidden" class="vcatSend" vcat-sendto="' + dialogID + '">' +
+                    '<span class="input-group-btn">' +
+                    '<button class="btn btn-default writeBoxButton" type="button">Отправить!</button>' +
+                    '</span></div>');
+                result['response']['conversations'][0]['current_keyboard']['buttons'].forEach(function (element) {
+                    element.forEach(function (element) {
+                        console.log("Button: Color "+element['color']+", Label: "+element['action']['label']);
+                    })
+                });    
+                $('.cardContainer').append('</div></div>');
             } else {
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
                     '    <div class="card-body messagePadding">\n' +
