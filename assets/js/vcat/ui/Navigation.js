@@ -123,5 +123,12 @@ function parseNavHash() {
 }
 
 $('.htmlContainer').addClass('noMarginAndPadding');
+$(document).ready(function () {
+
+    $('.sidebarCollapse').on('click', function () {
+        $('.sidebar').toggleClass('active');
+    });
+
+});
 
 logInfo("Main", "Navigation loaded");
