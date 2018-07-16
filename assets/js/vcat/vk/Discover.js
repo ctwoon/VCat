@@ -3,9 +3,9 @@ function getDiscover(attr) {
     logInfo("Discover", "Get Discover");
     var url;
     if (typeof attr === "undefined") {
-        url = "https://api.vk.com/method/newsfeed.getDiscover?extended=1&access_token="+token+"&v=5.74&app_package_id=com.vkontakte.android";
+        url = "https://api.vk.com/method/newsfeed.getDiscover?extended=1&access_token="+token+"&v=5.83&app_package_id=com.vkontakte.android";
     } else {
-        url = "https://api.vk.com/method/newsfeed.getDiscover?extended=1&access_token="+token+"&v=5.74&app_package_id=com.vkontakte.android&start_from="+attr;
+        url = "https://api.vk.com/method/newsfeed.getDiscover?extended=1&access_token="+token+"&v=5.83&app_package_id=com.vkontakte.android&start_from="+attr;
     }
     url = craftURL(url);
     $.ajax({

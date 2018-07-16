@@ -97,117 +97,9 @@ function getMessages(dialogID, isGroup) {
                 var userName = getGroupUsername(Math.abs(userId));
 
                 var messageID = value['id'];
-                var backgroundStyle = "";
-                var photoStyle = "";
-                var hasBackground = "";
                 if (isGroup) {
                     userName = getGroupUsername(userId, groupUsers);
                 }
-                var cardAttachments = '<p class="card-text">';
-                $.each(value['attachments'], function (index, value) {
-                    var type = value['type'];
-                    switch (type) {
-                        case 'link':
-                            cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
-                            break;
-                        case 'photo':
-                            var photoURLs = value['photo']['sizes'];
-                            var photoURL = photoURLs[photoURLs.length-1];
-                            if (liteMode == "disabled") {
-                            cardAttachments += '<p><img class="dialogAttachPic" src="' + photoURL['url'] + '"></p>';
-                            }
-                            cardAttachments += '<p><a href="' + photoURL['url'] + '">Открыть фотографию!</a></p>';
-                            break;
-                        case 'doc':
-                            if (value['doc']['ext'] === "gif") {
-                                cardAttachments += '<p><img class="dialogAttachPic" src="' + value['doc']['url'] + '"></p>';
-                            }
-                            var size = value['doc']['size'] / 1000 / 1000;
-                            size = size.toFixed(2);
-                            cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: ' + size + 'MB)</a></p>';
-                            break;
-                        case 'audio_message':
-                            var durMin = Math.floor(value['audio_message']['duration'] / 60);
-                            var durSec = value['audio_message']['duration'] - durMin * 60;
-                            var durMin = new String(durMin).padStart(2,0);
-                            var durSec = new String(durSec).padStart(2,0);
-                            cardAttachments += '<p>Голосовая запись: <a href="'+value['audio_message']['link_mp3']+'">MP3</a>' + '&nbsp;/&nbsp;<a href="'+value['audio_message']['link_ogg']+'">OGG</a>&nbsp;'  + '[' + durMin + ':' + durSec + ']</p>';
-                            break;
-                        case 'poll':
-                            console.log(value['poll']);
-                            if (value['poll'].hasOwnProperty('background')) {
-                                hasBackground = "btn-bg";
-                                var bg = value['poll']['background'];
-                                if (bg['type'] === "gradient") {
-                                    backgroundStyle = "style='color: white; background: linear-gradient("+bg['angle']+"deg, #"+bg['points'][0]['color']+", #"+bg['points'][1]['color']+")'";
-                                    console.log("Found a Poll Background => Angle: "+bg['angle']+", Color 1: #"+bg['points'][0]['color']+", Color 2: #"+bg['points'][1]['color']);
-                                }
-                            }
-                            var userAnswers = [];
-                            if (value['poll'].hasOwnProperty('answer_ids')) {
-                                userAnswers = value['poll']['answer_ids'];
-                            }
-                            if (value['poll'].hasOwnProperty('photo')) {
-                                hasBackground = "btn-bg";
-                                var ph = value['poll']['photo'];
-                                photoStyle = "style=\"background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('";
-                                photoStyle += ph['images'][0]['url'];
-                                photoStyle += "'); background-size: cover; background-repeat: no-repeat;color: white; background-color: #121212;\"";
-                                console.log("Found a Image Background");
-                            }
-                            cardAttachments += '<p>Голосование: ' + value['poll']['question'] + ' (' + value['poll']['votes'] + ' голосов)</p>';
-                            $.each(value['poll']['answers'], function (index, value) {
-                                var userPoint = "";
-                                var userPoint2 = "";
-                                if (userAnswers.includes(value['id'])) {
-                                    userPoint = "poll-user";
-                                    userPoint2 = " <i data-feather=\"check\"></i>";
-                                }
-                                cardAttachments += '<div class="progress"><div class="progress-bar '+userPoint+'" role="progressbar" style="width: '+value['rate']+'%;" aria-valuenow="'+value['rate']+'" aria-valuemin="0" aria-valuemax="100"></div>';
-                                cardAttachments += '<span class="poll-answer-left">' + value['text'] +userPoint2+'</span><span class="poll-answer-right">[' + value['rate'] + '%]</span></div>';
-                            });
-                            break;
-                        case 'audio':
-                            var durMin = Math.floor(value['audio']['duration'] / 60);
-                            var durSec = value['audio']['duration'] - durMin * 60;
-                            var durMin = new String(durMin).padStart(2,0);
-                            var durSec = new String(durSec).padStart(2,0);
-                            cardAttachments += '<p>Аудиозапись: ' + value['audio']['title'] + ' от ' + value['audio']['artist'] + ' [' + durMin + ':' + durSec + ']</p>';
-                            break;
-                        case 'video':
-                            var durMin = Math.floor(value['video']['duration'] / 60);
-                            var durSec = value['video']['duration'] - durMin * 60;
-                            cardAttachments += '<p>Видеозапись: ' + value['video']['title'] + ' (ID: ' + value['video']['id'] + ') [' + durMin + ':' + durSec + ']</p>';
-                            break;
-                        case 'graffiti':
-                            if (liteMode == "disabled") {
-                            cardAttachments += '<p><img class="dialogAttachPic" src="' + value['graffiti']['url'] + '"></p>';
-                            }
-                            cardAttachments += '<p><a href="' + value['graffiti']['url'] + '">Открыть графитти!</a></p>';
-                            break;
-                        case 'sticker':
-                            if (liteMode == "disabled") {
-                            cardAttachments += '<p><img class="dialogAttachPic" src="' + value['sticker']['images'][0]['url'] + '"></p>';
-                            }
-                            cardAttachments += '<p>Стикер: <a href="' + value['sticker']['images'][1]['url'] + '">64px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][1]['url'] + '">128px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][2]['url'] + '">256px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][3]['url'] + '">352px</a>&nbsp;&nbsp;<a href="' + value['sticker']['images'][4]['url'] + '">512px</a></p>';
-                            break;
-                        case 'article':
-                            hasBackground = "btn-bg";
-                            var art = value['article'];
-                            var size = art['photo']['sizes'];
-                            photoStyle = "style=\"background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('";
-                            photoStyle += size[size.length-1]['url'];
-                            photoStyle += "'); background-size: cover; background-repeat: no-repeat;color: white; background-color: #121212;\"";
-                            cardAttachments += '<p>'+art['owner_name']+'</p>';
-                            cardAttachments += '<p>'+art['title']+'</p>';
-                            cardAttachments += '<p>'+art['view_url']+'</p>';
-                            break;
-                        default:
-                            cardAttachments += '<p>Неподдерживаемый тип вложения: ' + type + '. Информация выведена в DevTools.</p>';
-                            console.log(value);
-                            break;
-                    }
-                });
                 if (typeof value['action'] !== "undefined") {
                     var rs;
                     switch (value['action']['type']) {
@@ -227,10 +119,13 @@ function getMessages(dialogID, isGroup) {
                     text = userName+" "+rs+".";
                     userName = "";
                 }
-                text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">Ссылка: $2</a>')
-                cardAttachments += '</p>';
+                var hasBackground = "";
+                var backgroundStyle = "";
+                var photoStyle = "";
+                text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">Ссылка: $2</a>');
+                var cardAttachments = parseAttachments(value['attachments']);
                 if (isSentByUser == 1) {
-                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder" '+backgroundStyle+' '+photoStyle+' >\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
@@ -242,7 +137,7 @@ function getMessages(dialogID, isGroup) {
                         '    </div>\n' +
                         '</div>');
                 } else {
-                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder" '+backgroundStyle+' '+photoStyle+' >\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
