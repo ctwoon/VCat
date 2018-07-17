@@ -6,6 +6,8 @@ function initConfig() {
     proxyURL = getItem('app_proxyurl');
     darkMode = getItem('app_darkmode');
     liteMode = getItem('app_litemode');
+    blurMode = getItem('app_blur');
+    backgroundPhotoPicture = getItem('app_background_photo');
     if (!offlineMode) {
         setItem('app_offline', 'disabled');
         offlineMode = 'disabled';
@@ -136,6 +138,14 @@ function getSettings() {
         cfg5 = 'включено';
         cfg5a = 'disabled';
     }
+    //
+    var cfg6 = "отключено";
+    var cfg6a = 'enabled';
+    if (blurMode == "enabled") {
+        cfg6 = 'включено';
+        cfg6a = 'disabled';
+    }
+    //
     themeName = getItem("config_theme_name");
     addSCategory('Интерфейс');
     $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder themes">\n' +
@@ -151,6 +161,9 @@ function getSettings() {
     addSSimpleOption("app_useproxy", cfg4a, cfg4, "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
     addSSimpleOption("app_litemode", cfg5a, cfg5, "Легкий режим", "Данная опция отключает показ фотографий и предпросмотр.");
     addSClassOption("configSetProxyURL", "URL удаленного прокси", "Используется: "+proxyURL);
+    addSCategory('Интерфейс');
+    addSSimpleOption("app_blur", cfg6a, cfg6, "Режим размытия (бета)", "Для работы включите 'Experimental Web Platform features' в Chrome. Поддержка Chrome, Safari, Edge. Для применения изменений перезагрузите страницу.");
+    addSClassOption("configSetBgPic", "Фоновая картинка (для отключения - 'disabled')", "Используется: "+backgroundPhotoPicture);
     addSCategory('Информация');
     addSClassOption("about", "О VCat", "Текущая версия: "+VCAT_VERSION);
     addSClassOption("logoutButton", "Сбросить данные VCat", "Это удалит все - от данных входа до мультиаккаунтов.");
@@ -162,6 +175,10 @@ function getSettings() {
     $(".configSetProxyURL").click(function () {
         var a = prompt("URL прокси:", proxyURL);
         setConfig(a, "app_proxyurl");
+    });
+    $(".configSetBgPic").click(function () {
+        var a = prompt("URL фоновой картинки:", backgroundPhotoPicture);
+        setConfig(a, "app_background_photo");
     });
     $(".themes").click(function () {
         $('.htmlContainer').html("<div class='cardContainer'></div>");

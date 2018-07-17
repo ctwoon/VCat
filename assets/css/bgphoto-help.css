@@ -1,0 +1,11 @@
+.sidebar {
+  background: rgba(0,0,0,0.5);
+}
+
+nav {
+  background: rgba(0,0,0,0.5) !important;
+}
+
+.cardDecor {
+  background: rgba(0,0,0,0.5);
+}

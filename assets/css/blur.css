@@ -1,0 +1,21 @@
+html {
+  background: black;
+}
+
+.sidebar {
+  backdrop-filter: blur(5px);
+}
+
+nav {
+  backdrop-filter: blur(5px);
+}
+
+.cardDecor {
+  backdrop-filter: blur(3px);
+}
+
+body {
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
