@@ -474,7 +474,6 @@ p {
     min-width: 250px;
     max-width: 250px;
     min-height: 100vh;
-    transition: all 0.3s;
 }
 
 .sidebar.active {
@@ -482,7 +481,6 @@ p {
 }
 
 .content {
-    transition: all 0.3s;
 }
 
 @media (max-width: 768px) {
