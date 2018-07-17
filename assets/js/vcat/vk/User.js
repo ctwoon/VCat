@@ -52,7 +52,7 @@ function getCurrentUser() {
 
 function getUserWall(userID, uname) {
     logInfo("UserWall", "Get UserWall");
-    var url = "https://api.vk.com/method/wall.get?extended=1&owner_id="+userID+"&access_token="+token+"&v=5.73";
+    var url = "https://api.vk.com/method/wall.get?extended=1&owner_id="+userID+"&access_token="+token+"&v=5.83";
     url = craftURL(url);
     $.ajax({
         url: url,
