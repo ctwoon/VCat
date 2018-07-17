@@ -16,8 +16,8 @@ function getNews(attr) {
     $.ajax({
         url: url,
         success: function( response ) {
-            //console.log(response);
             var result = safeParse(response);
+            console.log(result);
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
