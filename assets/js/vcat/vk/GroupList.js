@@ -1,31 +1,38 @@
 function getGroups() {
-  logInfo("GroupList", "Get GroupList");
     var url = "https://api.vk.com/method/groups.get?user_id="+user_id+"&extended=1&access_token="+token+"&v=5.73&count=999";
     url = craftURL(url);
     $.ajax({
         url: url,
         success: function( response ) {
-            logInfo("GroupList", "Got GroupList JSON");
             var result = safeParse(response);
+            console.log(result);
             $.each(result['response']['items'],function(index, value){
-                $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder showGroup" vcat-groupid="'+value['id']+'">\n' +
-                    '    <div class="card-body messagePadding">\n' +
-                    '        <p class="card-text">' + value['name'] + '</p>\n' +
-                    '    </div>\n' +
-                    '</div>');
+              var gt;
+              switch (value['type']) {
+                case 'page':
+                  gt = "Страница";
+                  break;
+                case 'group':
+                  gt = "Группа";
+                  break;
+              }
+              $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder showGroup" vcat-groupid="'+value['id']+'">\n' +
+                  '    <div class="card-body messagePadding">\n' +
+                  '        <p class="card-text">' + value['name'] + '</p>\n' +
+                  '        <p class="card-text">' + gt + '</p>' +
+                  '    </div>\n' +
+                  '</div>');
             });
             feather.replace();
             $('.spinnerLoad').hide();
             $(".showGroup").click(function () {
                 getGroupInfo($(this).attr('vcat-groupid'));
             });
-            logInfo("GroupList", "Finish GroupList");
         }
     });
 }
 
 function getGroupInfo(groupID) {
-    logInfo("GroupInfo", "Get GroupInfo");
     var fields = "id,name,screen_name,description";
     $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
     var url = "https://api.vk.com/method/groups.getById?group_ids="+groupID+"&fields="+fields+"&access_token="+token+"&v=5.73";

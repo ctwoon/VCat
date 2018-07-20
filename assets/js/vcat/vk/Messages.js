@@ -8,6 +8,13 @@ function getMessageDialogs() {
             $.each(result['response']['a']['items'], function (index, value) {
                 var dialogID = value['message']['user_id'];
                 var name;
+                console.log(value['message']);
+                var msgBody;
+                if (value['message'].hasOwnProperty('attachments')) {
+                   msgBody = "Вложение";
+                } else {
+                   msgBody = value['message']['body'];
+                }
                 if (value['message']['title'].length > 0) {
                     var isGroup = "(Беседа)";
                     var isGroup2 = true;
@@ -16,15 +23,20 @@ function getMessageDialogs() {
                     $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_chat_'+dialogID+'_0_'+isGroup2+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
                     '    <div class="card-body messagePadding">\n' +
                     '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
-                    '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
+                    '        <p class="card-text">' + msgBody + '</p>\n' +
                     '    </div>\n' +
                     '</div></a>');
                 } else {
                     name = getMessageDialogTitle(dialogID, result['response']);
+                    if (value['message']['out'] == 1) {
+                      msgBody = "Вы: " + msgBody;
+                    } else {
+                      msgBody = name + ": " + msgBody;
+                    }
                     $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'_1_"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
-                        '        <p class="card-text">' + value['message']['body'] + '</p>\n' +
+                        '        <p class="card-text">' + msgBody + '</p>\n' +
                         '    </div>\n' +
                         '</div></a>');
                 }
@@ -183,7 +195,7 @@ function getMessages(dialogID, isGroup) {
                     element.forEach(function (element) {
                         console.log("Button: Color "+element['color']+", Label: "+element['action']['label']);
                     })
-                });    
+                });
                 $('.cardContainer').append('</div></div>');
             } else {
                 $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
