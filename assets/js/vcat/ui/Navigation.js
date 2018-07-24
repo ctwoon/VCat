@@ -3,8 +3,8 @@ if (!location.hash) {
     location.hash = "feed";
 }
 
-function jumpToEnd() {
-    $(document).scrollTop(Math.abs($('.cardContainer').height()));
+function jumpToEnd(dom) {
+    $(document).scrollTop(Math.abs($(dom).height()));
 }
 
 function removeScrollFocus() {
@@ -96,6 +96,7 @@ function parseNavHash() {
     var hash_action = hash.split("_");
     switch (hash_action[0]) {
         case 'msg':
+            getMessageDialogs();
             if (hash_action[1] === "chat") {
                 let a = null;
                 let b = null;

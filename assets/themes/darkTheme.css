@@ -1,11 +1,19 @@
 /** Body background */
+:root {
+    --base-bg: #18191B;
+    --secondary-bg: #232426;
+    --secondary-control-bg: #1b1b1b;
+    --halftransparent-bg: rgba(0,0,0,0.5);
+    --accent: #5181b8;
+}
+
 body {
-    background: #18191B;
+    background: var(--base-bg);
 }
 
 /** Cards */
 .cardDecor {
-    background: #232426;
+    background: var(--secondary-bg);
     border-radius: 0.25rem !important;
     border: none;
     margin-top: 10px;
@@ -13,7 +21,7 @@ body {
 }
 
 .widget {
-    background: #232426;
+    background: var(--secondary-bg);
     border-radius: 0.25rem;
 }
 
@@ -21,14 +29,13 @@ body {
     margin: 20px;
 }
 
-/** Sidebars and Navbars */
 .sidebar {
-    background: #18191B;
+    background: var(--base-bg);
     box-shadow: none;
 }
 
 .navbar {
-    background: #232426;
+    background: var(--secondary-bg);
 }
 
 .widgetBar {
@@ -69,7 +76,7 @@ body {
 }
 
 a {
-    color: #5181b8;
+    color: var(--accent);
 }
 
 /** Text (only white) **/
@@ -83,7 +90,7 @@ a {
 }
 
 .text-danger {
-    color: #5181b8 !important;
+    color: var(--accent) !important;
 }
 
 .cardForceNoPadding {
@@ -92,15 +99,15 @@ a {
 }
 
 .writeBoxButton {
-    background: #1b1b1b !important;
+    background: var(--secondary-control-bg) !important;
     color: white !important;
 }
 
 .writeBoxText {
-    background: #1b1b1b !important;
+    background: var(--secondary-control-bg) !important;
 }
 
 .btn {
-    background: #1b1b1b;
+    background: var(--secondary-control-bg);
     color: white !important;
 }

@@ -6,7 +6,7 @@ nav {
   background: rgba(0,0,0,0.5) !important;
 }
 
-.cardDecor {
+.cardDecor, .msgDialog {
   background: rgba(0,0,0,0.5);
 }
 
@@ -14,4 +14,16 @@ body {
   background-repeat: no-repeat !important;
   background-attachment: fixed !important;
   background-size: cover !important;
+}
+
+.btn {
+    background: rgba(0,0,0,0.5);
+}
+
+.writeBoxText {
+    background: rgba(0,0,0,0.5) !important;
+}
+
+.writeBoxButton {
+    background: rgba(0,0,0,0.5) !important;
 }

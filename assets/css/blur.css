@@ -10,6 +10,6 @@ nav {
   backdrop-filter: blur(10px);
 }
 
-.cardDecor {
+.cardDecor, .msgDialog {
   backdrop-filter: blur(6px);
 }
