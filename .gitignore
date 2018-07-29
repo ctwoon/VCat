@@ -5,3 +5,4 @@ libvkmusic
 libvcatmsg
 .idea/workspace.xml
 *.iml
+assets/.DS_Store
