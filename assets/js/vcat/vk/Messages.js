@@ -1,7 +1,6 @@
 function getMessageDialogs() {
     var url = "https://api.vk.com/method/execute.getDialogsWithProfilesNewFixGroups?lang=ru&https=1&count=40&access_token=" + token + "&v=5.69";
     url = craftURL(url);
-    insertHTML('items/msgApplication.html');
     $.ajax({
         url: url,
         success: function (response) {
@@ -21,7 +20,7 @@ function getMessageDialogs() {
                     var isGroup2 = true;
                     name = value['message']['title'] + " " + isGroup;
                     dialogID = parseInt(value['message']['chat_id']) + 2000000000;
-                    $('.msgApplicationList').append('<a class="vcat-deeplink" href="#msg_chat_'+dialogID+'_0_'+isGroup2+'"><div class="card semi-transparent showDialog message msgDialog" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
+                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_chat_'+dialogID+'_0_'+isGroup2+'"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-isGroup="'+isGroup2+'" vcat-dialog="'+dialogID+'">\n' +
                     '    <div class="card-body messagePadding">\n' +
                     '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                     '        <p class="card-text">' + msgBody + '</p>\n' +
@@ -34,7 +33,7 @@ function getMessageDialogs() {
                     } else {
                       msgBody = name + ": " + msgBody;
                     }
-                    $('.msgApplicationList').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'_1_"><div class="card semi-transparent showDialog message msgDialog" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
+                    $('.cardContainer').append('<a class="vcat-deeplink" href="#msg_im_'+dialogID+'_1_"><div class="card cardDecor semi-transparent showDialog message messageBorder" vcat-username="' + name + '" vcat-dialog="' + dialogID + '">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                         '        <p class="card-text">' + msgBody + '</p>\n' +
@@ -91,7 +90,7 @@ function getMessages(dialogID, isGroup) {
     logInfo("Dialog", "Get Dialog");
     var url = "https://api.vk.com/method/messages.getHistory?lang=ru&extended=1&peer_id=" + dialogID + "&access_token=" + token + "&v=5.84";
     url = craftURL(url);
-    //$('.msgApplicationDialog').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
+    $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
     $.ajax({
         url: url,
         success: function (response) {
@@ -138,7 +137,7 @@ function getMessages(dialogID, isGroup) {
                 text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">Ссылка: $2</a>');
                 var cardAttachments = parseAttachments(value['attachments']);
                 if (isSentByUser == 1) {
-                    $('.msgApplicationDialog').append('<div class="card cardDecor sent semi-transparent message messageOut messageBorder">\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
                         cardAttachments +
@@ -150,7 +149,7 @@ function getMessages(dialogID, isGroup) {
                         '    </div>\n' +
                         '</div>');
                 } else {
-                    $('.msgApplicationDialog').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '        <h5 class="card-title noPadding smallTitle">' + userName + '</h5>\n' +
                         '        <p class="card-text">' + text + '</p>\n' +
@@ -165,13 +164,13 @@ function getMessages(dialogID, isGroup) {
             feather.replace();
             $('.spinnerLoad').hide();
             setTimeout(function () {
-                jumpToEnd(".msgApplicationDialog");
+                jumpToEnd();
             }, 500);
             isInMessages = true;
             poll();
             if (result['response']['conversations'][0].hasOwnProperty('chat_settings')) {
                 if (!result['response']['conversations'][0]['chat_settings']['is_group_channel']) {
-                    $('.msgApplicationWritebar').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
+                    $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
                         '    <div class="card-body messagePadding">\n' +
                         '<div class="input-group">' +
                         '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
@@ -184,7 +183,7 @@ function getMessages(dialogID, isGroup) {
                         '</div>');
                 }
             } else if (result['response']['conversations'][0].hasOwnProperty('current_keyboard')) {
-                $('.msgApplicationWritebar').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
                     '<div class="card-body messagePadding">\n' +
                     '<div class="input-group">' +
                     '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
@@ -197,9 +196,9 @@ function getMessages(dialogID, isGroup) {
                         console.log("Button: Color "+element['color']+", Label: "+element['action']['label']);
                     })
                 });
-                $('.msgApplicationWritebar').append('</div></div>');
+                $('.cardContainer').append('</div></div>');
             } else {
-                $('.msgApplicationWritebar').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
+                $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageBorder writeBoxWrap">\n' +
                     '    <div class="card-body messagePadding">\n' +
                     '<div class="input-group">' +
                     '<input type="text" class="form-control writeBoxText" placeholder="Сообщение">' +
@@ -211,7 +210,6 @@ function getMessages(dialogID, isGroup) {
                     '    </div>\n' +
                     '</div>');
             }
-            $('.msgApplicationDialog').append('<div class="msgApplicationDialogPadding"></div>');
             $(".writeBoxButton").click(function () {
                 sendMessage($(".vcatSend").attr('vcat-sendto'), $(".writeBoxText").val());
             });

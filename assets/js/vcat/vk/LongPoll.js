@@ -77,7 +77,7 @@ function poll(){
                                                 text = name+" "+rs+".";
                                                 name = "";
                                             }
-                                            $('.msgApplicationDialogPadding').before('<div class="card cardDecor semi-transparent message messageBorder">\n' +
+                                            $('.writeBoxWrap').before('<div class="card cardDecor semi-transparent message messageBorder">\n' +
                                                 '    <div class="card-body messagePadding">\n' +
                                                 '        <h5 class="card-title noPadding smallTitle">' + name + '</h5>\n' +
                                                 '        <p class="card-text">' + text + '</p>\n' +

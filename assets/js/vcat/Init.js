@@ -1,5 +1,5 @@
 var debugInfo = true;
-const VCAT_VERSION = "1.0";
+const VCAT_VERSION = "0.9.8a";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 

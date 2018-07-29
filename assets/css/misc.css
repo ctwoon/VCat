@@ -270,7 +270,7 @@ p {
 }
 
 .btn-zone {
-    float: left;
+    float: right;
 }
 
 .btn-transparent {
@@ -419,12 +419,12 @@ p {
 }
 
 .btn-bg {
-    background: transparent !important;
+    background: rgba(0,0,0,0.2) !important;
 }
 
-/*.btn-bg:hover {
+.btn-bg:hover {
     background: rgba(0,0,0,0.5) !important;
-}*/
+}
 
 .progress {
     height: 1.5rem;
@@ -460,74 +460,4 @@ p {
 
 .progress-bar.poll-user {
     background-color: rgba(0, 0, 0, .5);
-}
-
-/* MSG */
-body, html {
-  margin: 0;
-  overflow: hidden;
-  height:100%;
-}
-
-.msgLeft {
-  position: absolute;
-  top: 0px;
-  bottom: 0;
-  left: 0;
-  overflow-y: scroll;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.msgRight {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  overflow-y: scroll;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.msgApplicationDialog .card {
-  display: inline-block;
-  clear: both;
-  float: left;
-  width: calc(100% - 125px);
-}
-
-.sent {
-  float: right !important;
-}
-
-.msgDialog {
-  margin-top: 0 !important;
-  border-radius: 0 !important;
-  background: var(--secondary-bg);
-}
-
-.msgApplicationWritebar {
-  position: fixed;
-  width: 39%;
-  bottom: 0;
-}
-
-.msgApplicationDialogPadding {
-  padding-bottom: 320px;
-  float: left;
-}
-
-.msgApplicationDialog {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.btn-zone {
-  padding-bottom: 5px;
-  padding-top: 5px;
-}
-
-.btn-zone .btn {
-  padding: 0;
-  background: transparent;
 }
