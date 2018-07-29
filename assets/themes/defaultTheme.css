@@ -74,7 +74,7 @@ a {
 
 /** Text (only white) **/
 .sidebar .nav-link {
-    color: #192f40;
+    color: white;
     opacity: 0.7;
 }
 
@@ -117,4 +117,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .writeBoxText {
     background: rgb(220,220,220) !important;
+}
+
+.semi-transparent {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: white;
 }

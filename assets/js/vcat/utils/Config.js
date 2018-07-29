@@ -35,15 +35,6 @@ function initConfig() {
 }
 
 function getThemesInConfig() {
-    $(".cardContainer").append(
-        "<div class=\"cardForceNoPadding pointer card cardDecor semi-transparent back message messageBorder\">\n" +
-        " <div class=\"card-body messagePadding\">\n" +
-        " <h5 class=\"card-text noPadding smallTitle\">\n" +
-        "&lt; Назад" +
-        " </h5>\n" +
-        " </div>\n" +
-        " </div>"
-    );
   logInfo("Config", "Get Themes");
   location.hash = "configThemes";
     $.getJSON("assets/themes.json", function (json) {
@@ -167,6 +158,7 @@ function getSettings() {
     addSCategory('Информация');
     addSClassOption("about", "О VCat", "Текущая версия: "+VCAT_VERSION);
     addSClassOption("logoutButton", "Сбросить данные VCat", "Это удалит все - от данных входа до мультиаккаунтов.");
+    addSClassOption("transfer", "Перенос аккаунта", "Перенос данных аккаунта между зеркалами VCat.");
     //
 
     $(".configSet").click(function () {
@@ -187,6 +179,10 @@ function getSettings() {
     $(".about").click(function () {
         location.hash = "configAbout";
         switchToPage('.navAppConfig', 'itemAbout.html');
+    });
+    $(".transfer").click(function () {
+        location.hash = "configTransfer";
+        switchToPage('.navAppConfig', 'itemTransfer.html');
     });
     $(".logoutButton").click(function () {
       localStorage.clear();
