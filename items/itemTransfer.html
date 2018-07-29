@@ -7,8 +7,12 @@
 </div>
 <div class="card cardDecor semi-transparent message messageBorder">
     <div class="card-body messagePadding">
-        <h5 class="card-title noPadding smallTitle">Код входа</h5>
-        <p class="card-text"><code>test</code></p>
+        <h5 class="card-title noPadding smallTitle">Настройки + Аккаунт</h5>
+        <p class="card-text"><code class="transferCode"></code></p>
     </div>
 </div>
 </div>
+<script>
+  let code = btoa(JSON.stringify(localStorage));
+  $('.transferCode').html(code);
+</script>
