@@ -21,7 +21,6 @@ if (!backgroundPhotoPicture) {
     backgroundPhotoPicture = 'disabled';
 }
 
-logInfo("ThemeEngine", "Loading theme "+theme);
 themes_loadTheme(theme);
 
 if (blurMode == "enabled") {

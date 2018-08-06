@@ -35,11 +35,9 @@ function initConfig() {
 }
 
 function getThemesInConfig() {
-  logInfo("Config", "Get Themes");
   location.hash = "configThemes";
     $.getJSON("assets/themes.json", function (json) {
         var currentTheme = getItem('config_theme');
-        logInfo("Config", "Got Themes JSON");
         $.each(json['officalThemes'], function (index, value) {
             var isApply = "";
             if (value['themePath'] == currentTheme) {
@@ -68,7 +66,6 @@ function getThemesInConfig() {
             setItem('config_theme', themePath);
             setItem('config_theme_name', themeName);
             themes_loadTheme(themePath);
-            logInfo("Config", "Set Theme to "+themePath);
             bootbox.confirm({
                 message: "Тема установлена. Рекомендуем перезагрузить страницу.",
                 buttons: {
@@ -93,7 +90,6 @@ function getThemesInConfig() {
             getSettings();
         });
 
-        logInfo("Config", "Finish Themes");
     });
 }
 
@@ -170,6 +166,9 @@ function getSettings() {
     });
     $(".configSetBgPic").click(function () {
         var a = prompt("URL фоновой картинки:", backgroundPhotoPicture);
+        if (!a) {
+            a = "disabled";
+        }
         setConfig(a, "app_background_photo");
     });
     $(".themes").click(function () {
@@ -218,7 +217,6 @@ function addSClassOption(className, optionTitle, optionDesc) {
 
 function setConfig(check, key) {
     setItem(key, check);
-    logInfo("Config", "Set "+key+" to "+check);
     initConfig();
     $('.htmlContainer').html("");
     getSettings();

@@ -17,4 +17,3 @@ function logWarn(tag, msg) {
 function logError(tag, msg) {
   console.error(tag+": "+msg);
 }
-logInfo("Auth", "User auth completed!");

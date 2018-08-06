@@ -1,13 +1,10 @@
 function getMusic() {
-    logInfo("Music", "Get Music");
     var url;
     var offset = 0;
     url = craftMethodURL('audio', 'get', "audio_offset="+offset+"&audio_count=100", '5.84');
-    logInfo("Music", "Requesting url: "+url);
     $.ajax({
         url: url,
         success: function( response ) {
-            logInfo("Music", "Got audio list");
             try {
                 var result = JSON.parse(response);
                 console.log(result);
@@ -53,12 +50,10 @@ function refreshToken() {
     $.ajax({
         url: "https://utkacraft.ru/vcat/gcmtoken/",
         success: function(response) {
-            logInfo("Music", "Got token: "+response);
             var gcmtoken = response;
             $.ajax({
                 url: craftMethodURL("auth", "refreshToken", "receipt="+gcmtoken, "5.74"),
                 success: function(response) {
-                    logInfo("Music", "Got response: "+response);
                     var res = JSON.parse(response);
                     console.log(res);
                     setItem('authToken', res['response']['token']);

@@ -87,7 +87,6 @@ function getMessageDialogTitle(source_id, json) {
 var groupUsers2;
 
 function getMessages(dialogID, isGroup) {
-    logInfo("Dialog", "Get Dialog");
     var url = "https://api.vk.com/method/messages.getHistory?lang=ru&extended=1&peer_id=" + dialogID + "&access_token=" + token + "&v=5.84";
     url = craftURL(url);
     $('.cardContainer').html('<center class="spinnerLoad"><div class="spinner"></div></center>');
@@ -134,7 +133,7 @@ function getMessages(dialogID, isGroup) {
                 var hasBackground = "";
                 var backgroundStyle = "";
                 var photoStyle = "";
-                text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">Ссылка: $2</a>');
+                text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">$2</a>');
                 var cardAttachments = parseAttachments(value['attachments']);
                 if (isSentByUser == 1) {
                     $('.cardContainer').append('<div class="card cardDecor semi-transparent message messageOut messageBorder">\n' +
@@ -244,7 +243,6 @@ function getGroupUsername(userID) {
 
 function sendMessage(dialogID, message) {
     var url = "https://api.vk.com/method/messages.send?message="+ encodeURIComponent(message) +"&peer_id=" + dialogID + "&access_token=" + token + "&v=5.74";
-    logInfo("SendMessages", "Get SendMessages");
     url = craftURL(url);
     $(".writeBoxText").val("");
     $.ajax({
@@ -253,9 +251,7 @@ function sendMessage(dialogID, message) {
         success: function (response) {
             var result = safeParse(response);
             if (Array.isArray(response['error'])) {
-                logInfo("SendMessages", "Error: "+result['error']['error_msg']);
             } else {
-                logInfo("SendMessages", "Done");
             }
         }
     });
@@ -264,7 +260,6 @@ function sendMessage(dialogID, message) {
 function editMessage(messageID, dialogID) {
     var message = prompt("Сообщение, на которое нужно изменить:");
     var url = "https://api.vk.com/method/messages.edit?message="+ encodeURIComponent(message) +"&peer_id=" + dialogID + "&message_id="+messageID+"&access_token=" + token + "&v=5.74";
-    logInfo("EditMessage", "Get EditMessage");
     url = craftURL(url);
     $.ajax({
         url: url,
@@ -279,7 +274,6 @@ function removeMessage(messageID, dialogID) {
     if (allow == true) {
         var deleteForAll = "&delete_for_all=true";
         var url = "https://api.vk.com/method/messages.delete?message_ids=" + messageID + deleteForAll + "&access_token=" + token + "&v=5.74";
-        logInfo("RemoveMessage", "Get RemoveMessage");
         url = craftURL(url);
         $.ajax({
             url: url,

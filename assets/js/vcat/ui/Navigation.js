@@ -122,6 +122,9 @@ function parseNavHash() {
                 getMessages(hash_action[2], a, b);
             }
             break;
+        case 'link':
+            getUser(hash_action[1]);
+            break;
     }
     if (hash.includes("msg_chat_")) {
         hash = hash.substring(9, hash.length);
@@ -129,5 +132,3 @@ function parseNavHash() {
 }
 
 $('.htmlContainer').addClass('noMarginAndPadding');
-
-logInfo("Main", "Navigation loaded");

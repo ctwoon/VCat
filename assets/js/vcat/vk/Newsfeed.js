@@ -5,7 +5,6 @@ function showLoadError(code, desc, rcn) {
 
 var ab = false;
 function getNews(attr) {
-    logInfo("Newsfeed", "Get Newsfeed");
     var url;
     if (typeof attr === "undefined") {
         url = "https://api.vk.com/method/execute.getNewsfeedSmart?access_token="+token+"&filters=post&v=5.83&app_package_id=com.vkontakte.android";
@@ -67,7 +66,6 @@ function getNews(attr) {
 }
 
 function likePost(id, source) {
-    logInfo("Newsfeed", "Like Post #"+id);
     var url;
     url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     url = craftURL(url);
@@ -90,19 +88,22 @@ function parseAttachments(attachments) {
                 cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
                 break;
             case 'photo':
+                cardAttachments += '<div class="card cardDecor cardAttach"><div class="card-body messagePadding">';
+                cardAttachments += '<p class="attachment-title">Фотография</p>';
                 if (value['photo'].hasOwnProperty('photo_130')) {
                     if (liteMode == "disabled") {
                         cardAttachments += '<p><img class="dialogAttachPic" src="' + value['photo']['photo_130'] + '"></p>';
                     }
-                    cardAttachments += '<p><a href="' + value['photo']['photo_130'] + '">Открыть фотографию!</a></p>';
+                    cardAttachments += '<p><a href="' + value['photo']['photo_130'] + '" class="text-white">Открыть в новой вкладке</a></p>';
                 } else {
                     var photoURLs = value['photo']['sizes'];
                     var photoURL = photoURLs[photoURLs.length-1];
                     if (liteMode == "disabled") {
                     cardAttachments += '<p><img class="dialogAttachPic" src="' + photoURL['url'] + '"></p>';
                     }
-                    cardAttachments += '<p><a href="' + photoURL['url'] + '">Открыть фотографию!</a></p>';
+                    cardAttachments += '<p><a href="' + photoURL['url'] + '" class="text-white">Открыть в новой вкладке</a></p>';
                 }
+                cardAttachments += '</div></div>';
                 break;
             case 'doc':
                 if (value['doc']['ext'] === "gif") {
@@ -142,7 +143,8 @@ function parseAttachments(attachments) {
                     console.log("Found a Image Background");
                 }
                 cardAttachments += '<div class="card cardDecor pollmsg" '+backgroundStyle+' '+photoStyle+' ><div class="card-body messagePadding">';
-                cardAttachments += '<p>Голосование: ' + value['poll']['question'] + ' (' + value['poll']['votes'] + ' голосов)</p>';
+                cardAttachments += '<p class="attachment-title">Опрос</p>';
+                cardAttachments += '<p>' + value['poll']['question'] + ' (' + value['poll']['votes'] + ' голосов)</p>';
                 $.each(value['poll']['answers'], function (index, value) {
                     var userPoint = "";
                     var userPoint2 = "";
@@ -160,7 +162,18 @@ function parseAttachments(attachments) {
                 var durSec = value['audio']['duration'] - durMin * 60;
                 var durMin = new String(durMin).padStart(2,0);
                 var durSec = new String(durSec).padStart(2,0);
-                cardAttachments += '<p>Аудиозапись: ' + value['audio']['title'] + ' от ' + value['audio']['artist'] + ' [' + durMin + ':' + durSec + ']</p>';
+                cardAttachments += '<div class="card cardDecor cardAttach"><div class="card-body messagePadding">';
+                cardAttachments += '<p class="attachment-title">Аудиозапись</p>';
+                cardAttachments += '<p>'+value['audio']['title']+'</p>';
+                cardAttachments += '<p>'+value['audio']['artist']+' [' + durMin + ':' + durSec + ']</p>';
+                cardAttachments += '</div></div>';
+                break;
+            case 'audio_playlist':
+                cardAttachments += '<div class="card cardDecor cardAttach"><div class="card-body messagePadding">';
+                cardAttachments += '<p class="attachment-title">Плейлист</p>';
+                cardAttachments += '<p>'+value['audio_playlist']['title']+'</p>';
+                cardAttachments += '<p>'+value['audio_playlist']['main_artist']+', '+value['audio_playlist']['count']+' треков, '+value['audio_playlist']['plays']+' прослушиваний</p>';
+                cardAttachments += '</div></div>';
                 break;
             case 'video':
                 var durMin = Math.floor(value['video']['duration'] / 60);
@@ -201,53 +214,6 @@ function parseAttachments(attachments) {
 }
 
 function parseNewsfeed(value, result) {
-    //var cardAttachments = '<p class="card-text">';
-    /*$.each(value['attachments'], function (index, value) {
-        var type = value['type'];
-        emptyAttachments = false;
-        //cardAttachments += '<p>Attachment Type: '+type+'</p>';
-        switch (type) {
-            case 'link':
-                cardAttachments += '<p><a href="' + value['link']['url'] + '">' + value['link']['url'] + '</a></p>';
-                break;
-            case 'photo':
-                if (liteMode == "disabled") {
-                cardAttachments += '<p><img src="' + value['photo']['photo_130'] + '"></p>';
-                }
-                cardAttachments += '<p><a href="' + value['photo']['photo_604'] + '">Открыть фотографию!</a></p>';
-                break;
-            case 'doc':
-                if (value['doc']['ext'] === "gif" && liteMode == "disabled") {
-                    cardAttachments += '<p><img src="' + value['doc']['url'] + '"></p>';
-                    break;
-                }
-                var size = value['doc']['size'] / 1000 / 1000;
-                size = size.toFixed(2);
-                cardAttachments += '<p><a href="' + value['doc']['url'] + '">' + value['doc']['title'] + ' (размер: '+size+'MB)</a></p>';
-                break;
-            case 'poll':
-                cardAttachments += '<p>Голосование: '+value['poll']['question']+' ('+value['poll']['votes']+' голосов)</p>';
-                $.each(value['poll']['answers'],function(index, value) {
-                    cardAttachments += '<p>- '+value['text']+' ('+value['votes']+' голосов) ['+value['rate']+'%]</p>';
-                });
-                break;
-            case 'audio':
-                var durMin = Math.floor(value['audio']['duration'] / 60);
-                var durSec = value['audio']['duration'] - durMin*60;
-                cardAttachments += '<p>Аудиозапись: '+value['audio']['title']+' от '+value['audio']['artist']+' ['+durMin+':'+durSec+']</p>';
-                break;
-            case 'video':
-                var durMin = Math.floor(value['video']['duration'] / 60);
-                var durSec = value['video']['duration'] - durMin*60;
-                cardAttachments += '<p>Видеозапись: '+value['video']['title']+' (ID: '+value['video']['id']+') ['+durMin+':'+durSec+']</p>';
-                break;
-            default:
-                cardAttachments += '<p>Неподдерживаемый тип вложения: '+type+'</p>';
-                break;
-        }
-        //cardAttachments += '<p>===</p>';
-    });
-    cardAttachments += '</p>';*/
     var emptyAttachments = false;
     var cardAttachments = parseAttachments(value['attachments']);
     if (typeof value['attachments'] == 'undefined' || value['attachments'].length == 0) {
@@ -255,6 +221,7 @@ function parseNewsfeed(value, result) {
     }
     var b = getGroupID(Math.abs(value['source_id']), result['response']);
     var text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
+    text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">$2</a>');
     if (emptyAttachments) {
         if (enlargeText == "enabled") {
             text = "<span class='vk5-largeText'>" + text + "</span>";
@@ -263,14 +230,18 @@ function parseNewsfeed(value, result) {
     var comment = "";
     if (value.hasOwnProperty('activity')) {
         if (value['activity']['type'] === "comment") {
-            comment = '<p class="card-text comment">Последний комментарий: ' + value['activity']['comment']['text'] + '</p>\n'
+            comment = '<p class="card-text comment">' + value['activity']['comment']['text'] + '</p>\n'
         }
     }
-    var views = value['views']['count'];
-    if (views > 1000) {
-        views = views / 1000;
-        views = views.toFixed(1);
-        views = views + "K";
+    let viewData = "";
+    if (value.hasOwnProperty('views')) {
+        let views = value['views']['count'];
+        if (views > 1000) {
+            views = views / 1000;
+            views = views.toFixed(1);
+            views = views + "K";
+        }
+        viewData = '&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i>&nbsp;' + views;
     }
     var date = timestampToTime(value['date']);
     var isLikedClass="";
@@ -283,19 +254,47 @@ function parseNewsfeed(value, result) {
         b = "";
     }
     var itemID = value['post_id'];
+    var repostData = "";
+    if (value.hasOwnProperty("copy_history")) {
+        var value2 = value['copy_history'][0];
+        var emptyAttachmentsRepost = false;
+        console.log(value2);
+        var cardAttachmentsRepost = parseAttachments(value2['attachments']);
+        if (typeof value2['attachments'] == 'undefined' || value2['attachments'].length == 0) {
+            emptyAttachmentsRepost = true;
+        }
+        var b2 = getGroupID(Math.abs(value2['owner_id']), result['response']);
+        var text2 = value2['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
+        text2 = text2.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">$2</a>');
+        if (emptyAttachmentsRepost) {
+            if (enlargeText == "enabled") {
+                text2 = "<span class='vk5-largeText'>" + text2 + "</span>";
+            }
+        }
+        var date2 = timestampToTime(value2['date']);
+        var itemID2 = value2['post_id'];
+        repostData = '<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
+            '    <div class="card-body messagePadding">' +
+            '        <p class="attachment-title">Репост</p>'+
+            '        <h5 class="card-title noPadding smallTitle">' + b2 + '</h5>\n' +
+            '        <p class="card-text">' + text2 + '</p>\n' +
+            cardAttachmentsRepost +
+            '    </div>\n' +
+            '</div>';
+    }
     $('.cardContainer').append('<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
         '    <div class="card-body messagePadding">\n' +
         '        <h5 class="card-title noPadding smallTitle">' + b + '</h5>\n' +
         '        <p class="card-text">' + text + '</p>\n' +
         cardAttachments +
-        '        <p class="card-text postCounters"><span class="likeCount pointer '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</span>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<span class="commentCount" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + '</span>&nbsp;&nbsp;&nbsp;<i data-feather="eye"></i> ' + views + '&nbsp;&nbsp;&nbsp;<i data-feather="clock"></i> '+date+'\n' +
+        repostData +
+        '        <p class="card-text postCounters"><span class="likeCount pointer '+isLikedClass+'" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'" vcat-isliked="'+isLiked+'"><i data-feather="thumbs-up"></i> ' + value['likes']['count'] + '</span>&nbsp;&nbsp;&nbsp;<i data-feather="send"></i> ' + value['reposts']['count'] + ' &nbsp;&nbsp;&nbsp;<span class="commentCount" vcat-author="'+value['source_id']+'" vcat-postid="'+itemID+'"><i data-feather="message-square"></i> ' + value['comments']['count'] + '</span>'+viewData+'&nbsp;&nbsp;&nbsp;<i data-feather="clock"></i> '+date+'\n' +
         '    </div>\n' +
         comment +
         '</div>');
 }
 
 function unlikePost(id, source) {
-    logInfo("Newsfeed", "Unlike Post #"+id);
     var url;
     url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     url = craftURL(url);
@@ -319,14 +318,12 @@ function initOnScroll() {
 
 function sendOffline() {
     if (offlineMode == "enabled") {
-        logInfo("Offline", "Send Offline State");
         var url = "https://api.vk.com/method/account.setOffline?access_token=" + token + "&v=5.73";
         url = craftURL(url);
         $.ajax({
             url: url,
             success: function (response) {
                 var result = JSON.parse(response);
-                logInfo("Offline", "Offline send OK - " + response);
             }
         });
     }
@@ -360,8 +357,7 @@ function getGroupID(source_id,json) {
 
 function timestampToTime(timestamp) {
     var date = new Date(timestamp * 1000);
-    var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-    var seconds = "0" + date.getSeconds();
-    return hours + ':' + minutes.substr(-2);
+    var hours = String(date.getHours()).padStart(2,0);
+    var minutes = String(date.getMinutes()).padStart(2,0);
+    return hours + ':' + minutes;
 }

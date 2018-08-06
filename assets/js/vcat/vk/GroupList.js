@@ -40,7 +40,6 @@ function getGroupInfo(groupID) {
     $.ajax({
         url: url,
         success: function( response ) {
-            logInfo("GroupInfo", "Got GroupInfo JSON");
             var result = safeParse(response);
             $.each(result['response'],function(index, value){
                 var closedState;
@@ -77,7 +76,6 @@ function getGroupInfo(groupID) {
             });
             feather.replace();
             $('.spinnerLoad').hide();
-            logInfo("GroupInfo", "Finish GroupInfo");
         }
     });
 }

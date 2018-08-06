@@ -451,3 +451,14 @@ p {
 .progress-bar.poll-user {
     background-color: rgba(0, 0, 0, .5);
 }
+
+.attachment-title {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.cardAttach {
+    margin-bottom: 0;
+}

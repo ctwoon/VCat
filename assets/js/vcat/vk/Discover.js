@@ -1,6 +1,5 @@
 var ab2 = false;
 function getDiscover(attr) {
-    logInfo("Discover", "Get Discover");
     var url;
     if (typeof attr === "undefined") {
         url = "https://api.vk.com/method/newsfeed.getDiscover?extended=1&access_token="+token+"&v=5.83&app_package_id=com.vkontakte.android";
@@ -12,7 +11,6 @@ function getDiscover(attr) {
         url: url,
         success: function( response ) {
             var result = safeParse(response);
-            logInfo("Discover", "Got Discover JSON");
             $.each(result['response']['items'],function(index, value){
                 if (value['template'] == "title") {
 
@@ -63,13 +61,11 @@ function getDiscover(attr) {
                 var source = $(this).attr('vcat-author');
                 getComments(id, source);
             });
-            logInfo("Discover", "Finish Discover");
         }
     });
 }
 
 function likePost(id, source) {
-    logInfo("Discover", "Like Post #"+id);
     var url;
     url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     url = craftURL(url);
@@ -84,7 +80,6 @@ function likePost(id, source) {
 }
 
 function unlikePost(id, source) {
-    logInfo("Discover", "Unlike Post #"+id);
     var url;
     url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
     url = craftURL(url);
