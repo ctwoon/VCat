@@ -2,12 +2,16 @@ html {
   background: black;
 }
 
-.sidebar {
+.nav {
   backdrop-filter: blur(10px);
 }
 
-nav {
-  backdrop-filter: blur(10px);
+.navbar {
+    backdrop-filter: blur(10px);
+}
+
+.widget {
+    backdrop-filter: blur(10px);
 }
 
 .cardDecor {

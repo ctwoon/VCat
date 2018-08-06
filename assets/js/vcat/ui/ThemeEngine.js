@@ -6,9 +6,9 @@ var backgroundPhotoPicture = getItem('app_background_photo');
 
 var darkMode = getItem('app_darkmode');
 if (!theme) {
-    setItem('config_theme', 'assets/themes/defaultTheme.css');
-    setItem('config_theme_name', 'VK Style');
-    theme = 'assets/themes/defaultTheme.css';
+    setItem('config_theme', 'assets/themes/darkTheme.css');
+    setItem('config_theme_name', 'VK Style Dark');
+    theme = 'assets/themes/darkTheme.css';
 }
 
 if (!blurMode) {

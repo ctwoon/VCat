@@ -457,8 +457,43 @@ p {
     letter-spacing: 2px;
     font-size: 12px;
     margin-bottom: 5px;
+    color: white;
+}
+
+.storyCard {
+    width: 72px;
+    float: left;
+    height: 96px;
+    margin-right: 10px;
+    margin-top: 5px !important;
+    border-bottom: none !important;
+    background-position: center !important;
+    background-size: 250px !important;
+    background-repeat: no-repeat !important;
+}
+
+.storyCard .messagePadding {
+    padding: 0 !important;
 }
 
 .cardAttach {
     margin-bottom: 0;
+}
+
+.storyAuthor {
+    color: white;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+@media screen and (min-width: 768px) {
+    .navbar {
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 0 0 10px 10px;
+    }
 }

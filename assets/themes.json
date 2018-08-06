@@ -1,12 +1,6 @@
 {
   "officalThemes": [
     {
-      "themeName": "VK Style",
-      "themePath": "assets/themes/defaultTheme.css",
-      "themeAuthor": "iTaysonLab",
-      "themeDescription": "Светлая тема в стиле веб-версии ВК."
-    },
-    {
       "themeName": "VK Style Dark",
       "themePath": "assets/themes/darkTheme.css",
       "themeAuthor": "iTaysonLab",

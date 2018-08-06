@@ -16,7 +16,9 @@ function getNews(attr) {
         url: url,
         success: function( response ) {
             var result = safeParse(response);
-            console.log(result);
+            if (result['response'].hasOwnProperty("stories")) {
+                parseStories(result['response']['stories']);
+            }
             $.each(result['response']['items'],function(index, value){
                 if (value['marked_as_ads'] === 0) {
                     if (value['text'].length !== 0) {
@@ -73,8 +75,6 @@ function likePost(id, source) {
         url: url,
         success: function( response ) {
             var result = JSON.parse(response);
-            //console.log(response);
-            //insertHTML('itemMain.html');
         }
     });
 }
@@ -121,13 +121,11 @@ function parseAttachments(attachments) {
                 cardAttachments += '<p>Голосовая запись: <a href="'+value['audio_message']['link_mp3']+'">MP3</a>' + '&nbsp;/&nbsp;<a href="'+value['audio_message']['link_ogg']+'">OGG</a>&nbsp;'  + '[' + durMin + ':' + durSec + ']</p>';
                 break;
             case 'poll':
-                console.log(value['poll']);
                 if (value['poll'].hasOwnProperty('background')) {
                     var hasBackground = "btn-bg";
                     var bg = value['poll']['background'];
                     if (bg['type'] === "gradient") {
                         var backgroundStyle = "style='color: white; background: linear-gradient("+bg['angle']+"deg, #"+bg['points'][0]['color']+", #"+bg['points'][1]['color']+")'";
-                        console.log("Found a Poll Background => Angle: "+bg['angle']+", Color 1: #"+bg['points'][0]['color']+", Color 2: #"+bg['points'][1]['color']);
                     }
                 }
                 var userAnswers = [];
@@ -140,7 +138,6 @@ function parseAttachments(attachments) {
                     var photoStyle = "style=\"background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('";
                     photoStyle += ph['images'][0]['url'];
                     photoStyle += "'); background-size: cover; background-repeat: no-repeat;color: white; background-color: #121212;\"";
-                    console.log("Found a Image Background");
                 }
                 cardAttachments += '<div class="card cardDecor pollmsg" '+backgroundStyle+' '+photoStyle+' ><div class="card-body messagePadding">';
                 cardAttachments += '<p class="attachment-title">Опрос</p>';
@@ -258,7 +255,6 @@ function parseNewsfeed(value, result) {
     if (value.hasOwnProperty("copy_history")) {
         var value2 = value['copy_history'][0];
         var emptyAttachmentsRepost = false;
-        console.log(value2);
         var cardAttachmentsRepost = parseAttachments(value2['attachments']);
         if (typeof value2['attachments'] == 'undefined' || value2['attachments'].length == 0) {
             emptyAttachmentsRepost = true;
@@ -302,8 +298,6 @@ function unlikePost(id, source) {
         url: url,
         success: function( response ) {
             var result = JSON.parse(response);
-           // console.log(response);
-           // insertHTML('itemMain.html');
         }
     });
 }

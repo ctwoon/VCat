@@ -1,4 +1,4 @@
-const VCAT_VERSION = "1.0.0";
+const VCAT_VERSION = "1.1.0";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
