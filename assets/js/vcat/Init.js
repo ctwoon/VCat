@@ -1,4 +1,4 @@
-const VCAT_VERSION = "1.2.0";
+const VCAT_VERSION = "1.3.0";
 
 logInfo("Main","Welcome to VCat "+VCAT_VERSION+"!");
 
@@ -9,6 +9,7 @@ let allowLongpoll = getItem('app_longpoll');
 let useProxy = getItem('app_useproxy');
 let hideStories = getItem('app_hidestories');
 let liteMode = getItem('app_litemode');
+let showPostActivity = getItem('app_showactivity');
 let slotUI = 2;
 initConfig();
 

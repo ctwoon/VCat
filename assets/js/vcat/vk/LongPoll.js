@@ -1,19 +1,16 @@
-// Longpoll
+let currentChatID;
+let groupUsers;
 
-var currentChatID;
-var groupUsers;
+let serverURL;
+let server2;
+let ts2;
+let key2;
 
-var serverURL;
-var server2;
-var ts2;
-var key2;
-
-var isInMessages = false;
+let isInMessages = false;
 
 function initPoll(server, ts, pts ,key) {
     if (allowLongpoll) {
         serverURL = "https://" + server + "?act=a_check&key=" + key + "&ts=" + ts + "&wait=25&mode=2&version=4";
-        serverURL = craftURL(serverURL);
         server2 = server;
         ts2 = ts;
         key2 = key;
@@ -21,7 +18,7 @@ function initPoll(server, ts, pts ,key) {
     }
 }
 
-var pollBuffer;
+let pollBuffer;
 
 function poll(){
     if (allowLongpoll) {
@@ -42,14 +39,14 @@ function poll(){
                                         // additional check because no AJAX aborting
                                         if (value[5] !== pollBuffer) {
                                             // fix for duplicating messages
-                                            var id = value[6]['from'];
-                                            var name = getGroupUsername2(id);
-                                            var text = value[5];
+                                            let id = value[6]['from'];
+                                            let name = getGroupUsername2(id);
+                                            let text = value[5];
                                             if (!name) {
                                                 name = "";
                                             }
                                             if (typeof value[6]['source_act'] !== "undefined") {
-                                                var rs;
+                                                let rs;
                                                 switch (value[6]['source_act']) {
                                                     case 'chat_unpin_message':
                                                         rs = "открепил сообщение";
@@ -93,8 +90,8 @@ function poll(){
                                 }
                                 break;
                             case 62:
-                                /* var userID = value[1];
-                                 var chat_id = value[2];
+                                /* let userID = value[1];
+                                 let chat_id = value[2];
                                  if (chat_id == chatID) {
                                      $(".msgStatus").html(getGroupUsername2(userID, groupUsers)+" набирает...")
                                  }*/
@@ -108,11 +105,12 @@ function poll(){
 }
 function getLongpollData() {
     if (allowLongpoll) {
-        var url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=4', '5.80');
+        let url = craftMethodURL('messages', 'getLongPollServer', 'need_pts=1&lp_version=4', '5.80');
         $.ajax({
             url: url,
             success: function (response) {
-                var result = JSON.parse(response);
+                console.log(response);
+                let result = response;
                 initPoll(result['response']['server'], result['response']['ts'], result['response']['pts'], result['response']['key'])
             }
         });

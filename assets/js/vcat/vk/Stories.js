@@ -1,7 +1,7 @@
 function parseStories(stories) {
     if (window["hideStories"] === "disabled") {
         try {
-            let storiesHTML = '<div class="card cardDecor cardAttach"><div class="card-body messagePadding"><p class="attachment-title">Истории</p>';
+            let storiesHTML = '<div class="card cardDecor semi-transparent postCard message messageBorder storiesCard"><div class="card-body messagePadding"><p class="attachment-title">Истории</p>';
             $.each(stories['items'], function (index, value) {
                 let previousOwner = "";
                 $.each(value, function (index, value) {
@@ -15,9 +15,11 @@ function parseStories(stories) {
                 });
             });
             storiesHTML += "</div></div>";
+            addSDivider();
             $('.cardContainer').append(storiesHTML);
         } catch (e) {
             console.error("[Stories] Stories load error: " + e.message);
         }
     }
+    addSDivider()
 }

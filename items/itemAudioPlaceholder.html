@@ -1,0 +1,48 @@
+<div class="cardContainer">
+<div class="card cardDecor semi-transparent postCard message messageBorder">
+    <div class="card-body messagePadding">
+        <h5 class="card-title noPadding smallTitle">Что произошло?</h5>
+        <p class="card-text">Вы попали на страницу... аудиозаписей. Но они отключены.</p>
+    </div>
+    <div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder">
+        <div class="card-body card-divider">
+        </div>
+    </div>
+    <div class="card-body messagePadding">
+        <h5 class="card-title noPadding smallTitle">Почему?</h5>
+        <p class="card-text">ВК все активнее борется с защитой аудиозаписей, и теперь у них стоит защита по User-Agent. Так как JavaScript без Node не может его изменить, то музыка через встроенный прокси работать <b>не будет.</b></p>
+    </div>
+    <div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder">
+        <div class="card-body card-divider">
+        </div>
+    </div>
+    <div class="card-body messagePadding">
+        <h5 class="card-title noPadding smallTitle">А можно их как-то включить?</h5>
+        <p class="card-text">Можно через <b>экспериментальный прокси-сервер</b>. Он будет вызватся каждый раз, когда вы заходите в Аудиозаписи.</p>
+    </div>
+    <div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder">
+        <div class="card-body card-divider">
+        </div>
+    </div>
+    <div class="card-body messagePadding">
+        <h5 class="card-title noPadding smallTitle">Это бесплатно?</h5>
+        <p class="card-text">Да. Но вы должны знать о том, что сервер может прекратить работу <b>в любое время</b> или ВК <b>применит дополнительные методы защиты</b>. Вы все делаете <b>на свой страх и риск</b>.</p>
+    </div>
+    <div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder">
+        <div class="card-body card-divider">
+        </div>
+    </div>
+    <div class="card-body messagePadding">
+        <h5 class="card-title noPadding smallTitle">А как его включить?</h5>
+        <p class="card-text">Вам нужно нажать на кнопку ниже. VCat попытается получить доступ к музыке.</p>
+        <p class="card-text"><button class="btn btn-error enableTestAudioBridge" style="width: 100%" disabled>Обход пока недоступен</button></p>
+        <!--<p class="card-text"><button class="btn btn-secondary disableAudios" style="width: 100%">Убрать вкладку "Аудиозаписи" навсегда</button></p>-->
+    </div>
+</div>
+</div>
+
+<script>
+    $(".enableTestAudioBridge").click(function () {
+        //refreshToken();
+    });
+</script>

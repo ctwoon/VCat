@@ -18,7 +18,7 @@ function initConfig() {
         {
             name: "app_useproxy",
             variable: "useProxy",
-            default: "enabled"
+            default: "disabled"
         },
         {
             name: "app_litemode",
@@ -44,6 +44,11 @@ function initConfig() {
             name: "app_hidestories",
             variable: "hideStories",
             default: "disabled"
+        },
+        {
+            name: "app_showactivity",
+            variable: "showPostActivity",
+            default: "enabled"
         }
     ];
     configs.forEach(function (value) {
@@ -115,15 +120,16 @@ function getSettings() {
     });
     addSSimpleOption("app_vk5post", "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
     addSSimpleOption("app_hidestories", "Скрыть истории", "Не показывать истории в ленте новостей.");
+    addSSimpleOption("app_showactivity", "Показывать активность поста", "Если функция включна, то при наличии последнего комментария VCat его покажет.");
     addSDivider();
     addSCategory('Основное');
-    addSSimpleOption("app_longpoll", "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
-    addSSimpleOption("app_useproxy", "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
+    addSSimpleOption("app_longpoll", "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности .");
+    //addSSimpleOption("app_useproxy", "Удаленный прокси", "Использовать удаленный прокси. Это может повлиять на работу приложения. (Встроенный прокси не работает с опросами 2.0 и музыкой, но удаленный прокси не умеет работать с картиками в странах с блокировкой ВК)");
     addSSimpleOption("app_litemode", "Легкий режим", "Данная опция отключает показ фотографий и предпросмотр.");
-    addSClassOption("configSetProxyURL", "URL удаленного прокси", "Используется: "+proxyURL, function () {
-        var a = prompt("URL прокси:", proxyURL);
-        setConfig(a, "app_proxyurl");
-    });
+    //addSClassOption("configSetProxyURL", "URL удаленного прокси", "Используется: "+proxyURL, function () {
+    //    var a = prompt("URL прокси:", proxyURL);
+    //    setConfig(a, "app_proxyurl");
+    //});
     addSSimpleOption("app_offline", "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
     addSDivider();
     addSCategory('Информация');

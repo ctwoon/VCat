@@ -64,14 +64,8 @@ function parseNews(result) {
 }
 
 function likePost(id, source) {
-    var url;
-    url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
-    url = craftURL(url);
-    $.ajax({
-        url: url,
-        success: function( response ) {
-            var result = JSON.parse(response);
-        }
+    sendData("likes", "add", "type=post&item_id="+id+"&owner_id="+source, "5.73", function (data) {
+
     });
 }
 
@@ -117,6 +111,7 @@ function parseAttachments(attachments) {
                 cardAttachments += '<p>Голосовая запись: <a href="'+value['audio_message']['link_mp3']+'">MP3</a>' + '&nbsp;/&nbsp;<a href="'+value['audio_message']['link_ogg']+'">OGG</a>&nbsp;'  + '[' + durMin + ':' + durSec + ']</p>';
                 break;
             case 'poll':
+                console.log(value);
                 if (value['poll'].hasOwnProperty('background')) {
                     var hasBackground = "btn-bg";
                     var bg = value['poll']['background'];
@@ -148,7 +143,7 @@ function parseAttachments(attachments) {
                     cardAttachments += '<div class="progress"><div class="progress-bar '+userPoint+'" role="progressbar" style="width: '+value['rate']+'%;" aria-valuenow="'+value['rate']+'" aria-valuemin="0" aria-valuemax="100"></div>';
                     cardAttachments += '<span class="poll-answer-left">' + value['text'] +userPoint2+'</span><span class="poll-answer-right">[' + value['rate'] + '%]</span></div>';
                 });
-                cardAttachments += "</div></div>"
+                cardAttachments += "</div></div>";
                 break;
             case 'audio':
                 var durMin = Math.floor(value['audio']['duration'] / 60);
@@ -171,7 +166,10 @@ function parseAttachments(attachments) {
             case 'video':
                 var durMin = Math.floor(value['video']['duration'] / 60);
                 var durSec = value['video']['duration'] - durMin * 60;
-                cardAttachments += '<p>Видеозапись: ' + value['video']['title'] + ' (ID: ' + value['video']['id'] + ') [' + durMin + ':' + durSec + ']</p>';
+                cardAttachments += '<div class="card cardDecor cardAttach"><div class="card-body messagePadding">';
+                cardAttachments += '<p class="attachment-title">Видеозапись</p>';
+                cardAttachments += '<p>'+ value['video']['title'] + ' (ID: ' + value['video']['id'] + ') [' + durMin + ':' + durSec + ']</p>';
+                cardAttachments += '</div></div>';
                 break;
             case 'graffiti':
                 if (liteMode == "disabled") {
@@ -207,21 +205,21 @@ function parseAttachments(attachments) {
 }
 
 function parseNewsfeed(value, result) {
-    var emptyAttachments = false;
-    var cardAttachments = parseAttachments(value['attachments']);
-    if (typeof value['attachments'] == 'undefined' || value['attachments'].length == 0) {
-        var emptyAttachments = true;
+    let emptyAttachments = false;
+    let cardAttachments = parseAttachments(value['attachments']);
+    if (typeof value['attachments'] === 'undefined' || value['attachments'].length === 0) {
+        emptyAttachments = true;
     }
-    var b = getGroupID(Math.abs(value['source_id']), result['response']);
-    var text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
+    let b = getGroupID(Math.abs(value['source_id']), result['response']);
+    let text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
     text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">$2</a>');
     if (emptyAttachments) {
-        if (window["enlargeText"] == "enabled") {
+        if (window["enlargeText"] === "enabled") {
             text = "<span class='vk5-largeText'>" + text + "</span>";
         }
     }
-    var comment = "";
-    if (value.hasOwnProperty('activity')) {
+    let comment = "";
+    if (value.hasOwnProperty('activity') && showPostActivity === "enabled") {
         if (value['activity']['type'] === "comment") {
             comment = '<p class="card-text comment">' + value['activity']['comment']['text'] + '</p>\n'
         }
@@ -263,9 +261,9 @@ function parseNewsfeed(value, result) {
                 text2 = "<span class='vk5-largeText'>" + text2 + "</span>";
             }
         }
-        var date2 = timestampToTime(value2['date']);
-        var itemID2 = value2['post_id'];
-        repostData = '<div class="card cardDecor semi-transparent postCard message messageBorder">\n' +
+        //var date2 = timestampToTime(value2['date']);
+        //var itemID2 = value2['post_id'];
+        repostData = '<div class="card cardDecor semi-transparent postCard message messageBorder cardAttach">\n' +
             '    <div class="card-body messagePadding">' +
             '        <p class="attachment-title">Репост</p>'+
             '        <h5 class="card-title noPadding smallTitle">' + b2 + '</h5>\n' +
@@ -284,17 +282,12 @@ function parseNewsfeed(value, result) {
         '    </div>\n' +
         comment +
         '</div>');
+    addSDivider();
 }
 
 function unlikePost(id, source) {
-    var url;
-    url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
-    url = craftURL(url);
-    $.ajax({
-        url: url,
-        success: function( response ) {
-            var result = JSON.parse(response);
-        }
+    sendData("likes", "delete", "type=post&item_id="+id+"&owner_id="+source, "5.73", function (data) {
+
     });
 }
 
@@ -308,13 +301,8 @@ function initOnScroll() {
 
 function sendOffline() {
     if (offlineMode == "enabled") {
-        var url = "https://api.vk.com/method/account.setOffline?access_token=" + token + "&v=5.73";
-        url = craftURL(url);
-        $.ajax({
-            url: url,
-            success: function (response) {
-                var result = JSON.parse(response);
-            }
+        sendData("account", "setOffline", "", "5.73", function (data) {
+
         });
     }
 }

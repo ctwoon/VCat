@@ -1,95 +1,74 @@
 var ab2 = false;
 function getDiscover(attr) {
-    var url;
-    if (typeof attr === "undefined") {
-        url = "https://api.vk.com/method/newsfeed.getDiscover?extended=1&access_token="+token+"&v=5.83&app_package_id=com.vkontakte.android";
-    } else {
-        url = "https://api.vk.com/method/newsfeed.getDiscover?extended=1&access_token="+token+"&v=5.83&app_package_id=com.vkontakte.android&start_from="+attr;
+    let params = "extended=1&app_package_id=com.vkontakte.android";
+    if (typeof attr !== "undefined") {
+        params += "&start_from="+attr;
     }
-    url = craftURL(url);
-    $.ajax({
-        url: url,
-        success: function( response ) {
-            var result = safeParse(response);
-            $.each(result['response']['items'],function(index, value){
-                if (value['template'] == "title") {
+    sendData("newsfeed", "getDiscover", params, "5.83", parseDiscover);
+}
 
-                } else {
-                    value = value['post'];
-                        try {
-                            if (value['text'].length !== 0) {
-                                parseNewsfeed(value, result);
-                            }
-                        } catch (e) {
-                            console.error(e);
-                        }
-                    }
+function parseDiscover(result) {
+    $.each(result['response']['items'],function(index, value){
+        if (value['template'] == "title") {
+
+        } else {
+            value = value['post'];
+            try {
+                //if (value['text'].length !== 0) {
+                    parseNewsfeed(value, result);
+                //}
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    });
+    feather.replace();
+    $('.spinnerLoad').hide();
+    var nextID = result['response']['next_from'];
+    $('.cardContainer').attr('vcat-next', nextID);
+    initOnScrollDiscover();
+    $(".likeCount").click(function() {
+        var id = $(this).attr('vcat-postid');
+        var isLiked = $(this).attr('vcat-isliked');
+        var source = $(this).attr('vcat-author');
+        if(isLiked == "false") {
+            likePost(id, source);
+            $(this).attr('vcat-isliked', true);
+            $(this).attr('class', 'likeCount text-danger');
+            $(this).contents().filter(function() {
+                return this.nodeType == 3
+            }).each(function(){
+                var cur = parseInt($(this).text());
+                var newt = cur + 1;
+                this.textContent = this.textContent.replace($(this).text().toString(), newt.toString());
             });
-            feather.replace();
-            $('.spinnerLoad').hide();
-            var nextID = result['response']['next_from'];
-            $('.cardContainer').attr('vcat-next', nextID);
-            initOnScrollDiscover();
-            $(".likeCount").click(function() {
-                var id = $(this).attr('vcat-postid');
-                var isLiked = $(this).attr('vcat-isliked');
-                var source = $(this).attr('vcat-author');
-                if(isLiked == "false") {
-                    likePost(id, source);
-                    $(this).attr('vcat-isliked', true);
-                    $(this).attr('class', 'likeCount text-danger');
-                    $(this).contents().filter(function() {
-                        return this.nodeType == 3
-                    }).each(function(){
-                        var cur = parseInt($(this).text());
-                        var newt = cur + 1;
-                        this.textContent = this.textContent.replace($(this).text().toString(), newt.toString());
-                    });
-                } else {
-                    unlikePost(id, source);
-                    $(this).attr('vcat-isliked', false);
-                    $(this).attr('class', 'likeCount');
-                    $(this).contents().filter(function() {
-                        return this.nodeType == 3
-                    }).each(function(){
-                        this.textContent = this.textContent.replace($(this).text().toString(), $(this).text()-1);
-                    });
-                }
-            });
-            $(".commentCount").click(function() {
-                var id = $(this).attr('vcat-postid');
-                var source = $(this).attr('vcat-author');
-                getComments(id, source);
+        } else {
+            unlikePost(id, source);
+            $(this).attr('vcat-isliked', false);
+            $(this).attr('class', 'likeCount');
+            $(this).contents().filter(function() {
+                return this.nodeType == 3
+            }).each(function(){
+                this.textContent = this.textContent.replace($(this).text().toString(), $(this).text()-1);
             });
         }
+    });
+    $(".commentCount").click(function() {
+        var id = $(this).attr('vcat-postid');
+        var source = $(this).attr('vcat-author');
+        getComments(id, source);
     });
 }
 
 function likePost(id, source) {
-    var url;
-    url = "https://api.vk.com/method/likes.add?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
-    url = craftURL(url);
-    $.ajax({
-        url: url,
-        success: function( response ) {
-            var result = safeParse(response);
-            //console.log(response);
-            //insertHTML('itemMain.html');
-        }
+    sendData("likes", "add", "type=post&item_id="+id+"&owner_id="+source, "5.73", function (data) {
+
     });
 }
 
 function unlikePost(id, source) {
-    var url;
-    url = "https://api.vk.com/method/likes.delete?type=post&item_id="+id+"&access_token="+token+"&owner_id="+source+"&v=5.73";
-    url = craftURL(url);
-    $.ajax({
-        url: url,
-        success: function( response ) {
-            var result = safeParse(response);
-           // console.log(response);
-           // insertHTML('itemMain.html');
-        }
+    sendData("likes", "delete", "type=post&item_id="+id+"&owner_id="+source, "5.73", function (data) {
+
     });
 }
 
