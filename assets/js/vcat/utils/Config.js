@@ -1,37 +1,58 @@
 function initConfig() {
-    offlineMode = getItem('app_offline');
-    enlargeText = getItem('app_vk5post');
-    allowLongpoll = getItem('app_longpoll');
-    useProxy = getItem('app_useproxy');
-    proxyURL = getItem('app_proxyurl');
-    darkMode = getItem('app_darkmode');
-    liteMode = getItem('app_litemode');
-    blurMode = getItem('app_blur');
-    backgroundPhotoPicture = getItem('app_background_photo');
-    if (!offlineMode) {
-        setItem('app_offline', 'disabled');
-        offlineMode = 'disabled';
-    }
-    if (!enlargeText) {
-        setItem('app_vk5post', 'disabled');
-        enlargeText = 'disabled';
-    }
-    if (!allowLongpoll) {
-        setItem('app_longpoll', 'enabled');
-        allowLongpoll = 'enabled';
-    }
-    if (!useProxy) {
-        setItem('app_useproxy', 'disabled');
-        useProxy = 'disabled';
-    }
-    if (!liteMode) {
-        setItem('app_litemode', 'disabled');
-        liteMode = 'disabled';
-    }
-    if (!proxyURL) {
-        setItem('app_proxyurl', 'http://vcatclient.000webhostapp.com/proxy.php');
-        proxyURL = 'http://vcatclient.000webhostapp.com/proxy.php';
-    }
+    let configs = [
+        {
+            name: "app_offline",
+            variable: "offlineMode",
+            default: "disabled"
+        },
+        {
+            name: "app_vk5post",
+            variable: "enlargeText",
+            default: "enabled"
+        },
+        {
+            name: "app_longpoll",
+            variable: "allowLongpoll",
+            default: "enabled"
+        },
+        {
+            name: "app_useproxy",
+            variable: "useProxy",
+            default: "enabled"
+        },
+        {
+            name: "app_litemode",
+            variable: "liteMode",
+            default: "disabled"
+        },
+        {
+            name: "app_proxyurl",
+            variable: "proxyURL",
+            default: "http://vcatclient.000webhostapp.com/proxy.php"
+        },
+        {
+            name: "app_blur",
+            variable: "blurMode",
+            default: "disabled"
+        },
+        {
+            name: "app_background_photo",
+            variable: "backgroundPhotoPicture",
+            default: "disabled"
+        },
+        {
+            name: "app_hidestories",
+            variable: "hideStories",
+            default: "disabled"
+        }
+    ];
+    configs.forEach(function (value) {
+        window[value['variable']] = getItem(value['name']);
+        if (!window[value['variable']]) {
+            setItem(value['name'], value['default']);
+            window[value['variable']] = value['default'];
+        }
+    });
 }
 
 function getThemesInConfig() {
@@ -66,24 +87,7 @@ function getThemesInConfig() {
             setItem('config_theme', themePath);
             setItem('config_theme_name', themeName);
             themes_loadTheme(themePath);
-            bootbox.confirm({
-                message: "Тема установлена. Рекомендуем перезагрузить страницу.",
-                buttons: {
-                    confirm: {
-                        label: 'Перезагрузить',
-                        className: 'btn-success'
-                    },
-                    cancel: {
-                        label: 'Позже',
-                        className: 'btn-danger'
-                    }
-                },
-                callback: function (result) {
-                    if (result) {
-                        window.location.href = "main.html";
-                    }
-                }
-            });
+            requestReload();
         });
 
         $(".back").click(function () {
@@ -95,124 +99,89 @@ function getThemesInConfig() {
 
 function getSettings() {
     $('.htmlContainer').html("<div class='cardContainer'></div>");
-    var cfg1 = "отключено";
-    var cfg1a = 'enabled';
-    if (offlineMode == "enabled") {
-        cfg1 = 'включено';
-        cfg1a = 'disabled';
-    }
-    var cfg2 = "отключено";
-    var cfg2a = 'enabled';
-    if (enlargeText == "enabled") {
-        cfg2 = 'включено';
-        cfg2a = 'disabled';
-    }
-    var cfg3 = "отключено";
-    var cfg3a = 'enabled';
-    if (allowLongpoll == "enabled") {
-        cfg3 = 'включено';
-        cfg3a = 'disabled';
-    }
-    var cfg4 = "отключено";
-    var cfg4a = 'enabled';
-    if (useProxy == "enabled") {
-        cfg4 = 'включено';
-        cfg4a = 'disabled';
-    }
-    var cfg5 = "отключено";
-    var cfg5a = 'enabled';
-    if (liteMode == "enabled") {
-        cfg5 = 'включено';
-        cfg5a = 'disabled';
-    }
-    //
-    var cfg6 = "отключено";
-    var cfg6a = 'enabled';
-    if (blurMode == "enabled") {
-        cfg6 = 'включено';
-        cfg6a = 'disabled';
-    }
-    //
     themeName = getItem("config_theme_name");
     addSCategory('Интерфейс');
-    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder themes">\n' +
-        '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">Темы</h5>\n' +
-        '        <p class="card-text">Текущая тема: '+themeName+'</p>\n' +
-        '    </div>\n' +
-        '</div>');
-    addSSimpleOption("app_offline", cfg1a, cfg1, "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
-    addSSimpleOption("app_vk5post", cfg2a, cfg2, "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
-    addSCategory('Основное');
-    addSSimpleOption("app_longpoll", cfg3a, cfg3, "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
-    addSSimpleOption("app_useproxy", cfg4a, cfg4, "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
-    addSSimpleOption("app_litemode", cfg5a, cfg5, "Легкий режим", "Данная опция отключает показ фотографий и предпросмотр.");
-    addSClassOption("configSetProxyURL", "URL удаленного прокси", "Используется: "+proxyURL);
-    addSCategory('Интерфейс');
-    addSSimpleOption("app_blur", cfg6a, cfg6, "Режим размытия (бета)", "Для работы включите 'Experimental Web Platform features' в Chrome. Поддержка Chrome, Safari, Edge. Для применения изменений перезагрузите страницу.");
-    addSClassOption("configSetBgPic", "Фоновая картинка (для отключения - 'disabled')", "Используется: "+backgroundPhotoPicture);
-    addSCategory('Информация');
-    addSClassOption("about", "О VCat", "Текущая версия: "+VCAT_VERSION);
-    addSClassOption("logoutButton", "Сбросить данные VCat", "Это удалит все - от данных входа до мультиаккаунтов.");
-    addSClassOption("transfer", "Перенос аккаунта", "Перенос данных аккаунта между зеркалами VCat.");
-    //
-
-    $(".configSet").click(function () {
-        setConfig($(this).attr('vcat-shouldon'), $(this).attr('vcat-config'));
+    addSClassOption("themes", "Темы", "Текущая тема: "+themeName, function () {
+        $('.htmlContainer').html("<div class='cardContainer'></div>");
+        getThemesInConfig();
     });
-    $(".configSetProxyURL").click(function () {
-        var a = prompt("URL прокси:", proxyURL);
-        setConfig(a, "app_proxyurl");
-    });
-    $(".configSetBgPic").click(function () {
+    addSSimpleOption("app_blur", "Режим размытия (бета)", "Для работы включите 'Experimental Web Platform features' в Chrome. Поддержка Chrome, Safari, Edge. Для применения изменений перезагрузите страницу.");
+    addSClassOption("configSetBgPic", "Фоновая картинка (для отключения - 'disabled')", "Используется: "+backgroundPhotoPicture, function () {
         var a = prompt("URL фоновой картинки:", backgroundPhotoPicture);
         if (!a) {
             a = "disabled";
         }
         setConfig(a, "app_background_photo");
     });
-    $(".themes").click(function () {
-        $('.htmlContainer').html("<div class='cardContainer'></div>");
-        getThemesInConfig();
+    addSSimpleOption("app_vk5post", "Увеличение текста", "Увеличение текста в ленте новостей, если в нем нет вложений.");
+    addSSimpleOption("app_hidestories", "Скрыть истории", "Не показывать истории в ленте новостей.");
+    addSDivider();
+    addSCategory('Основное');
+    addSSimpleOption("app_longpoll", "Использовать Long Polling", "Динамическое обновление сообщений. Отключите для повышения стабильности.");
+    addSSimpleOption("app_useproxy", "Удаленный прокси", "Использовать удаленный прокси вместо серверного. Это может повлиять на работу приложения.");
+    addSSimpleOption("app_litemode", "Легкий режим", "Данная опция отключает показ фотографий и предпросмотр.");
+    addSClassOption("configSetProxyURL", "URL удаленного прокси", "Используется: "+proxyURL, function () {
+        var a = prompt("URL прокси:", proxyURL);
+        setConfig(a, "app_proxyurl");
     });
-    $(".about").click(function () {
+    addSSimpleOption("app_offline", "Оффлайн-режим", "Включает режим \"вне сети\". Это может не сработать в ряде случаев.");
+    addSDivider();
+    addSCategory('Информация');
+    addSClassOption("about", "О VCat", "Текущая версия: "+VCAT_VERSION, function () {
         location.hash = "configAbout";
         switchToPage('.navAppConfig', 'itemAbout.html');
     });
-    $(".transfer").click(function () {
-        location.hash = "configTransfer";
-        switchToPage('.navAppConfig', 'itemTransfer.html');
+    addSClassOption("logoutButton", "Сбросить данные VCat", "Это удалит все - от данных входа до мультиаккаунтов.", function () {
+        localStorage.clear();
+        window.location.href = "index.html";
     });
-    $(".logoutButton").click(function () {
-      localStorage.clear();
-      window.location.href = "index.html";
+
+    $(".configSet").click(function () {
+        setConfig($(this).attr('vcat-shouldon'), $(this).attr('vcat-config'));
     });
 }
 
 function addSCategory(categoryName) {
     $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder">\n' +
         '    <div class="card-body category">\n' +
-        '        <p class="card-text">'+categoryName+'</p>\n' +
+        '        <p class="card-text attachment-title">'+categoryName+'</p>\n' +
         '    </div>\n' +
         '</div>');
 }
 
-function addSSimpleOption(vcatConfig,vcatShouldOn,vcatConfigOn,optionTitle,optionDesc) {
-    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="'+vcatConfig+'" vcat-shouldon="'+vcatShouldOn+'">\n' +
+function addSDivider() {
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder">\n' +
+        '    <div class="card-body card-divider">\n' +
+        '    </div>\n' +
+        '</div>');
+}
+
+function addSSimpleOption(vcatConfig,optionTitle,optionDesc) {
+    let cfg = "отключено";
+    let cfga = 'enabled';
+    if (getItem(vcatConfig) === "enabled") {
+        cfg = 'включено';
+        cfga = 'disabled';
+    }
+
+    $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder configSet pointer" vcat-config="'+vcatConfig+'" vcat-shouldon="'+cfga+'">\n' +
         '    <div class="card-body messagePadding">\n' +
-        '        <h5 class="card-title noPadding smallTitle">'+optionTitle+' ('+vcatConfigOn+')</h5>\n' +
+        '        <h5 class="card-title noPadding smallTitle">'+optionTitle+' ('+cfg+')</h5>\n' +
         '        <p class="card-text">'+optionDesc+'</p>\n' +
         '    </div>\n' +
         '</div>');
 }
 
-function addSClassOption(className, optionTitle, optionDesc) {
+function addSClassOption(className, optionTitle, optionDesc, onClick) {
     $('.cardContainer').append('<div class="cardForceNoPadding card cardDecor semi-transparent postCard message messageBorder '+className+' pointer">' +
         '    <div class="card-body messagePadding">' +
         '        <h5 class="card-title noPadding smallTitle">'+optionTitle+'</h5>'  +
         '        <p class="card-text">'+optionDesc+'</p>' +
         '    </div>' +
         '</div>');
+    $("."+className).click(function () {
+        onClick();
+    });
 }
 
 function setConfig(check, key) {
@@ -224,7 +193,7 @@ function setConfig(check, key) {
 
 function requestReload() {
     bootbox.confirm({
-        message: "Настройка установлена. Для применения изменений перезагрузите страницу.",
+        message: "Тема установлена. Рекомендуем перезагрузить страницу.",
         buttons: {
             confirm: {
                 label: 'Перезагрузить',

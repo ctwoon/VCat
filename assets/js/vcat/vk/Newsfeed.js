@@ -5,66 +5,62 @@ function showLoadError(code, desc, rcn) {
 
 var ab = false;
 function getNews(attr) {
-    var url;
-    if (typeof attr === "undefined") {
-        url = "https://api.vk.com/method/execute.getNewsfeedSmart?access_token="+token+"&filters=post&v=5.83&app_package_id=com.vkontakte.android";
-    } else {
-        url = "https://api.vk.com/method/execute.getNewsfeedSmart?access_token="+token+"&filters=post&v=5.83&app_package_id=com.vkontakte.android&start_from="+attr;
+    let params = "filters=post&app_package_id=com.vkontakte.android";
+    if (typeof attr !== "undefined") {
+        params += "&start_from="+attr;
     }
-    url = craftURL(url);
-    $.ajax({
-        url: url,
-        success: function( response ) {
-            var result = safeParse(response);
-            if (result['response'].hasOwnProperty("stories")) {
-                parseStories(result['response']['stories']);
+    sendData("execute", "getNewsfeedSmart", params, "5.83", parseNews);
+}
+
+function parseNews(result) {
+    console.log(result);
+    if (result['response'].hasOwnProperty("stories")) {
+        parseStories(result['response']['stories']);
+    }
+    $.each(result['response']['items'], function (index, value) {
+        if (value['marked_as_ads'] === 0) {
+            if (value['text'].length !== 0) {
+                parseNewsfeed(value, result);
             }
-            $.each(result['response']['items'],function(index, value){
-                if (value['marked_as_ads'] === 0) {
-                    if (value['text'].length !== 0) {
-                        parseNewsfeed(value, result);
-                    }
-                }
-            });
-            feather.replace();
-            $('.spinnerLoad').hide();
-            var nextID = result['response']['next_from'];
-            $('.cardContainer').attr('vcat-next', nextID);
-            initOnScroll();
-            $(".likeCount").click(function() {
-                var id = $(this).attr('vcat-postid');
-                var isLiked = $(this).attr('vcat-isliked');
-                var source = $(this).attr('vcat-author');
-                if(isLiked == "false") {
-                    likePost(id, source);
-                    $(this).attr('vcat-isliked', true);
-                    $(this).attr('class', 'likeCount text-danger');
-                    $(this).contents().filter(function() {
-                        return this.nodeType == 3
-                    }).each(function(){
-                        var cur = parseInt($(this).text());
-                        var newt = cur + 1;
-                        this.textContent = this.textContent.replace($(this).text().toString(), newt.toString());
-                    });
-                } else {
-                    $(this).attr('vcat-isliked', false);
-                    $(this).attr('class', 'likeCount');
-                    $(this).contents().filter(function() {
-                        return this.nodeType == 3
-                    }).each(function(){
-                        this.textContent = this.textContent.replace($(this).text().toString(), $(this).text()-1);
-                    });
-                    unlikePost(id, source);
-                }
-            });
-            $(".commentCount").click(function() {
-                var id = $(this).attr('vcat-postid');
-                var source = $(this).attr('vcat-author');
-                getComments(id, source);
-            });
-            sendOffline();
         }
     });
+    feather.replace();
+    $('.spinnerLoad').hide();
+    var nextID = result['response']['next_from'];
+    $('.cardContainer').attr('vcat-next', nextID);
+    initOnScroll();
+    $(".likeCount").click(function () {
+        var id = $(this).attr('vcat-postid');
+        var isLiked = $(this).attr('vcat-isliked');
+        var source = $(this).attr('vcat-author');
+        if (isLiked == "false") {
+            likePost(id, source);
+            $(this).attr('vcat-isliked', true);
+            $(this).attr('class', 'likeCount text-danger');
+            $(this).contents().filter(function () {
+                return this.nodeType == 3
+            }).each(function () {
+                var cur = parseInt($(this).text());
+                var newt = cur + 1;
+                this.textContent = this.textContent.replace($(this).text().toString(), newt.toString());
+            });
+        } else {
+            $(this).attr('vcat-isliked', false);
+            $(this).attr('class', 'likeCount');
+            $(this).contents().filter(function () {
+                return this.nodeType == 3
+            }).each(function () {
+                this.textContent = this.textContent.replace($(this).text().toString(), $(this).text() - 1);
+            });
+            unlikePost(id, source);
+        }
+    });
+    $(".commentCount").click(function () {
+        var id = $(this).attr('vcat-postid');
+        var source = $(this).attr('vcat-author');
+        getComments(id, source);
+    });
+    sendOffline();
 }
 
 function likePost(id, source) {
@@ -220,7 +216,7 @@ function parseNewsfeed(value, result) {
     var text = value['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
     text = text.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">$2</a>');
     if (emptyAttachments) {
-        if (enlargeText == "enabled") {
+        if (window["enlargeText"] == "enabled") {
             text = "<span class='vk5-largeText'>" + text + "</span>";
         }
     }
@@ -263,7 +259,7 @@ function parseNewsfeed(value, result) {
         var text2 = value2['text'].replace(/(?:\r\n|\r|\n)/g, '<br>');
         text2 = text2.replace(/\[(\w+)\|([^[]+)\]/g, '<a class="bbcodelink" href="#link_$1">$2</a>');
         if (emptyAttachmentsRepost) {
-            if (enlargeText == "enabled") {
+            if (window["enlargeText"] == "enabled") {
                 text2 = "<span class='vk5-largeText'>" + text2 + "</span>";
             }
         }

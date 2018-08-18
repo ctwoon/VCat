@@ -304,7 +304,7 @@ p {
 }
 
 .category {
-    padding-top: 0.3rem !important;
+    padding-top: 0.5rem !important;
     padding-bottom: 0.3rem !important;
     padding-left: 0.8rem !important;
 }
@@ -320,6 +320,7 @@ p {
 /* Widgets */
 .widget {
     margin-bottom: 10px;
+    padding-left: 1rem;
 }
 
 .widgetBar {
@@ -467,9 +468,8 @@ p {
     margin-right: 10px;
     margin-top: 5px !important;
     border-bottom: none !important;
-    background-position: center !important;
     background-size: 250px !important;
-    background-repeat: no-repeat !important;
+    background: no-repeat center !important;
 }
 
 .storyCard .messagePadding {
@@ -496,4 +496,128 @@ p {
         margin-right: 10px;
         border-radius: 0 0 10px 10px;
     }
+}
+
+body {
+    background: var(--background);
+}
+
+.cardDecor {
+    background: var(--background-secondary);
+    border-radius: 0.25rem !important;
+    border: none;
+    margin-top: 10px;
+    border-bottom: none !important;
+}
+
+.widget {
+    background: var(--background-secondary);
+    border-radius: 0.25rem;
+}
+
+.cardContainer {
+    margin: 20px;
+}
+
+.sidebar {
+    background: var(--background);
+    box-shadow: none;
+}
+
+.navbar {
+    background: var(--background-secondary);
+}
+
+.widgetBar {
+    border-left: none;
+}
+
+.postCounters {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid var(--halftransparent);
+}
+
+.widgetText {
+    color: var(--text-color) !important;
+}
+
+.feather {
+    color: var(--text-color) !important;
+}
+
+.nav {
+    background: var(--background-secondary);
+    border-radius: 8px;
+}
+
+.navbar-brand {
+    background: none;
+    color: var(--text-color) !important;
+}
+
+#noscroll {
+    padding-top: 0;
+}
+
+/* Colors */
+.sidebar .nav-link.active {
+    color: var(--text-color) !important;
+    opacity: 1;
+}
+
+a {
+    color: var(--accent);
+}
+
+.sidebar .nav-link {
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.spinner {
+    border-right-color: transparent;
+}
+
+.text-danger {
+    color: var(--accent) !important;
+}
+
+.cardForceNoPadding {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+}
+
+.writeBoxButton {
+    background: var(--input) !important;
+    color: var(--text-color) !important;
+}
+
+.writeBoxText {
+    background: var(--input) !important;
+    border: 1px solid var(--input);
+}
+
+.btn {
+    background: var(--input);
+    color: var(--text-color) !important;
+}
+
+.card-divider {
+    background: var(--background);
+    padding: 0.5rem;
+}
+
+.cardAttach, .pollmsg {
+    background: var(--halftransparent);
+}
+
+.dropdown-item {
+    color: var(--text-color);
+    padding-left: 0 !important;
+    font-size: 15px;
+}
+
+.dropdown-menu {
+    padding-bottom: .5rem;
 }

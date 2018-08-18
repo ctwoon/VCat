@@ -90,9 +90,6 @@ function parseNavHash() {
         case 'configAbout':
             switchToPage('.navAppConfig', 'itemAbout.html');
         break;
-        case 'configTransfer':
-            switchToPage('.navAppConfig', 'itemTransfer.html');
-            break;
         case 'multiSlot':
             switchAccount();
             break;
