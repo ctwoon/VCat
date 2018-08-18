@@ -1,0 +1,8 @@
+:root {
+    --background: #151E27;
+    --background-secondary: #222E3C;
+    --halftransparent: rgba(0,0,0,0.2);
+    --input: #151E27;
+    --accent: #5181b8;
+    --text-color: white;
+}

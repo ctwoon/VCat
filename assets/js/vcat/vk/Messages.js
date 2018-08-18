@@ -236,44 +236,27 @@ function getGroupUsername(userID) {
 }
 
 function sendMessage(dialogID, message) {
-    let url = "https://api.vk.com/method/messages.send?message="+ encodeURIComponent(message) +"&peer_id=" + dialogID + "&access_token=" + token + "&v=5.74";
-    url = craftURL(url);
-    $(".writeBoxText").val("");
-    $.ajax({
-        url: url,
-        async:true,
-        success: function (response) {
-            let result = safeParse(response);
-            if (Array.isArray(response['error'])) {
-            } else {
-            }
+    sendData("messages", "send", "message="+encodeURIComponent(message)+"&peer_id=" + dialogID, "5.74", function (response) {
+        $(".writeBoxText").val("");
+        if (Array.isArray(response['error'])) {
+        } else {
         }
     });
 }
 
 function editMessage(messageID, dialogID) {
     let message = prompt("Сообщение, на которое нужно изменить:");
-    let url = "https://api.vk.com/method/messages.edit?message="+ encodeURIComponent(message) +"&peer_id=" + dialogID + "&message_id="+messageID+"&access_token=" + token + "&v=5.74";
-    url = craftURL(url);
-    $.ajax({
-        url: url,
-        async:false,
-        success: function (response) {
-        }
+    sendData("messages", "edit", "message="+encodeURIComponent(message)+"&peer_id=" + dialogID + "&message_id="+messageID, "5.74", function (response) {
+
     });
 }
 
-function removeMessage(messageID, dialogID) {
+function removeMessage(messageID) {
     let allow = confirm("Удалить сообщение?");
     if (allow == true) {
         let deleteForAll = "&delete_for_all=true";
-        let url = "https://api.vk.com/method/messages.delete?message_ids=" + messageID + deleteForAll + "&access_token=" + token + "&v=5.74";
-        url = craftURL(url);
-        $.ajax({
-            url: url,
-            async: false,
-            success: function (response) {
-            }
+        sendData("messages", "delete", "message_ids=" + messageID + deleteForAll, "5.74", function (response) {
+
         });
     }
 }
