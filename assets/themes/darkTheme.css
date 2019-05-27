@@ -1,8 +1,8 @@
 :root {
-    --background: #18191B;
-    --background-secondary: #232426;
+    --background: #121212;
+    --background-secondary: #1c1c1c;
     --halftransparent: rgba(0,0,0,0.2);
-    --input: #1b1b1b;
-    --accent: #5181b8;
+    --input: #1c1c1c;
+    --accent: #71AAEB;
     --text-color: white;
 }
